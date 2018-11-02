@@ -19,6 +19,8 @@ public class GimmickKind : MonoBehaviour {
         item,
         stage,
         password,
+        master,
+        door,
     }
     public Kind gimmickKind;
 
@@ -53,13 +55,15 @@ public class GimmickKind : MonoBehaviour {
     private void Update()
     {
         // モンスター召喚？
-        
+        //ActiveSelfObject();
     }
-    
-    //UIのActiveをつけたり消したり
-    private void ActiveSelfObject()
+
+    /// <summary>
+    /// UIのActiveをつけたり消したり
+    /// </summary>
+    public void ActiveSelfObject()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (gimmickKind == Kind.master&&Input.GetMouseButtonDown(0))
         {
             if (gimmickKind == Kind.password)
             {
@@ -69,13 +73,17 @@ public class GimmickKind : MonoBehaviour {
         }
     }
 
-    //　特定の位置に来たらモンスター召喚
+    /// <summary>
+    /// 特定の位置に来たらモンスター召喚
+    /// </summary>
     public void SetMonster()
     {
 
     }
 
-    //奇数が上偶数が下のボタン
+    /// <summary>
+    /// 奇数が上偶数が下のボタン
+    /// </summary>
     public void PassWordInput(int button)
     {
         if (button % 2 == 0)
@@ -90,10 +98,16 @@ public class GimmickKind : MonoBehaviour {
             image[button / 2].sprite = passSP[imageNum[button / 2]];
         }
     }
+    /// <summary>
+    /// ボタンが押されたらパスワードを出力する
+    /// </summary>
     public void EnterPassword()
     {
         int password = 0;
         password = imageNum[0] * 1000 + imageNum[1] * 100 + imageNum[2] * 10 + imageNum[3];
         Debug.Log(password);
+        gameObject.SetActive(false);
     }
+    
+
 }
