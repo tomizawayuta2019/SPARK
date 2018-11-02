@@ -25,17 +25,20 @@ public class GimmickManager : MonoBehaviour {
         if (!hitObject) return;
         //クリックされたギミックスクリプトを取得
         var gimmick = hitObject.collider.gameObject.GetComponent<GimmickKind>();
+        if (!gimmick) return;
+        Debug.Log(gimmick);
         //クリックされたギミックの判定をする
-        switch (gimmick.gimmickKind)
-        {
-            case GimmickKind.Kind.password:
-                gimmick.ActiveSelfObject();
-                break;
-            case GimmickKind.Kind.door:
+        //switch (gimmick.gimmickKind)
+        //{
+        //    case GimmickKind.Kind.password:
+        //        gimmick.ActiveSelfObject();
+        //        break;
+        //    case GimmickKind.Kind.door:
 
-                break;
-            case GimmickKind.Kind.item: break;
-            default: break;
-        }
+        //        break;
+        //    case GimmickKind.Kind.item: break;
+        //    default: break;
+        //}
+        gimmick.Click();
     }
 }
