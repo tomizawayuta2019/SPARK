@@ -22,7 +22,7 @@ public interface IItemUse {
     bool ItemUse(ItemState item);
 }
 
-public class ItemManager : SingletonMonoBehaviour<ItemManager> {
+public class ItemManager : SingletonMonoBehaviour<ItemManager> , IItemUse{
     [SerializeField]
     private List<ItemState> items = new List<ItemState>();
     UIItem dragItem;
@@ -67,34 +67,10 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager> {
 
     public bool IsCanUseItem(ItemState item)
     {
-        throw new System.NotImplementedException();
-    }
-}
-
-public class Hoge : IItemUse {
-    public bool IsCanUseItem(ItemState item)
-    {
-        throw new System.NotImplementedException();
+        return false;
     }
 
-    public bool ItemUse(ItemState item)
-    {
-        throw new System.NotImplementedException();
+    public bool ItemUse(ItemState item) {
+        return false;
     }
-
-    public void Kansu() { }
-}
-
-public class Huga : IItemUse {
-    public bool IsCanUseItem(ItemState item)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool ItemUse(ItemState item)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Kansu() { }
 }
