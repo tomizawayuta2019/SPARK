@@ -1,0 +1,49 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
+public class #SCRIPTNAME# : MonoBehaviour {
+    [SerializeField]
+    Rigidbody2D rig;
+
+    private void Awake()
+    {
+        rig = GetComponent<Rigidbody2D>();
+    }
+
+    #region OnTrigger2D
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        
+    }
+    #endregion
+
+    #region OnCollison2D
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        
+    }
+    #endregion
+
+}

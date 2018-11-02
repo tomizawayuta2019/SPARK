@@ -1,0 +1,49 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
+public class #SCRIPTNAME# : MonoBehaviour {
+    [SerializeField]
+    Rigidbody rig;
+
+    private void Awake()
+    {
+        rig = GetComponent<Rigidbody>();
+    }
+
+    #region OnTrigger
+    private void OnTriggerEnter(Collider collision)
+    {
+        
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        
+    }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        
+    }
+    #endregion
+
+    #region OnCollison
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        
+    }
+    #endregion
+
+}
