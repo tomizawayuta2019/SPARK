@@ -21,21 +21,24 @@ public class ADVSystemManager : MonoBehaviour
     }
     private CSVIndex _index;
 
+    //xmlファイルの読み込み
+    private XMLLoad xmlLoad;
+
     //キャラとテキスト表示
     private ShowScript showScript;
-
-    //コルーチンを開始する
-    public void Show(int eventNum)
-    {
-
-    }
 
 	// Use this for initialization
 	void Start ()
     {
-        csvLoadScript = this.GetComponent<CSVLoadScript>();
-        csvLoadScript.Make_textSources();
+        //csvLoadScript = this.GetComponent<CSVLoadScript>();
+        //csvLoadScript.Make_textSources();
         showScript = this.GetComponent<ShowScript>();
-        showScript.ShowChara();
-	}
+        xmlLoad = this.GetComponent<XMLLoad>();
+
+        showScript.ShowChara((int)ShowScript.Potision.Left, (int)ShowScript.Chara.Neko);
+        showScript.ShowChara((int)ShowScript.Potision.Right, (int)ShowScript.Chara.Penguin);
+        showScript.TalkingChara((int)ShowScript.Potision.Left);
+        showScript.ShowText(xmlLoad.GetContentsList());
+        showScript.ChangeChara();
+    }
 }
