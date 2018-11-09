@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : SingletonMonoBehaviour<PlayerController> {
     public float PlayerSpeed;
     public int PlayerMoveFlag = 1;
     public bool PlayerActive;
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
     ItemBagControllr itemBagControllr;
     [SerializeField]
     Rigidbody2D rig;
-    void SetPlayerActive(bool condition)
+    public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
     }
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour {
                 PlayerRotationUpdata();
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
 
-                if (transform.position.x == targetPosition.x)
+                if (IsEnterTargetPosition())
                 {
                     PlayerSearchMouse();
                 }
@@ -80,8 +80,16 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// プレイヤーが目標地点に到達したか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEnterTargetPosition() {
+        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.001f;
+    }
+
     private void PlayerRotationUpdata() {
-        if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.001f) { return; }
+        if (IsEnterTargetPosition()) { return; }
         //進行方向に向く
         Vector3 scale = transform.localScale;
         if (targetPosition.x > transform.position.x)
@@ -110,4 +118,18 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 		
 	}
+    
+    /// <summary>
+    /// プレイヤーの移動を待機する処理
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator WaitForMove(System.Action comp) {
+        yield return null;
+        while (!IsEnterTargetPosition()) {
+            yield return null;
+            Debug.Log("waiting,,,");
+        }
+
+        comp();
+    }
 }

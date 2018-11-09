@@ -23,6 +23,14 @@ public class GimmickManager : MonoBehaviour {
         //クリックされたギミックスクリプトを取得
         var gimmick = hitObject.collider.gameObject.GetComponent<GimmickKind>();
         if (!gimmick) return;
-        gimmick.Click();
+
+
+        if (PlayerController.instance == null && false)
+        {
+            gimmick.Click();
+        }
+        else {
+            StartCoroutine(PlayerController.instance.WaitForMove(() => gimmick.Click()));
+        }
     }
 }

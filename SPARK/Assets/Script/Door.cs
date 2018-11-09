@@ -31,6 +31,8 @@ public class Door : GimmickKind ,ISwitchObject
         Vector3 posFripX = new Vector3(gameObject.transform.position.x - range, gameObject.transform.position.y, player.transform.position.z);
         //プレイヤーが扉のどっち側にいるか判定
         player.transform.position = (transform.position.x >= player.transform.position.x) ? posX:posFripX;
+        PlayerController p = player.GetComponent<PlayerController>();
+        p.targetPosition = player.transform.position + new Vector3((player.transform.position.x - transform.position.x) / 2, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,6 +49,14 @@ public class Door : GimmickKind ,ISwitchObject
         {
             checkPlayer = false;
             player = null;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player") {
+            //プレイヤーの移動停止
+            player.GetComponent<PlayerController>().targetPosition = player.transform.position;
         }
     }
 
