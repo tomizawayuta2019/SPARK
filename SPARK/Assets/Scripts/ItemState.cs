@@ -11,6 +11,11 @@ public enum ItemEvent
     GimmickEnter,//ギミックを作動させる
 }
 
+public enum ItemType {
+    match,
+    diary,
+}
+
 //仮のアイテム構造体
 [System.Serializable]
 public struct ItemState
@@ -37,7 +42,8 @@ public struct ItemState
 
     /// <summary>
     /// このアイテムに対して使用出来るアイテムID
-    /// </summary>
+    /// </summary
+    [SerializeField]
     int[] needItemsID;
 
     /// <summary>

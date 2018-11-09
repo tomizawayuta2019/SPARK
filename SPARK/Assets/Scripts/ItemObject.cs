@@ -12,7 +12,9 @@ public class ItemObject : MonoBehaviour {
 
     private void Awake()
     {
-        rig = GetComponent<Rigidbody2D>();
+        if (rig == null) {
+            rig = GetComponent<Rigidbody2D>();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
