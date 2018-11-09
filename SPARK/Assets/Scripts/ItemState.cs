@@ -38,10 +38,11 @@ public struct ItemState
     /// <summary>
     /// アイテム説明文
     /// </summary>
+    [TextArea]
     public string itemText;
 
     /// <summary>
-    /// このアイテムに対して使用出来るアイテムID
+    /// このアイテムが使用出来るアイテムID
     /// </summary
     [SerializeField]
     int[] needItemsID;
@@ -59,9 +60,8 @@ public struct ItemState
     /// <returns></returns>
     public bool IsCanUseItem(int itemID)
     {
-        for (int i = 0; i < needItemsID.Length; i++)
-        {
-            if (needItemsID[i] == itemID) { return true; }
+        foreach (int item in needItemsID) {
+            if (item == itemID) { return true; }
         }
         return false;
     }
@@ -72,8 +72,8 @@ public struct ItemState
     /// <param name="gimmickID"></param>
     /// <returns></returns>
     public bool IsTargetItem(int gimmickID) {
-        for (int i = 0; i < targetGimmick.Length; i++) {
-            if (targetGimmick[i] == gimmickID) { return true; }
+        foreach (int item in targetGimmick) {
+            if (item == gimmickID) { return true; }
         }
         return false;
     }
