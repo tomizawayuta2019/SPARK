@@ -12,11 +12,6 @@ public class GameController : MonoBehaviour {
     private GameObject player;
     [SerializeField]
     ItemBagControllr itemBagController;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

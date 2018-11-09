@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     public Vector2 targetPosition;
     [SerializeField]
     ItemBagControllr itemBagControllr;
+    [SerializeField]
+    Rigidbody2D rig;
     void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
@@ -20,11 +22,15 @@ public class PlayerController : MonoBehaviour {
     //当たり判定によるアイテム調査
     void OnTriggerEnter2D(Collider2D other)
     {
-        NowItem = other.gameObject;
+        if (other.tag == "Item") {
+            NowItem = other.gameObject;
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        NowItem = null;
+        if (other.gameObject == NowItem) {
+            NowItem = null;
+        }
     }
     void PlayerSearchMouse()
     {
@@ -62,7 +68,9 @@ public class PlayerController : MonoBehaviour {
             }
             if (targetPosition != null)
             {
+                PlayerRotationUpdata();
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
+
                 if (transform.position.x == targetPosition.x)
                 {
                     PlayerSearchMouse();
@@ -71,6 +79,21 @@ public class PlayerController : MonoBehaviour {
         }
 
     }
+
+    private void PlayerRotationUpdata() {
+        if (Mathf.Abs(targetPosition.x - transform.position.x) < 0.001f) { return; }
+        //進行方向に向く
+        Vector3 scale = transform.localScale;
+        if (targetPosition.x > transform.position.x)
+        {
+            transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+        }
+        else if (targetPosition.x < transform.position.x)
+        {
+            transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+        }
+    }
+
     public void PlayerUpdata()
     {
         if (PlayerActive == true)
