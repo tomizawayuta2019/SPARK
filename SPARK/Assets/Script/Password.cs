@@ -49,7 +49,6 @@ public class Password : GimmickKind
 
     public override void Click()
     {
-        Debug.Log("aa");
         base.Click();
         ActiveSelfObject();
     }

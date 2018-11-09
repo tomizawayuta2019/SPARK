@@ -5,7 +5,6 @@ using UnityEngine;
 /**
  * モンスターの行動
 */
-[RequireComponent(typeof(GimmickKind))]
 public class GimmickMonster : MonoBehaviour {
 
     //シングルトン
@@ -20,7 +19,7 @@ public class GimmickMonster : MonoBehaviour {
         else { Destroy(gameObject); }
     }
 
-    float monsterSpeed = 0.1f;
+    float monsterSpeed = 0.3f;
 
 	// Use this for initialization
 	void Start () {
@@ -35,33 +34,26 @@ public class GimmickMonster : MonoBehaviour {
 
     void MonsterMove()
     {
-        /*
-        if (transform.position.x >= 7)
-        {
-            monsterSpeed = -0.2f;
-        }
-        else if (transform.position.x <= -7)
-        {
-            monsterSpeed = 0.2f;
-        }
-        transform.Translate(monsterSpeed, 0, 0);
-        */
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Translate(monsterSpeed, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(-monsterSpeed, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(0,monsterSpeed, 0);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(0, -monsterSpeed, 0);
-        }
+        //時間かけるのってどうなんですか
+        transform.Translate(monsterSpeed*Time.deltaTime, 0, 0);
+        
+        // デバッグ用
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    transform.Translate(monsterSpeed, 0, 0);
+        //}
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    transform.Translate(-monsterSpeed, 0, 0);
+        //}
+        //if (Input.GetKey(KeyCode.UpArrow))
+        //{
+        //    transform.Translate(0,monsterSpeed, 0);
+        //}
+        //if (Input.GetKey(KeyCode.DownArrow))
+        //{
+        //    transform.Translate(0, -monsterSpeed, 0);
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -80,7 +72,14 @@ public class GimmickMonster : MonoBehaviour {
         }
 
         //playerdead;
-        Debug.Log("プレイヤーを殺す");
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("プレイヤーを殺す");
+        }
+        if (collision.gameObject.CompareTag("Gimmick"))
+        {
+            monsterSpeed = 0;
+        }
     }
 
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）
