@@ -127,7 +127,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
         yield return null;
         while (!IsEnterTargetPosition()) {
             yield return null;
-            Debug.Log("waiting,,,");
         }
 
         comp();
