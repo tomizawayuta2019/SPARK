@@ -40,7 +40,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
             /*アイテム調査動作をここに入れる
 
             */
-            itemBagControllr.PutInItemBag(NowItem);
+            itemBagController.PutInItemBag(NowItem);
             Destroy(NowItem);
             PlayerActive = true;
         }
@@ -66,15 +66,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
                     targetPosition = new Vector2(mousePosition.x, transform.position.y);
                 }
             }
-            if (targetPosition != null)
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
+            if (transform.position.x == targetPosition.x)
             {
                 PlayerRotationUpdata();
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
-
-                if (IsEnterTargetPosition())
-                {
-                    PlayerSearchMouse();
-                }
+                PlayerSearchMouse();
             }
         }
 
@@ -114,11 +111,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
             }
         
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-    
+
     /// <summary>
     /// プレイヤーの移動を待機する処理
     /// </summary>
