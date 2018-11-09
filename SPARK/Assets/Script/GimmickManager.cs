@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class GimmickManager : MonoBehaviour {
     
-	// Use this for initialization
-	void Start () {
-	}
-	
 	// Update is called once per frame
 	void Update () {
         ClickInput();	
 	}
+
     private void ClickInput()
     {
         //マウスクリックの判定
@@ -26,19 +23,6 @@ public class GimmickManager : MonoBehaviour {
         //クリックされたギミックスクリプトを取得
         var gimmick = hitObject.collider.gameObject.GetComponent<GimmickKind>();
         if (!gimmick) return;
-        Debug.Log(gimmick);
-        //クリックされたギミックの判定をする
-        //switch (gimmick.gimmickKind)
-        //{
-        //    case GimmickKind.Kind.password:
-        //        gimmick.ActiveSelfObject();
-        //        break;
-        //    case GimmickKind.Kind.door:
-
-        //        break;
-        //    case GimmickKind.Kind.item: break;
-        //    default: break;
-        //}
         gimmick.Click();
     }
 }

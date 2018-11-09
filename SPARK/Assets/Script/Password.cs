@@ -7,12 +7,25 @@ public class Password : GimmickKind
 {
     [SerializeField]
     private Sprite[] passSP = new Sprite[10];
+    [SerializeField]
     private Image[] image = new Image[4];
+    [SerializeField]
+    private Text[] texts = new Text[4];
     private int[] imageNum = new int[4];
     public GameObject passwordForm;
     [SerializeField]
     private int passwordNumber;
-    
+    [SerializeField]
+    GameObject targetPanel;
+    [SerializeField]
+    GameObject onImage;
+    private bool isOpen = false;
+    [SerializeField]
+    GameObject doorImage;
+
+    [SerializeField]
+    GameObject targetgimmick;
+
     private void Start()
     {
         FindImage();
@@ -26,8 +39,8 @@ public class Password : GimmickKind
         for (int i = 0; i < image.Length; i++)
         {
             imageNum[i] = 0;
-            GameObject obj;
-            obj = transform.Find("Canvas/PanelControl/Panel").gameObject;
+            GameObject obj = targetPanel;
+            //obj = transform.Find("Canvas/PanelControl/Panel").gameObject;
             if (obj == null) return;
             foreach (Transform child in obj.transform)
             {
@@ -50,7 +63,8 @@ public class Password : GimmickKind
     public override void Click()
     {
         base.Click();
-        ActiveSelfObject();
+        if (!isOpen) { ActiveSelfObject(); }
+        else { Open(); }
     }
 
     /// <summary>
@@ -63,11 +77,13 @@ public class Password : GimmickKind
             imageNum[button / 2] = (imageNum[button / 2] >= 9) ? 0 : imageNum[button / 2] + 1;
 
             image[button / 2].sprite = passSP[imageNum[button / 2]];
+            texts[button / 2].text = imageNum[button / 2].ToString();
         }
         else
         {
             imageNum[button / 2] = (imageNum[button / 2] <= 0) ? 9 : imageNum[button / 2] - 1;
             image[button / 2].sprite = passSP[imageNum[button / 2]];
+            texts[button / 2].text = imageNum[button / 2].ToString();
         }
     }
     /// <summary>
@@ -78,9 +94,23 @@ public class Password : GimmickKind
         int password = 0;
         string str;
         password = imageNum[0] * 1000 + imageNum[1] * 100 + imageNum[2] * 10 + imageNum[3];
-        Debug.Log("正解" + passwordNumber);
-        Debug.Log("入れた値" + password);
-        Debug.Log(str = (passwordNumber == password) ? "正解":"ハズレ");
-        gameObject.SetActive(false);
+        isOpen = passwordNumber == password;
+        passwordForm.gameObject.SetActive(false);
+    }
+
+    public void Open() {
+        if (!isOpen) { return; }
+
+        doorImage.gameObject.SetActive(false);
+    }
+
+    public void PowerOff() {
+        onImage.gameObject.SetActive(false);
+        targetgimmick.GetComponent<ISwitchObject>().SetValue(true);
+    }
+
+    public void PowerOn() {
+        onImage.gameObject.SetActive(true);
+        targetgimmick.GetComponent<ISwitchObject>().SetValue(false);
     }
 }

@@ -19,12 +19,8 @@ public class GimmickMonster : MonoBehaviour {
         else { Destroy(gameObject); }
     }
 
+    [SerializeField]
     float monsterSpeed = 0.3f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -34,37 +30,13 @@ public class GimmickMonster : MonoBehaviour {
 
     void MonsterMove()
     {
-        //時間かけるのってどうなんですか
         transform.Translate(monsterSpeed*Time.deltaTime, 0, 0);
-        
-        // デバッグ用
-        //if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    transform.Translate(monsterSpeed, 0, 0);
-        //}
-        //if (Input.GetKey(KeyCode.LeftArrow))
-        //{
-        //    transform.Translate(-monsterSpeed, 0, 0);
-        //}
-        //if (Input.GetKey(KeyCode.UpArrow))
-        //{
-        //    transform.Translate(0,monsterSpeed, 0);
-        //}
-        //if (Input.GetKey(KeyCode.DownArrow))
-        //{
-        //    transform.Translate(0, -monsterSpeed, 0);
-        //}
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-       
-    } 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //ライトに当たったら、
-        if (collision.gameObject.CompareTag("Light"))
+        if (collision.gameObject.tag == "Light")
         {
             //３秒後に死ぬ
             IEnumerator coroutine = DeadMonster(3f);
@@ -72,14 +44,14 @@ public class GimmickMonster : MonoBehaviour {
         }
 
         //playerdead;
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("プレイヤーを殺す");
+            PlayerHit(collision.gameObject);
         }
-        if (collision.gameObject.CompareTag("Gimmick"))
-        {
-            monsterSpeed = 0;
-        }
+    }
+
+    private void PlayerHit(GameObject target) {
+        Debug.Log("playerHit");
     }
 
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）

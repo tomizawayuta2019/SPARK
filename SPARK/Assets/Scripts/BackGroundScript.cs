@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class BackGroundScript : MonoBehaviour {
     public Camera targetCamera;
+    public GameObject Player;
     public SpriteRenderer back;
     //Vector3 backDefPos;
     public SpriteRenderer front;
@@ -78,7 +79,12 @@ public class BackGroundScript : MonoBehaviour {
 
     private void VisivleListUpdate(List<OnCameraVisible> target)
     {
-        if (target.Count < 2) { Debug.LogError("対象のリストが小さすぎます"); }
+        if (target.Count < 2) {
+            Debug.LogError("対象のリストが小さすぎます");
+            Add(target, true);
+            Add(target, false);
+            //return;
+        }
         bool contFlag = false;
         do
         {
@@ -149,7 +155,7 @@ public class BackGroundScript : MonoBehaviour {
         //デバッグ用
         if (Input.GetKey(KeyCode.LeftArrow)) { move += new Vector3(-10, 0, 0) * Time.deltaTime; }
         if (Input.GetKey(KeyCode.RightArrow)) { move += new Vector3(10, 0, 0) * Time.deltaTime; }
-        targetCamera.transform.position = targetCamera.transform.position + move;
+        Player.transform.position = Player.transform.position + move;
 
         Vector3 pos = backDefPos + ((targetCamera.transform.position - cameraDefPos) * speed);
         backObj.transform.localPosition = pos;
@@ -176,7 +182,7 @@ public class OnCameraVisible : MonoBehaviour {
     public float SizeX {
         get {
             if (!sizeX.HasValue) {
-                sizeX = transform.lossyScale.x * sprite.sprite.rect.size.x / 100;
+                sizeX = transform.lossyScale.x * sprite.sprite.rect.size.x / 50;
             }
             return sizeX.Value;
         }
