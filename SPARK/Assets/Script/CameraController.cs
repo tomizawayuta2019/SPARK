@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    public void CameraUpdate () {
         cameraMoveFlag = Player.GetComponent<PlayerController>().PlayerMoveFlag;
         CameraMove(cameraMoveFlag);
 

@@ -2,8 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour {
-    public Vector3 mousePostion;
+public class itemController : MonoBehaviour {
+
+    public void ItemClickUse()
+    {
+
+    }
+    public void ItemDragUse()
+    {
+        
+    }
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +19,6 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        mousePostion = Input.mousePosition;
+		
 	}
 }
