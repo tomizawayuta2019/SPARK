@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using System.Xml;
 using UnityEngine;
+
+/*
+ *  XMLをロードする
+ */
 
 public class XMLLoad:MonoBehaviour
 {
@@ -17,13 +22,30 @@ public class XMLLoad:MonoBehaviour
         Command
     }
 
-    private List<string> personList = new List<string>();
-    private List<string> positionList = new List<string>();
+    private List<string> personList_Before = new List<string>();
+    private List<string> positionList_Before = new List<string>();
     private List<string> contentsList = new List<string>();
+
+    private List<ShowScript.Chara> personList = new List<ShowScript.Chara>();
+    private List<ShowScript.Potision> positionList = new List<ShowScript.Potision>();
+
+    XmlElement element;
 
     private void Awake()
     {
         LoadXml(xml.text);
+        Person_ListChange();
+        Potision_ListChange();
+    }
+
+    public List<ShowScript.Chara> GetPersonList()
+    {
+        return personList;
+    }
+
+    public List<ShowScript.Potision> GetPotisionList()
+    {
+        return positionList;
     }
 
     public List<string> GetContentsList()
@@ -36,29 +58,62 @@ public class XMLLoad:MonoBehaviour
         var xml = new XmlDocument();
         xml.LoadXml(xmlText);
 
-        XmlElement element = xml.DocumentElement;
+        element = xml.DocumentElement;
+        
+        //var filter = element.GetElementsByTagName("test2");
 
-        //ShowData(element);
+        personList_Before = SetList(XMLIndex.Person);
+        positionList_Before = SetList(XMLIndex.Position);
+        contentsList = SetList(XMLIndex.Contents);
 
-        var contents = element.GetElementsByTagName(XMLIndex.Contents.ToString());
-        if(contents != null)
+        Person_ListChange();
+    }
+
+    //リストを返す
+    private List<string> SetList(XMLIndex index)
+    {
+        List<string> list = new List<string>();
+        var contents = element.GetElementsByTagName(index.ToString());
+        if (contents != null)
         {
-            Debug.Log("<color=red>hoge</color>");
-            foreach(var cont in contents)
+            foreach (var cont in contents)
             {
                 var contelement = cont as XmlElement;
-                if(contelement != null)
+                if (contelement != null)
                 {
                     string name = contelement.Name;
                     string value = contelement.FirstChild != null ? contelement.FirstChild.Value : "";
-                    contentsList.Add(value);
-                    Debug.LogFormat("name:{0}, value:{1}", name, value);
+                    list.Add(value);
                 }
             }
         }
+        return list;
     }
 
-    private void ShowData(XmlElement element)
+    //リストの変換
+    private void Person_ListChange()
+    {
+        for(int i = 0; i < personList_Before.Count; i++)
+        {
+            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
+            personList.Add((ShowScript.Chara)Enum.Parse(typeof(ShowScript.Chara), 
+                personList_Before[i], true));
+        }
+    }
+
+    private void Potision_ListChange()
+    {
+        for (int i = 0; i < positionList_Before.Count; i++)
+        {
+            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
+            positionList.Add((ShowScript.Potision)Enum.Parse(typeof(ShowScript.Potision),
+                positionList_Before[i], true));
+        }
+    }
+
+
+    //デバッグ用で置いてる
+    private void ShowData()
     {
         string name = element.Name;
         string value = element.FirstChild != null ? element.FirstChild.Value : "";
@@ -76,14 +131,5 @@ public class XMLLoad:MonoBehaviour
             }
         }
         Debug.LogFormat("name:{0}\n\tvalue:{1}\n\tattribute:\n{2}", name, value, atr);
-
-        foreach(var child in element.ChildNodes)
-        {
-            var childElement = child as XmlElement;
-            if(childElement != null)
-            {
-                ShowData(childElement);
-            }
-        }
     }
 }

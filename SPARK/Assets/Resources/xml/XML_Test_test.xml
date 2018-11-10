@@ -4,14 +4,14 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>name1</Person>
+			<Person>Kiriya</Person>
 			<Position>Left</Position>
 			<Contents>あいうえお</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>name2</Person>
+			<Person>Yaku</Person>
 			<Position>Right</Position>
 			<Contents>かきくけこ</Contents>
 			<Command>empty</Command>
@@ -23,20 +23,21 @@
 			<Contents>さしすせそ
 たちつてと
 なにぬねの</Contents>
-			<Command>Bold</Command>
+			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>3</Id>
-			<Person>name3</Person>
-			<Position>Bottom</Position>
+			<Person>Kiriya</Person>
+			<Position>Left</Position>
 			<Contents>おむらいす</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>4</Id>
-			<Person>name2</Person>
+			<Person>Yaku</Person>
 			<Position>Right</Position>
-			<Contents>はんばーぐ</Contents>
+			<Contents>はんばーぐ
+追加ここまで</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

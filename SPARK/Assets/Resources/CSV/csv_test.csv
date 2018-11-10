@@ -1,9 +1,0 @@
-ID	Person	Personpos	Text
-0	A	Left	"テキストテスト
-Test_text
-改行のテストです"
-1	B	Right	text_2
-2	empty	empty	text_3
-3	A	Left	text_4
-4	C	Bottom	text_5
-5	B	Right	text_6
