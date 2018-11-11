@@ -10,9 +10,9 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
     [SerializeField]
     Image fadeImage;
     [SerializeField, Range(0.01f, 5f)]
-    float defaultFadeTime;
+    public float defaultFadeTime;
     [SerializeField, Range(0.01f, 3f)]
-    float defaultFadeOutStopTime;
+    public float defaultFadeOutStopTime;
     Coroutine fade = null;
     FadingState fadingState;
     /// <summary>

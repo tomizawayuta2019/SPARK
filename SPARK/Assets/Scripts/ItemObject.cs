@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class ItemObject : MonoBehaviour {
@@ -8,23 +9,12 @@ public class ItemObject : MonoBehaviour {
     Rigidbody2D rig;
     private const string PLAYER_TAG = "Player";
     [SerializeField]
-    private ItemState state;
+    public ItemState state;
 
     private void Awake()
     {
         if (rig == null) {
             rig = GetComponent<Rigidbody2D>();
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag != PLAYER_TAG) { return; }
-        GetItem();
-    }
-
-    private void GetItem() {
-        ItemManager.instance.GetItem(state);
-        Destroy(gameObject);
     }
 }

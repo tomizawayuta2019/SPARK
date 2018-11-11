@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : SingletonMonoBehaviour<PlayerController> {
+public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUse {
     public float PlayerSpeed;
     public int PlayerMoveFlag = 1;
     public bool PlayerActive;
@@ -15,6 +15,9 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
     ItemBagController itemBagController;
     [SerializeField]
     Rigidbody2D rig;
+    public bool isHaveLight = false;
+    [SerializeField]
+    GameObject handLight;
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
@@ -40,8 +43,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
             /*アイテム調査動作をここに入れる
 
             */
-            itemBagController.PutInItemBag(NowItem);
-            Destroy(NowItem);
+            ItemObject item = NowItem.GetComponent<ItemObject>();
+            if (item != null) {
+                itemBagController.PutInItemBag(item);
+                Destroy(NowItem);
+            }
+            
             PlayerActive = true;
         }
     }
@@ -54,7 +61,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
     //マオス移動
     void PlayerMoveMouse(float moveSpeed)
     {
-        Vector3 Position = this.GetComponent<Transform>().position;
+        //Vector3 Position = this.GetComponent<Transform>().position;
         if (PlayerActive)
         {
             if (Input.GetMouseButton(0))
@@ -66,13 +73,10 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
                     targetPosition = new Vector2(mousePosition.x, transform.position.y);
                 }
             }
+
+            PlayerRotationUpdata();
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
-            if (transform.position.x == targetPosition.x)
-            {
-                PlayerRotationUpdata();
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
-                PlayerSearchMouse();
-            }
+            PlayerSearchMouse();
         }
 
     }
@@ -120,8 +124,29 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
         yield return null;
         while (!IsEnterTargetPosition()) {
             yield return null;
+            if (Input.GetMouseButtonDown(0)) { yield break; }
         }
 
         comp();
+    }
+
+    public bool IsCanUseItem(ItemState item)
+    {
+        return item.itemType == ItemType.lighting;
+    }
+
+    public bool ItemUse(ItemState item)
+    {
+        switch (item.itemType) {
+            case ItemType.lighting:
+                //ライトを持つ
+                isHaveLight = true;
+                handLight.SetActive(true);
+                break;
+            default:
+                return false;
+        }
+
+        return true;
     }
 }

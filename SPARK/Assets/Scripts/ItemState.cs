@@ -13,7 +13,17 @@ public enum ItemEvent
 
 public enum ItemType {
     match,
+    candle,
+    candle_lighting,
+    light,
+    lighting,
     diary,
+    diary_open,
+    red_lighting,
+}
+
+public enum GimmickType {
+    Player
 }
 
 //仮のアイテム構造体
@@ -28,7 +38,7 @@ public struct ItemState
     /// <summary>
     /// アイテムID
     /// </summary>
-    public int itemID;
+    public ItemType itemType;
 
     /// <summary>
     /// アイテム画像
@@ -39,28 +49,31 @@ public struct ItemState
     /// アイテム説明文
     /// </summary>
     [TextArea]
-    public string itemText;
+    public string[] itemText;
 
     /// <summary>
     /// このアイテムが使用出来るアイテムID
     /// </summary
     [SerializeField]
-    int[] needItemsID;
+    ItemType[] targetItemsID;
 
     /// <summary>
     /// このアイテムが使用出来るギミックID
     /// </summary>
     [SerializeField]
-    int[] targetGimmick;
+    GimmickType[] targetGimmick;
+
+    [SerializeField]
+    public ItemObject exchangeItem;
 
     /// <summary>
-    /// 引数のアイテムが使用可能か否か
+    /// 対象のアイテムに使用可能か否か
     /// </summary>
     /// <param name="itemID"></param>
     /// <returns></returns>
     public bool IsCanUseItem(int itemID)
     {
-        foreach (int item in needItemsID) {
+        foreach (int item in targetItemsID) {
             if (item == itemID) { return true; }
         }
         return false;
@@ -76,5 +89,10 @@ public struct ItemState
             if (item == gimmickID) { return true; }
         }
         return false;
+    }
+
+    public void Exchange() {
+        if (exchangeItem == null) { return; }
+        this = exchangeItem.state;
     }
 }

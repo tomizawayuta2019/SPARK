@@ -7,12 +7,12 @@ using UnityEngine;
 /// </summary>
 public class OverViewUI : MonoBehaviour {
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         UIController.instance.list.Add(gameObject);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         UIController.instance.list.Remove(gameObject);
     }

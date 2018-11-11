@@ -6,8 +6,8 @@ using UnityEngine.UI;
 /// <summary>
 /// アイテム情報表示用クラス
 /// </summary>
-public class ItemView : MonoBehaviour {
-    public ItemState target;
+public class ItemView : SingletonMonoBehaviour<ItemView> {
+    public itemController target;
     private bool isItemView = false;
     public bool IsItemView { get { return isItemView; } }
 
@@ -15,22 +15,37 @@ public class ItemView : MonoBehaviour {
     Image image;
     [SerializeField]
     Text text;
+    [SerializeField]
+    GameObject[] buttons;
+    int currenttextNum = 0;
 
     /// <summary>
     /// ウィンドウ開く
     /// </summary>
     /// <param name="target">対象のアイテム</param>
-    public void Open(ItemState target) {
+    public void Open(itemController target) {
+        this.target = target;
         Close();
         isItemView = true;
-        if (target.sprite != null) {
-            image.sprite = target.sprite;
+        if (target.state.sprite != null) {
+            image.sprite = target.state.sprite;
             image.gameObject.SetActive(true);
         }
-        if (target.itemText != "") {
-            text.text = target.itemText;
+        if (target.state.itemText.Length <= 1 && target.state.itemText[0] != "")
+        {
+            text.text = target.state.itemText[0];
             text.gameObject.SetActive(true);
+            foreach (GameObject item in buttons) { item.SetActive(false); }
         }
+        else if(target.state.itemText.Length > 1){
+            text.gameObject.SetActive(true);
+            foreach (GameObject item in buttons) { item.SetActive(true); }
+            currenttextNum = 0;
+            text.text = target.state.itemText[currenttextNum];
+        }
+
+        gameObject.SetActive(true);
+        ItemBagController.instance.itemBagActive = false;
     }
 
     /// <summary>
@@ -42,15 +57,29 @@ public class ItemView : MonoBehaviour {
         text.text = "";
         text.gameObject.SetActive(false);
         isItemView = false;
+        gameObject.SetActive(false);
+        ItemBagController.instance.itemBagActive = true;
     }
 
     /// <summary>
     /// アイテムが変化する際の処理
     /// </summary>
-    public void TransformItem(ItemState newItem) {
+    public void TransformItem(itemController newItem) {
         //見た目上はすぐに変わらないが、内部では即変更
         target = newItem;
         //フェードアウトを待機してから画像切り替え、その後フェードイン
-        FadeManager.instance.FadeStart(new FadeManager.FadeState() { outComp = () => { Open(newItem); } });
+        FadeManager.instance.FadeStart(new FadeManager.FadeState() { fadeTime = FadeManager.instance.defaultFadeTime, outComp = () => { Open(newItem); } });
+    }
+
+    public void PageButton(int pageMove) {
+        currenttextNum = pageMove;
+        currenttextNum = Mathf.Clamp(currenttextNum, 0, target.state.itemText.Length - 1);
+        text.text = target.state.itemText[currenttextNum];
+    }
+
+    public void Click() {
+        if (target.state.itemType == ItemType.diary) {
+            target.ExChange();
+        }
     }
 }

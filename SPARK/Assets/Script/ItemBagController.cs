@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemBagController : MonoBehaviour {
+public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
     float itemBagSpeed;//移動スピード
     Vector3 mousePosition;//マオス今のポジション
     Vector3 itemBagPosition;//アイテム欄今のポジション
     Image[] items = new Image[8];
+    public ItemView itemView;
 
     [SerializeField]
     Image prefabImage;
@@ -15,7 +16,7 @@ public class ItemBagController : MonoBehaviour {
 
     public bool itemBagActive = true;
 
-    public void PutInItemBag(GameObject nowItem)
+    public void PutInItemBag(ItemObject nowItem)
     {
         for(int i=0; i < 8; i++)
         {
@@ -25,10 +26,13 @@ public class ItemBagController : MonoBehaviour {
                 //nowItem.transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f);
 
                 items[i] = Instantiate(prefabImage, transform.position, transform.rotation, transform) as Image;
+                itemController item = items[i].gameObject.AddComponent<itemController>();
+                item.state = nowItem.state;
                 items[i].transform.Translate(-800+200 * i, 0, 0);
-                items[i].name = nowItem.name;
-                string itemSpriteName = nowItem.name;
-                items[i].GetComponent<Image>().sprite = Resources.Load("GameSprite/" + itemSpriteName, typeof(Sprite)) as Sprite;
+                items[i].name = nowItem.state.itemName;
+                string itemSpriteName = nowItem.state.sprite.name;
+                //items[i].GetComponent<Image>().sprite = Resources.Load("GameSprite/" + itemSpriteName, typeof(Sprite)) as Sprite;
+                items[i].sprite = nowItem.state.sprite;
                 break;
             }
         }
@@ -67,5 +71,9 @@ public class ItemBagController : MonoBehaviour {
 	public void ItemBagUpdate () {
         itemBagPosition = this.gameObject.transform.position;
         PositonChange();
+    }
+
+    public void ItemView(itemController item) {
+        itemView.Open(item);
     }
 }

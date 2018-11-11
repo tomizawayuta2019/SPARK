@@ -5,11 +5,17 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof (Image))]
-public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndDragHandler,IDropHandler {
+public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndDragHandler,IDropHandler,IPointerClickHandler,IPointerDownHandler {
     [SerializeField]
     PlayerController playerController ;
     [SerializeField]
     ItemBagController itemBagController;
+    [SerializeField]
+    public ItemState state;
+    bool isClick = false;//ドラッグではなくクリックでの操作か
+    Image image;
+
+
     public void ItemClickUse()
     {
         //EventTrigger trigger = ClickImage.GetComponent<EventTrigger>();
@@ -25,6 +31,9 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         playerController.PlayerActive = false;
         itemBagController.itemBagActive = false;
         UIController.instance.list.Add(gameObject);
+
+        isClick = false;
+        image.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -35,28 +44,64 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Ray ray = new Ray();
-        //int layerMask = LayerMaskNo.DEFAULT;
-        //float maxDistance = 10;
+        System.Action returnPos = () =>
+        {
+            // ドラッグ前の位置に戻す
+            transform.position = prevPos;
+            playerController.PlayerActive = true;
+            itemBagController.itemBagActive = true;
+            UIController.instance.list.Remove(gameObject);
+        };
+        image.raycastTarget = true;
 
-        //RaycastHit2D hit = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, maxDistance, layerMask);
-        //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //if (Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity))
-        //{
-        //    print(hit.collider.gameObject.name);
-        //    if (hit.collider.gameObject.CompareTag("DroppoableField"))
-        //    {
-        //        Debug.Log("Hit by mouse!");
-        //        hit.collider.transform.gameObject.GetComponent<DoorController>().DestroySara();
-        //        //Destroy(this.gameObject);
+        Debug.Log(ItemImage.currentTargetImage);
+        if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
+        {
+            itemBagController.itemView.target.ExChange();
+            Destroy(gameObject);
+            return;
+        }
 
-        //    }
-        //}
-        // ドラッグ前の位置に戻す
-        transform.position = prevPos;
-        playerController.PlayerActive = true;
-        itemBagController.itemBagActive = true;
-        UIController.instance.list.Remove(gameObject);
+        var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!Physics2D.OverlapPoint(tapPoint)) {
+            returnPos();
+            return;
+        }
+
+        IItemUse targetItem = null;
+        GameObject hitObject = null;
+        List<GameObject> hitObjects = new List<GameObject>();
+        do {
+            var hit = Physics2D.Raycast(tapPoint, -Vector3.up);
+            if (hit.collider == null) { break; }
+            hitObject = hit.collider.gameObject;
+            if (hitObject == null) { break; }
+            hitObjects.Add(hitObject);
+            hitObject.SetActive(false);
+            targetItem = hitObject.GetComponent<IItemUse>();
+
+        } while (targetItem == null && hitObject != null);//レイの当たるオブジェクトが無くなるか、対象となるオブジェクトが取得できるまで
+        
+        foreach (GameObject hit in hitObjects) {
+            hit.SetActive(true);
+        }
+
+        if (targetItem == null || !targetItem.IsCanUseItem(state)) {
+            returnPos();
+            return;
+        }
+
+        Debug.Log(targetItem);
+
+        if (!targetItem.ItemUse(state)) {
+            returnPos();
+            return;
+        }
+
+        Debug.Log(targetItem);
+
+        //正常に使用完了したのでアイテム消費
+        Destroy(gameObject);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -75,14 +120,33 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         //        }
         //    }
     }
+
+
     // Use this for initialization
     void Start () {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         itemBagController = GameObject.Find("ItemBag").GetComponent<ItemBagController>();
+        image = GetComponent<Image>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (isClick)
+        {
+            itemBagController.ItemView(this);
+        }
+        isClick = false;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        isClick = true;
+        Debug.Log(isClick);
+    }
+
+    public void ExChange() {
+        state.Exchange();
+        GetComponent<Image>().sprite = state.sprite;
+        itemBagController.itemView.TransformItem(this);
+    }
 }
