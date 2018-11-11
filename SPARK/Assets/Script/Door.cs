@@ -21,13 +21,14 @@ public class Door : GimmickKind ,ISwitchObject
     //クリックされたら
     public override void Click()
     {
-        if (!isOpen) {
+        //プレイヤーが範囲内だったら進む
+        if (!checkPlayer) { return; }
+        if (!isOpen)
+        {
             //ADV表示
             doorWorningADV.gameObject.SetActive(true);
             return;
         }
-        //プレイヤーが範囲内だったら進む
-        if (!checkPlayer) { return; }
         base.Click();
         //ワープさせる位置を取得
         Vector3 posX = new Vector3(gameObject.transform.position.x + range, gameObject.transform.position.y, player.transform.position.z);

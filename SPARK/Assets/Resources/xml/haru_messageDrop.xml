@@ -4,15 +4,15 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>name1</Person>
-			<Position>Left</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>ハルがメッセージを落としていくシーン</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>name2</Person>
-			<Position>Right</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>かきくけこ</Contents>
 			<Command>empty</Command>
 		</item>
@@ -27,22 +27,22 @@
 		</item>
 		<item>
 			<Id>3</Id>
-			<Person>name3</Person>
-			<Position>Bottom</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>おむらいす</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>4</Id>
-			<Person>name2</Person>
-			<Position>Right</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>はんばーぐ</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>10</Id>
-			<Person>name10</Person>
-			<Position>Left</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>からあげ</Contents>
 			<Command>empty</Command>
 		</item>
