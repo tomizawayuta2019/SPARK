@@ -63,7 +63,7 @@ public class GimmickMonster : MonoBehaviour {
     }
 
     private void PlayerHit(GameObject target) {
-        Debug.Log("playerHit");
+        GameController.instance.GameOver();
     }
 
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）

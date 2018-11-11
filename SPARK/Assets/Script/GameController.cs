@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour {
+public class GameController : SingletonMonoBehaviour<GameController> {
     public Vector3 mousePostion;
     [SerializeField]
     private CameraController cameraController;
@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour {
     private GameObject player;
     [SerializeField]
     ItemBagController itemBagController;
+    [SerializeField]
+    GameOverCanvas gameOver;
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,5 +21,9 @@ public class GameController : MonoBehaviour {
         playerController.PlayerUpdata();
         cameraController.CameraUpdate();
         itemBagController.ItemBagUpdate();
+    }
+
+    public void GameOver() {
+        gameOver.gameObject.SetActive(true);
     }
 }
