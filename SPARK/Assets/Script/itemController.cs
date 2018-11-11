@@ -91,14 +91,10 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
             return;
         }
 
-        Debug.Log(targetItem);
-
         if (!targetItem.ItemUse(state)) {
             returnPos();
             return;
         }
-
-        Debug.Log(targetItem);
 
         //正常に使用完了したのでアイテム消費
         Destroy(gameObject);

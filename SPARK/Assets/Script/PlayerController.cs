@@ -17,7 +17,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     Rigidbody2D rig;
     public bool isHaveLight = false;
     [SerializeField]
-    GameObject handLight;
+    HandLight handLight;
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
@@ -141,12 +141,16 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             case ItemType.lighting:
                 //ライトを持つ
                 isHaveLight = true;
-                handLight.SetActive(true);
+                handLight.gameObject.SetActive(true);
                 break;
             default:
                 return false;
         }
 
         return true;
+    }
+
+    public void MonsterDestroyEvent() {
+        handLight.EventStart();
     }
 }

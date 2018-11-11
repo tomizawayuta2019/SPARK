@@ -21,11 +21,23 @@ public class GimmickMonster : MonoBehaviour {
 
     [SerializeField]
     float monsterSpeed = 0.3f;
-	
-	// Update is called once per frame
-	void Update () {
+    [SerializeField]
+    GameObject dropItem;
+    bool isCamera = true;//モンスターにカメラが追従中か
+
+    private void Start()
+    {
+        EventCamera.instance.StartEventCamera(gameObject);
+    }
+
+    // Update is called once per frame
+    void Update () {
         //モンスターが動くよ
         MonsterMove();
+        if (isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+            EventCamera.instance.EndEventCamera();
+            isCamera = false;
+        }
     }
 
     void MonsterMove()
@@ -55,14 +67,21 @@ public class GimmickMonster : MonoBehaviour {
     }
 
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）
-    private IEnumerator DeadMonster(float time)
+    public IEnumerator DeadMonster(float time)
     {
+        yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
+
         while (time >= 0)
         {
             time -= Time.deltaTime;
             yield return time;
         }
         Destroy(gameObject);
+
+        GameObject item = Instantiate(dropItem);
+        item.transform.position = transform.position;
+
+        EventCamera.instance.EndEventCamera();
         yield return time;
     }
 }

@@ -12,7 +12,7 @@ public class BackGroundScript : MonoBehaviour {
     //Vector3 backDefPos;
     public SpriteRenderer front;
     //Vector3 frontDefPos;
-    [Range(0.01f,1)]
+    [Range(0f,1)]
     public float speed = 1;
 
     private GameObject backObj, frontObj;
@@ -182,7 +182,8 @@ public class OnCameraVisible : MonoBehaviour {
     public float SizeX {
         get {
             if (!sizeX.HasValue) {
-                sizeX = transform.lossyScale.x * sprite.sprite.rect.size.x / 50;
+                //sizeX = transform.lossyScale.x * sprite.sprite.rect.size.x / 50;
+                sizeX = sprite.bounds.size.x;
             }
             return sizeX.Value;
         }

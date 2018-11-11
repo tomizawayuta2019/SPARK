@@ -25,7 +25,7 @@ public class GimmickManager : MonoBehaviour {
         if (!gimmick) return;
 
 
-        if (PlayerController.instance == null && false)
+        if (PlayerController.instance == null || gimmick.isClickOnly)
         {
             gimmick.Click();
         }
