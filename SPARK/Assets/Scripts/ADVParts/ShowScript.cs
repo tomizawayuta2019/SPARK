@@ -15,9 +15,9 @@ public class ShowScript : MonoBehaviour
     /*----------総合(リストとか)----------*/
 
     //リスト
-    private List<string> personList = null;
-    private List<string> positionList = null;
-    private List<string> contentsList = null;
+    private List<Chara> personList = new List<Chara>();
+    private List<Potision> positionList = new List<Potision>();
+    private List<string> contentsList = new List<string>();
 
     //コルーチン
     private Coroutine updateCor;
@@ -26,6 +26,11 @@ public class ShowScript : MonoBehaviour
     //id
     private int id;
     private int length;
+
+    //テキストを進める用
+    private bool toTheNext;
+
+    private XMLLoad xml;
 
     /*----------立ち絵関連----------*/
 
@@ -46,34 +51,55 @@ public class ShowScript : MonoBehaviour
     {
         Left = 0,
         Bottom,
-        Right
+        Right,
+        empty
     }
-    public Potision charaPos;
 
     //キャラ立ち絵を入れておく
-    [NamedArrayAttribute(new string[] { "dummy_Bird", "dummy_Penguin", "dummy_Neko" })]
+    [NamedArrayAttribute(new string[] { "Yaku", "Kiriya"})]
     [SerializeField]
     private Sprite[] charaSprite;
     //いーなむ
     public enum Chara
     {
-        Bird = 0,
-        Penguin,
-        Neko
+        Yaku = 0,
+        Kiriya,
+        empty
     }
-    public Chara charaSpr;
 
     //出ているキャラクターを配列で保持しておきたい
     private GameObject[] stageChara = new GameObject[3];
 
     /*----------テキスト関連----------*/
-
-    [SerializeField]
-    private CSVLoadScript csvLoadScript;
+    
     [SerializeField]
     private Text textBox;
-    
+
+    //テキストの速さ
+    [SerializeField]
+    private float textSpeed = 0.05f;
+
     //
+
+    //ほぼコルーチン起動用
+    private void Start()
+    {
+        xml = GetComponent<XMLLoad>();
+
+        positionList = xml.GetPotisionList();
+        personList = xml.GetPersonList();
+        contentsList = xml.GetContentsList();
+
+        updateCor = StartCoroutine(update());
+
+        ShowText();
+    }
+
+    //起動でテキストが動く
+    private void ToTheNext()
+    {
+        toTheNext = true;
+    }
 
     //キャラの立ち絵を表示する
     public void ShowChara(int charapos, int charaspr)
@@ -114,7 +140,7 @@ public class ShowScript : MonoBehaviour
         }
     }
 
-    //そのポジション(配列)に同じキャラがいるか(仮版でいるかどうかだけ取得)
+    //そのポジション(配列)に同じキャラがいるか
     private bool Is_StayChara(int potision)
     {
         if(stageChara[potision] != null)
@@ -124,25 +150,29 @@ public class ShowScript : MonoBehaviour
         return false;
     }
 
-    //基本ここで切り替え・表示を指示したい(今は矢印キーで切り替え)
-    public void ChangeChara()
-    {
-        updateCor = StartCoroutine(update());
-    }
-
     //テキストを表示(更新)したい
-    public void ShowText(List<string> text)
+    public void ShowText()
     {
-        if(contentsList == null)
-        {
-            contentsList = text;
-        }
-        length = text.Count;
-        if(textCor !=null)
+        length = contentsList.Count;
+        if(textCor != null)
         {
             StopCoroutine(textCor);
         }
-        textCor = StartCoroutine(TextLoad(text[id]));
+        toTheNext = true;
+        textCor = StartCoroutine(TextLoad(contentsList[id]));
+    }
+
+    //キャラを切り替え
+    private void CharaChange(int id)
+    {
+        //キャラがまだ表示されてなかったら開く
+        if (positionList[id] != Potision.empty && 
+            Is_StayChara((int)positionList[id]) == false)
+        {
+            ShowChara((int)positionList[id], (int)personList[id]);
+        }
+        TalkingChara((int)positionList[id]);
+        Debug.Log(id);
     }
 
     //テキスト更新
@@ -151,10 +181,12 @@ public class ShowScript : MonoBehaviour
         string str = "";
         string tgt = "";
         int strLength = 0;
-        
+
+        CharaChange(id);
+
         while (true)
         {
-            while (!Input.GetKeyDown(KeyCode.DownArrow))
+            while (!toTheNext)
             {
                 yield return null;
             }
@@ -166,11 +198,12 @@ public class ShowScript : MonoBehaviour
                 strLength++;
                 if (tgt == "\n")
                 {
-                    Debug.Log("break");
                     break;
                 }
                 if (strLength >= text.Length)
                 {
+                    StopCoroutine(textCor);
+                    textCor = null;
                     yield break;
                 }
                 yield return new WaitForSeconds(0.05f);
@@ -183,19 +216,20 @@ public class ShowScript : MonoBehaviour
     {
         while(true)
         {
-            if(Input.GetKeyDown(KeyCode.LeftArrow) && id >= 1)
+            toTheNext = Input.GetKeyDown(KeyCode.DownArrow);
+            if (toTheNext)
             {
-                id--;
-                StopCoroutine(textCor);
-                textCor = StartCoroutine(TextLoad(contentsList[id]));
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow) && id < length - 1)
-            {
-                id++;
-                StopCoroutine(textCor);
-                textCor = StartCoroutine(TextLoad(contentsList[id]));
+                //Debug.Log((textCor == null) + ":" + id.ToString());
+                //ここのタイミングでキャラ更新も
+                if(textCor == null && id < length - 1)
+                {
+                    id++;
+                    //CharaChange(id);
+                    textCor = StartCoroutine(TextLoad(contentsList[id]));
+                }
             }
             yield return null;
+            toTheNext = false;
         }
     }
 }
