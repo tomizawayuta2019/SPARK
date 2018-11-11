@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class MonsterPopPoint : MonoBehaviour {
     [SerializeField]
-    GameObject prefab;
+    GameObject target;
     [SerializeField]
     Vector2 posPos;
 
     private void Start()
     {
-        GameObject pop = Instantiate(prefab);
-        pop.transform.position = posPos;
+        target.SetActive(true);
         Destroy(this);
     }
 }

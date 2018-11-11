@@ -24,17 +24,21 @@ public class GimmickMonster : MonoBehaviour {
     [SerializeField]
     GameObject dropItem;
     bool isCamera = true;//モンスターにカメラが追従中か
+    [SerializeField]
+    GameObject monsterStartADV;
+    [SerializeField]
+    GameObject monsterDestADV;
 
     private void Start()
     {
-        EventCamera.instance.StartEventCamera(gameObject);
+        EventCamera.instance.StartEventCamera(gameObject, () => monsterStartADV.SetActive(true));
     }
 
     // Update is called once per frame
     void Update () {
         //モンスターが動くよ
         MonsterMove();
-        if (isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+        if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }
@@ -81,6 +85,9 @@ public class GimmickMonster : MonoBehaviour {
         GameObject item = Instantiate(dropItem);
         item.transform.position = transform.position;
 
+        monsterDestADV.SetActive(true);
+
+        while (monsterDestADV.activeSelf) { yield return null; }
         EventCamera.instance.EndEventCamera();
         yield return time;
     }

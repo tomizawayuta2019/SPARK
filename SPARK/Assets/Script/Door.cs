@@ -15,14 +15,17 @@ public class Door : GimmickKind ,ISwitchObject
     bool isOpen = false;
     public bool IsOpen { get { return isOpen; } }
 
-    [TextArea]
     [SerializeField]
-    string erectricText;
+    GameObject doorWorningADV;
 
     //クリックされたら
     public override void Click()
     {
-        if (!isOpen) { return; }
+        if (!isOpen) {
+            //ADV表示
+            doorWorningADV.gameObject.SetActive(true);
+            return;
+        }
         //プレイヤーが範囲内だったら進む
         if (!checkPlayer) { return; }
         base.Click();

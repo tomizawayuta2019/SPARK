@@ -5,19 +5,18 @@ using UnityEngine;
 public class Haru : MonoBehaviour {
     [SerializeField]
     float speed;
+
     [SerializeField]
-    Vector3 gotoPos;
+    GameObject haruADV;
 
     private void Start()
     {
-        gotoPos.y = transform.position.y;
-        gotoPos.z = transform.position.z;
-
         UIController.instance.list.Add(gameObject);
     }
 
     // Update is called once per frame
     void Update () {
+        Vector3 gotoPos = transform.position + new Vector3(10, 0, 0);
         transform.position = Vector3.MoveTowards(transform.position, gotoPos, speed * Time.deltaTime);
 
         if (Mathf.Abs(transform.position.x - gotoPos.x) < 0.01f) {
@@ -25,9 +24,15 @@ public class Haru : MonoBehaviour {
         }
 	}
 
+    private void OnBecameInvisible()
+    {
+        MoveEnd();
+    }
+
     private void MoveEnd() {
         Destroy(gameObject);
         UIController.instance.list.Remove(gameObject);
+        haruADV.SetActive(true);
     }
 
 }

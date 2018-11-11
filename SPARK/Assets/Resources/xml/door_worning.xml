@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>柵に電流が流れていて近づけないシーン</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>かきくけこ</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>さしすせそ
+たちつてと
+なにぬねの</Contents>
+			<Command>Bold</Command>
+		</item>
+		<item>
+			<Id>3</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>おむらいす</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>4</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>はんばーぐ</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>10</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>からあげ</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

@@ -21,7 +21,8 @@ public class XMLLoad:MonoBehaviour
         Contents,
         Command
     }
-
+    
+    [SerializeField]
     private List<string> personList_Before = new List<string>();
     private List<string> positionList_Before = new List<string>();
     private List<string> contentsList = new List<string>();
@@ -96,8 +97,14 @@ public class XMLLoad:MonoBehaviour
         for(int i = 0; i < personList_Before.Count; i++)
         {
             //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
-            personList.Add((ShowScript.Chara)Enum.Parse(typeof(ShowScript.Chara), 
+            try
+            {
+                personList.Add((ShowScript.Chara)Enum.Parse(typeof(ShowScript.Chara),
                 personList_Before[i], true));
+            }
+            catch {
+                Debug.LogAssertion("キャラ画像の名前が正しくありません");
+            }
         }
     }
 

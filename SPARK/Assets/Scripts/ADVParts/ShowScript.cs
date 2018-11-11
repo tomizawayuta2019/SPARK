@@ -172,7 +172,6 @@ public class ShowScript : MonoBehaviour
             ShowChara((int)positionList[id], (int)personList[id]);
         }
         TalkingChara((int)positionList[id]);
-        Debug.Log(id);
     }
 
     //テキスト更新
@@ -221,11 +220,15 @@ public class ShowScript : MonoBehaviour
             {
                 //Debug.Log((textCor == null) + ":" + id.ToString());
                 //ここのタイミングでキャラ更新も
-                if(textCor == null && id < length - 1)
+                if (textCor == null && id < length - 1)
                 {
                     id++;
                     //CharaChange(id);
                     textCor = StartCoroutine(TextLoad(contentsList[id]));
+                } else if (textCor == null) {
+                    //全てのテキストを見終わったら終了
+                    transform.parent.gameObject.SetActive(false);
+                    yield break;
                 }
             }
             yield return null;

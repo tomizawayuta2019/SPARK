@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>name1</Person>
+			<Position>Left</Position>
+			<Contents>化け物が登場するシーン</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>name2</Person>
+			<Position>Right</Position>
+			<Contents>かきくけこ</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>さしすせそ
+たちつてと
+なにぬねの</Contents>
+			<Command>Bold</Command>
+		</item>
+		<item>
+			<Id>3</Id>
+			<Person>name3</Person>
+			<Position>Bottom</Position>
+			<Contents>おむらいす</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>4</Id>
+			<Person>name2</Person>
+			<Position>Right</Position>
+			<Contents>はんばーぐ</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>10</Id>
+			<Person>name10</Person>
+			<Position>Left</Position>
+			<Contents>からあげ</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

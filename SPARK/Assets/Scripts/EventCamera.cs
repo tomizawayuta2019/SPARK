@@ -14,10 +14,11 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         main = Camera.main;
     }
 
-    public void StartEventCamera(GameObject target) {
+    public void StartEventCamera(GameObject target,System.Action comp = null) {
         this.target = target;
         transform.position = main.transform.position;
-        coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;}));
+        if (comp != null) { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
+        else { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true; })); }
         main.gameObject.SetActive(false);
         UIController.instance.list.Add(gameObject);
     }

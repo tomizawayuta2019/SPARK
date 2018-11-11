@@ -5,6 +5,8 @@ using UnityEngine;
 public class HandLight : GimmickKind {
     [SerializeField]
     bool isEvent = false;
+    [SerializeField]
+    GameObject monster;
 
     public void EventStart() {
         isEvent = true;

@@ -54,7 +54,6 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         };
         image.raycastTarget = true;
 
-        Debug.Log(ItemImage.currentTargetImage);
         if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
         {
             itemBagController.itemView.target.ExChange();
