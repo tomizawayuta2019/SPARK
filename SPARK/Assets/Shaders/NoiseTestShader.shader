@@ -1,16 +1,27 @@
 ﻿Shader "Custom/NoiseTestShader" {
 	Properties {
+		_Color("Color" , Color) = (1, 1, 1, 1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		_Glossiness("Smoothness" , Range(0, 1)) = 0.5
+		_Metallic("Metallic" , Range(0, 1)) = 0.0
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" }
+		Tags {
+		"Queue" = "Transparent"
+		"RenderType" = "Transparent"
+
+		}
 		LOD 200
 		
 		CGPROGRAM
-		#pragma surface surf Standard fullforwardshadows
+		#pragma surface surf Standard fullforwardshadows alpha
 		#pragma target 3.0
 
+		fixed4 _Color;
 		sampler2D _MainTex;
+		half _Glossiness;
+		half _Metallic;
+		float alpha = 0;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -19,12 +30,13 @@
 		float random (fixed2 p) {
 			return frac(sin(dot(p, fixed2(12.9898,78.233)))*43758.5453);
 		}
-		
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			float c = random(IN.uv_MainTex);
-			o.Albedo = fixed4(c,c,c,1);
+			
+			float c = random(IN.uv_MainTex); 
+			o.Albedo = fixed4(c, c, c, 1);
+			o.Alpha = _Color.a;
 		}
 		ENDCG
 	}
-	FallBack "Diffuse"
+		Fallback "Transparent/Diffuse"
 }
