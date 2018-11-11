@@ -12,7 +12,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController> {
     public Vector2 mousePosition;
     public Vector2 targetPosition;
     [SerializeField]
-    ItemBagControllr itemBagControllr;
+    ItemBagController itemBagController;
     [SerializeField]
     Rigidbody2D rig;
     public void SetPlayerActive(bool condition)

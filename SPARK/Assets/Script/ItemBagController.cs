@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemBagControllr : MonoBehaviour {
+public class ItemBagController : MonoBehaviour {
     float itemBagSpeed;//移動スピード
     Vector3 mousePosition;//マオス今のポジション
     Vector3 itemBagPosition;//アイテム欄今のポジション
@@ -13,6 +13,7 @@ public class ItemBagControllr : MonoBehaviour {
     Image prefabImage;
     // Use this for initialization
 
+    public bool itemBagActive = true;
 
     public void PutInItemBag(GameObject nowItem)
     {
@@ -40,6 +41,7 @@ public class ItemBagControllr : MonoBehaviour {
     
     void PositonChange()//マオスポジションによるアイテム欄ポジション変化
     {
+        if (!itemBagActive) { return; }
         mousePosition = Input.mousePosition;
         if (mousePosition.y >= 880.0f&&mousePosition.y<=1080.0f)
         {

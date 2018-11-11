@@ -24,6 +24,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         prevPos = transform.position;
         playerController.PlayerActive = false;
         itemBagController.itemBagActive = false;
+        UIController.instance.list.Add(gameObject);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -55,7 +56,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         transform.position = prevPos;
         playerController.PlayerActive = true;
         itemBagController.itemBagActive = true;
-
+        UIController.instance.list.Remove(gameObject);
     }
 
     public void OnDrop(PointerEventData eventData)

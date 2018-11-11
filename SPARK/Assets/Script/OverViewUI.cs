@@ -9,11 +9,11 @@ public class OverViewUI : MonoBehaviour {
 
     private void OnEnable()
     {
-        UIController.instance.list.Add(this);
+        UIController.instance.list.Add(gameObject);
     }
 
     private void OnDisable()
     {
-        UIController.instance.list.Remove(this);
+        UIController.instance.list.Remove(gameObject);
     }
 }
