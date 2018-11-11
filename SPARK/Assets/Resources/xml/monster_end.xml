@@ -4,8 +4,8 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
 			<Contents>灯篭を掲げて化け物を倒すシーン</Contents>
 			<Command>empty</Command>
 		</item>

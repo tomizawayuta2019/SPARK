@@ -29,6 +29,7 @@ public class Door : GimmickKind ,ISwitchObject
             doorWorningADV.gameObject.SetActive(true);
             return;
         }
+
         base.Click();
         //ワープさせる位置を取得
         Vector3 posX = new Vector3(gameObject.transform.position.x + range, gameObject.transform.position.y, player.transform.position.z);

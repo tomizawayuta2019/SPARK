@@ -4,8 +4,8 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
 			<Contents>柵に電流が流れていて近づけないシーン</Contents>
 			<Command>empty</Command>
 		</item>

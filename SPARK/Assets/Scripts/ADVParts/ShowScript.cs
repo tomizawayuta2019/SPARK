@@ -95,6 +95,18 @@ public class ShowScript : MonoBehaviour
         ShowText();
     }
 
+    private void OnEnable()
+    {
+        if (id != 0) {
+            Restart();
+        }
+    }
+
+    public void Restart() {
+        id = 0;
+        Start();
+    }
+
     //起動でテキストが動く
     private void ToTheNext()
     {
@@ -215,7 +227,7 @@ public class ShowScript : MonoBehaviour
     {
         while(true)
         {
-            toTheNext = Input.GetKeyDown(KeyCode.DownArrow);
+            toTheNext = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetMouseButtonDown(0);
             if (toTheNext)
             {
                 //Debug.Log((textCor == null) + ":" + id.ToString());

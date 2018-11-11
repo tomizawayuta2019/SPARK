@@ -18,6 +18,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public bool isHaveLight = false;
     [SerializeField]
     HandLight handLight;
+    bool isWait = false;
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
@@ -121,13 +122,20 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     /// </summary>
     /// <returns></returns>
     public IEnumerator WaitForMove(System.Action comp) {
+        if (isWait) { yield break; }
+        isWait = true;
         yield return null;
+
         while (!IsEnterTargetPosition()) {
             yield return null;
-            if (Input.GetMouseButtonDown(0)) { yield break; }
+            if (Input.GetMouseButtonDown(0)) {
+                isWait = false;
+                yield break;
+            }
         }
 
         comp();
+        isWait = false;
     }
 
     public bool IsCanUseItem(ItemState item)
