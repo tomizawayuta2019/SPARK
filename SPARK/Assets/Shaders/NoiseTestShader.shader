@@ -9,7 +9,6 @@
 		Tags {
 		"Queue" = "Transparent"
 		"RenderType" = "Transparent"
-
 		}
 		LOD 200
 		
@@ -31,7 +30,7 @@
 			return frac(sin(dot(p, fixed2(12.9898,78.233)))*43758.5453);
 		}
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			
+			IN.uv_MainTex.x += 0.1 * _Time;
 			float c = random(IN.uv_MainTex); 
 			o.Albedo = fixed4(c, c, c, 1);
 			o.Alpha = _Color.a;
