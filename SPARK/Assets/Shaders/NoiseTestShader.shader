@@ -32,7 +32,7 @@
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			IN.uv_MainTex.x += 0.1 * _Time;
 			float c = random(IN.uv_MainTex); 
-			o.Albedo = fixed4(c, c, c, 1);
+			o.Albedo = fixed4(c + _Color.r * 2, c + _Color.g * 2, c + _Color.b * 2, 1);
 			o.Alpha = _Color.a;
 		}
 		ENDCG
