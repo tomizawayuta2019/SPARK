@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class ItemObject : MonoBehaviour {
-    [SerializeField]
     Rigidbody2D rig;
     private const string PLAYER_TAG = "Player";
     [SerializeField]

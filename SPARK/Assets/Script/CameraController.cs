@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour {
         if (moveFlag == 1)
         {
             cameraPosition = Player.transform.position;
-            this.transform.position = new Vector3(cameraPosition.x, cameraPosition.y,-10);
+            this.transform.position = new Vector3(cameraPosition.x, transform.position.y,-10);
         }
     }
 
@@ -24,6 +24,5 @@ public class CameraController : MonoBehaviour {
     public void CameraUpdate () {
         cameraMoveFlag = Player.GetComponent<PlayerController>().PlayerMoveFlag;
         CameraMove(cameraMoveFlag);
-
     }
 }

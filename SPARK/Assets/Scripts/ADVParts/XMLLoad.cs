@@ -26,6 +26,7 @@ public class XMLLoad:MonoBehaviour
     private List<string> personList_Before = new List<string>();
     private List<string> positionList_Before = new List<string>();
     private List<string> contentsList = new List<string>();
+    private List<string> commandList = new List<string>();
 
     private List<ShowScript.Chara> personList = new List<ShowScript.Chara>();
     private List<ShowScript.Potision> positionList = new List<ShowScript.Potision>();
@@ -54,6 +55,10 @@ public class XMLLoad:MonoBehaviour
         return contentsList;
     }
 
+    public List<string> GetCommandList() {
+        return commandList;
+    }
+
     private void LoadXml(string xmlText)
     {
         var xml = new XmlDocument();
@@ -66,6 +71,7 @@ public class XMLLoad:MonoBehaviour
         personList_Before = SetList(XMLIndex.Person);
         positionList_Before = SetList(XMLIndex.Position);
         contentsList = SetList(XMLIndex.Contents);
+        commandList = SetList(XMLIndex.Command);
 
         Person_ListChange();
     }

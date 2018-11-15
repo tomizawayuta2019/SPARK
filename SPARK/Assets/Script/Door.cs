@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Door : GimmickKind ,ISwitchObject
 {
-    //外から読み込み用
-    [SerializeField]
     GameObject player;
     private bool checkPlayer = false;
     [SerializeField]
@@ -17,6 +15,8 @@ public class Door : GimmickKind ,ISwitchObject
 
     [SerializeField]
     GameObject doorWorningADV;
+    [SerializeField]
+    GameObject openSprite;
 
     //クリックされたら
     public override void Click()
@@ -30,14 +30,28 @@ public class Door : GimmickKind ,ISwitchObject
             return;
         }
 
+        UIController.instance.list.Add(gameObject);
         base.Click();
-        //ワープさせる位置を取得
-        Vector3 posX = new Vector3(gameObject.transform.position.x + range, gameObject.transform.position.y, player.transform.position.z);
-        Vector3 posFripX = new Vector3(gameObject.transform.position.x - range, gameObject.transform.position.y, player.transform.position.z);
-        //プレイヤーが扉のどっち側にいるか判定
-        player.transform.position = (transform.position.x >= player.transform.position.x) ? posX:posFripX;
-        PlayerController p = player.GetComponent<PlayerController>();
-        p.targetPosition = player.transform.position + new Vector3((player.transform.position.x - transform.position.x) / 2, 0, 0);
+        SEController.instance.PlaySE(SEController.SEType.door_metal);
+
+        FadeManager.FadeState fade = new FadeManager.FadeState().Init();
+        fade.fadeTime = 4;
+        fade.outComp = () =>
+        {
+            //ワープさせる位置を取得
+            Vector3 posX = new Vector3(gameObject.transform.position.x + range, gameObject.transform.position.y, player.transform.position.z);
+            Vector3 posFripX = new Vector3(gameObject.transform.position.x - range, gameObject.transform.position.y, player.transform.position.z);
+            //プレイヤーが扉のどっち側にいるか判定
+            player.transform.position = (transform.position.x >= player.transform.position.x) ? posX : posFripX;
+            PlayerController p = player.GetComponent<PlayerController>();
+            p.targetPosition = player.transform.position + new Vector3((player.transform.position.x - transform.position.x) / 2, 0, 0);
+            gameObject.SetActive(false);
+            openSprite.SetActive(true);
+        };
+        //フェードが終了したら操作可能に
+        fade.fadeComp = () => UIController.instance.list.Remove(gameObject);
+        FadeManager.instance.FadeStart(fade);
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

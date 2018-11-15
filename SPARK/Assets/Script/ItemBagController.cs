@@ -47,16 +47,16 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
     {
         if (!itemBagActive) { return; }
         mousePosition = Input.mousePosition;
-        if (mousePosition.y >= 880.0f&&mousePosition.y<=1080.0f)
+        if (mousePosition.y >= Screen.height * 0.8f && mousePosition.y <= Screen.height)
         {
-            if (this.gameObject.transform.position.y > 980)
+            if (this.gameObject.transform.position.y > Screen.height * 0.9f)
             {
                 this.transform.Translate(0,-itemBagSpeed,0);
             }
         }
         else
         {
-            if (this.gameObject.transform.position.y < 1180)
+            if (this.gameObject.transform.position.y < Screen.height * 1.1f)
             {
                 this.transform.Translate(0, itemBagSpeed, 0);
             }

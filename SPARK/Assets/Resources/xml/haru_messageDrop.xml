@@ -6,45 +6,26 @@
 			<Id>0</Id>
 			<Person>Yaku</Person>
 			<Position>Left</Position>
-			<Contents>ハルがメッセージを落としていくシーン</Contents>
+			<Contents>「ハル……！」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>かきくけこ</Contents>
-			<Command>empty</Command>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「ハル待って……！」</Contents>
+			<Command>moveStart</Command>
 		</item>
 		<item>
 			<Id>2</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>さしすせそ
-たちつてと
-なにぬねの</Contents>
-			<Command>Bold</Command>
-		</item>
-		<item>
-			<Id>3</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>おむらいす</Contents>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「本当に、ハルだったんだ……
+ハルはまだ死んでないよ、きっと……」</Contents>
 			<Command>empty</Command>
 		</item>
-		<item>
-			<Id>4</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>はんばーぐ</Contents>
-			<Command>empty</Command>
-		</item>
-		<item>
-			<Id>10</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>からあげ</Contents>
-			<Command>empty</Command>
-		</item>
+		<item/>
+		<item/>
+		<item/>
 	</items>
 </root>

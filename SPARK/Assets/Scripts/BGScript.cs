@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BGScript : MonoBehaviour {
-	
-	// Update is called once per frame
-	void Update () {
+    Vector3 defPos;
+
+    private void Awake()
+    {
+        defPos = transform.localPosition;
+    }
+
+    // Update is called once per frame
+    void Update () {
         transform.SetParent(Camera.main.transform);
-        transform.localPosition = Vector2.zero;
+        transform.localPosition = defPos;
 	}
 }

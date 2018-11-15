@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「これは……実家の祭りで使う灯篭……</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「昔はよくハルと一緒に祭りに行ったね……
+黄色い灯篭がいっぱいあって
+とても綺麗だった……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「あんな喧嘩さえしなかったら……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item/>
+		<item/>
+		<item/>
+		<item/>
+	</items>
+</root>

@@ -56,6 +56,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
         if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
         {
+            state.Use();
             itemBagController.itemView.target.ExChange();
             Destroy(gameObject);
             return;
@@ -136,7 +137,6 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
     public void OnPointerDown(PointerEventData eventData)
     {
         isClick = true;
-        Debug.Log(isClick);
     }
 
     public void ExChange() {

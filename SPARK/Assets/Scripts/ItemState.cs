@@ -66,6 +66,9 @@ public struct ItemState
     [SerializeField]
     public ItemObject exchangeItem;
 
+    [SerializeField]
+    SEController.SEType SEType;
+
     /// <summary>
     /// 対象のアイテムに使用可能か否か
     /// </summary>
@@ -94,5 +97,10 @@ public struct ItemState
     public void Exchange() {
         if (exchangeItem == null) { return; }
         this = exchangeItem.state;
+    }
+
+    public AudioSource Use() {
+        if (SEType == SEController.SEType.none) { return null; }
+        return SEController.instance.PlaySE(SEType);
     }
 }

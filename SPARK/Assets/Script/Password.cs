@@ -72,6 +72,7 @@ public class Password : GimmickKind
     /// </summary>
     public void PassWordInput(int button)
     {
+        SEController.instance.PlaySE(SEController.SEType.button);
         if (button % 2 == 0)
         {
             imageNum[button / 2] = (imageNum[button / 2] >= 9) ? 0 : imageNum[button / 2] + 1;
@@ -92,25 +93,31 @@ public class Password : GimmickKind
     public void EnterPassword()
     {
         int password = 0;
-        string str;
         password = imageNum[0] * 1000 + imageNum[1] * 100 + imageNum[2] * 10 + imageNum[3];
         isOpen = passwordNumber == password;
         passwordForm.gameObject.SetActive(false);
+
+        if (isOpen) {
+            SEController.instance.PlaySE(SEController.SEType.Unlock);
+        }
     }
 
     public void Open() {
         if (!isOpen) { return; }
 
         doorImage.gameObject.SetActive(false);
+        SEController.instance.PlaySE(SEController.SEType.door_metal);
     }
 
     public void PowerOff() {
         onImage.gameObject.SetActive(false);
         targetgimmick.GetComponent<ISwitchObject>().SetValue(true);
+        SEController.instance.PlaySE(SEController.SEType.engineLever);
     }
 
     public void PowerOn() {
         onImage.gameObject.SetActive(true);
         targetgimmick.GetComponent<ISwitchObject>().SetValue(false);
+        SEController.instance.PlaySE(SEController.SEType.engineLever);
     }
 }

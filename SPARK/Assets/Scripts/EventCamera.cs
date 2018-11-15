@@ -20,6 +20,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         if (comp != null) { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
         else { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true; })); }
         main.gameObject.SetActive(false);
+        tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
     }
 
@@ -27,6 +28,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         this.target = target;
         transform.position = main.transform.position;
         main.gameObject.SetActive(false);
+        tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
 
         yield return StartCoroutine(MoveToTarget(target,()=> { }));

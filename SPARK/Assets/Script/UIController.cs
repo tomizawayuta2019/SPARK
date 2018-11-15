@@ -13,6 +13,7 @@ public class UIController : SingletonMonoBehaviour<UIController> {
 
     private void LateUpdate()
     {
+        if (PlayerController.instance == null) { return; }
         PlayerController.instance.SetPlayerActive(isCanInput);
 
         if (!isCanInput && Input.GetMouseButton(0)) { return; }//マウス長押しに反応してほしくないので、ここでreturn

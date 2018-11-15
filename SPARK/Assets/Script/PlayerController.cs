@@ -36,6 +36,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             NowItem = null;
         }
     }
+
+    private void Start()
+    {
+        targetPosition = transform.position;
+    }
+
     void PlayerSearchMouse()
     {
         if (NowItem != null)
@@ -159,6 +165,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     }
 
     public void MonsterDestroyEvent() {
+        GetComponent<Animator>().SetBool("isLight",true);
         handLight.EventStart();
     }
 }

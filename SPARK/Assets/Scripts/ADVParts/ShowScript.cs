@@ -8,6 +8,12 @@ using UnityEngine.UI;
  *  テキストや立ち絵を表示・変更するスクリプト
  */
 
+/// <summary>
+/// ShowScriptに渡すAction
+/// </summary>
+/// <returns></returns>
+public delegate IEnumerator ShowTextAction();
+
 public class ShowScript : MonoBehaviour
 {
     //変数エリア
@@ -18,6 +24,8 @@ public class ShowScript : MonoBehaviour
     private List<Chara> personList = new List<Chara>();
     private List<Potision> positionList = new List<Potision>();
     private List<string> contentsList = new List<string>();
+    private List<string> commandList = new List<string>();
+    private List<ShowTextAction> actions = new List<ShowTextAction>();
 
     //コルーチン
     private Coroutine updateCor;
@@ -26,6 +34,7 @@ public class ShowScript : MonoBehaviour
     //id
     private int id;
     private int length;
+    private int actionCount;//何番目のActionを実行するか
 
     //テキストを進める用
     private bool toTheNext;
@@ -89,10 +98,17 @@ public class ShowScript : MonoBehaviour
         positionList = xml.GetPotisionList();
         personList = xml.GetPersonList();
         contentsList = xml.GetContentsList();
+        commandList = xml.GetCommandList();
+
+        actionCount = 0;
 
         updateCor = StartCoroutine(update());
 
         ShowText();
+    }
+
+    public void SetAction(List<ShowTextAction> value) {
+        actions = value;
     }
 
     private void OnEnable()
@@ -118,8 +134,10 @@ public class ShowScript : MonoBehaviour
     {
         //基本構成
         GameObject chara = Instantiate(charaPrefab) as GameObject;
-        chara.transform.SetParent(canvas.transform);
-        chara.transform.position = charaPotision[charapos].position;
+        //位置を代入するとキャラの位置がずれるバグがあったので子要素でlocalpositionを0に
+        chara.transform.SetParent(charaPotision[charapos].transform);
+        chara.transform.SetAsFirstSibling();
+        chara.transform.localPosition = Vector3.zero;
         chara.GetComponent<Image>().sprite = charaSprite[charaspr];
         //左右反転させる
         if(/*左右反転するかどうか*/false)
@@ -171,6 +189,8 @@ public class ShowScript : MonoBehaviour
             StopCoroutine(textCor);
         }
         toTheNext = true;
+
+        if (!gameObject.activeSelf) { gameObject.SetActive(true); }
         textCor = StartCoroutine(TextLoad(contentsList[id]));
     }
 
@@ -236,6 +256,13 @@ public class ShowScript : MonoBehaviour
                 {
                     id++;
                     //CharaChange(id);
+
+                    //Actionが指定されていたら実行し、終了まで待機する
+                    if (commandList[id] != "empty") {
+                        if (actions[actionCount] == null) { actionCount++; }
+                        else { yield return StartCoroutine(actions[actionCount++]()); }
+                    }
+
                     textCor = StartCoroutine(TextLoad(contentsList[id]));
                 } else if (textCor == null) {
                     //全てのテキストを見終わったら終了

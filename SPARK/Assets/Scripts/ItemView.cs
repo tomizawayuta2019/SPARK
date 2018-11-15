@@ -17,6 +17,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     Text text;
     [SerializeField]
     GameObject[] buttons;
+    [SerializeField]
     int currenttextNum = 0;
 
     /// <summary>
@@ -72,9 +73,10 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     }
 
     public void PageButton(int pageMove) {
-        currenttextNum = pageMove;
+        currenttextNum += pageMove;
         currenttextNum = Mathf.Clamp(currenttextNum, 0, target.state.itemText.Length - 1);
         text.text = target.state.itemText[currenttextNum];
+        SEController.instance.PlaySE(SEController.SEType.message);
     }
 
     public void Click() {

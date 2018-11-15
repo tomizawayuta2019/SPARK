@@ -3,60 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AlphaChange : MonoBehaviour {
+public class AlphaChange : DelayedChange<float> {
     [SerializeField]
-    private bool isPlayOnAwake;
+    Image image;
     [SerializeField]
-    float start;
-    [SerializeField]
-    float end;
-    [SerializeField]
-    float time;
-    [SerializeField]
-    bool isLoop;
-    [SerializeField]
-    float loopDelay;
+    SpriteRenderer sr;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (!isPlayOnAwake) { return; }
-        Play();
+        image = GetComponent<Image>();
+        sr = GetComponent<SpriteRenderer>();
+        base.Awake();
     }
 
-    private void OnEnable()
+    protected override float LerpValue(float start, float end, float per)
     {
-        if (!isPlayOnAwake) { return; }
-        Play();
+        return Mathf.Lerp(start, end, per);
     }
 
-    public void Play() {
-        Debug.Log("play");
-        StartCoroutine(AlphaChangeDelay(start,end));
-    }
-
-    IEnumerator AlphaChangeDelay(float start,float end) {
-        Image image = GetComponent<Image>();
-        Color color = image.color;
-        color.a = start;
-        image.color = color;
-
-        float nowTime = Time.deltaTime;
-        while (nowTime < time)
+    protected override float UpdateValue(float value)
+    {
+        Color color;
+        if (image != null)
         {
-            color.a = Mathf.Lerp(start, end, nowTime / time);
+            color = image.color;
+            color.a = value;
             image.color = color;
-            yield return null;
-            nowTime += Time.deltaTime;
-            Debug.Log("delay");
         }
-
-        color.a = end;
-        image.color = color;
-        Debug.Log("end");
-
-        if (isLoop) {
-            yield return new WaitForSeconds(loopDelay);
-            StartCoroutine(AlphaChangeDelay(end, start));
+        else {
+            color = sr.color;
+            color.a = value;
+            sr.color = color;
         }
+        return color.a;
     }
+
 }

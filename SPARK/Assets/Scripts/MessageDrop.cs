@@ -9,7 +9,9 @@ public class MessageDrop : Haru {
     GameObject prefab;
 
     public override void MoveStart() {
-        EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
+        if (isMoveStart) { return; }
+        //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
+        EventCamera.instance.StartEventCamera(cameraTarget, () => { haruADV.SetActive(true); } );
         GameObject item = Instantiate(prefab);
         item.transform.position = transform.position;
     }
@@ -18,6 +20,7 @@ public class MessageDrop : Haru {
     {
         base.MoveEnd();
         EventCamera.instance.EndEventCamera();
+        Debug.Log("moveEnd");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -6,44 +6,51 @@
 			<Id>0</Id>
 			<Person>Yaku</Person>
 			<Position>Left</Position>
-			<Contents>ハルがどこかへ向かうシーン</Contents>
+			<Contents>「ここは……どこ……？」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>かきくけこ</Contents>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「さっきまで、家の近くにいたのに……」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>2</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>さしすせそ
-たちつてと
-なにぬねの</Contents>
-			<Command>Bold</Command>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「ハル……！」</Contents>
+			<Command>haru</Command>
 		</item>
 		<item>
 			<Id>3</Id>
-			<Person>name3</Person>
-			<Position>empty</Position>
-			<Contents>おむらいす</Contents>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「どうして……ハルがここに……？
+だって私今日……」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>4</Id>
-			<Person>name2</Person>
-			<Position>empty</Position>
-			<Contents>はんばーぐ</Contents>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「ハルの葬式に行ってきたんだもん」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
-			<Id>10</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>からあげ</Contents>
+			<Id>5</Id>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「ううん……わからないじゃない
+もしかしたら、まだ……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>6</Id>
+			<Person>Yaku</Person>
+			<Position>Left</Position>
+			<Contents>「ハルを追いかけなきゃ……」</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

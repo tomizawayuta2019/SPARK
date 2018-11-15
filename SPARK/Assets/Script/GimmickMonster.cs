@@ -31,7 +31,18 @@ public class GimmickMonster : MonoBehaviour {
 
     private void Start()
     {
-        EventCamera.instance.StartEventCamera(gameObject, () => monsterStartADV.SetActive(true));
+        ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
+        show.SetAction(new List<ShowTextAction>() {
+            MonsterStart
+        });
+
+        monsterStartADV.SetActive(true);
+    }
+
+    IEnumerator MonsterStart() {
+        bool waitFlag = true;
+        EventCamera.instance.StartEventCamera(gameObject, () => waitFlag = false);
+        while (waitFlag) { yield return null; }
     }
 
     // Update is called once per frame
