@@ -36,6 +36,10 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
                 break;
             }
         }
+
+        if (nowItem.state.getADVObj != null) {
+            nowItem.state.getADVObj.SetActive(true);
+        }
     }
     void SetInitializationPosition()//ポジション初期化
     {

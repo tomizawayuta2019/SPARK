@@ -52,7 +52,6 @@ public class Haru : MonoBehaviour {
         if (isMoveEnd) { return; }
         isMoveStart = true;
         UIController.instance.list.Add(gameObject);
-        Debug.Log("move start");
     }
 
     // Update is called once per frame
@@ -76,7 +75,6 @@ public class Haru : MonoBehaviour {
         haruADV.SetActive(true);
         isMoveEnd = true;
         gameObject.SetActive(false);
-        Debug.Log("moveEnd");
     }
 
     IEnumerator MoveStartAction() {

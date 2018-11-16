@@ -7,27 +7,25 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
     GameObject target;
     Coroutine coroutine;
     private Camera main;
+    private Camera Main { get {
+            if (main == null) { main = Camera.main; }
+            return main; } }
     bool isChase = false;
-
-    private void Start()
-    {
-        main = Camera.main;
-    }
 
     public void StartEventCamera(GameObject target,System.Action comp = null) {
         this.target = target;
-        transform.position = main.transform.position;
+        transform.position = Main.transform.position;
         if (comp != null) { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
         else { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true; })); }
-        main.gameObject.SetActive(false);
+        Main.gameObject.SetActive(false);
         tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
     }
 
     public IEnumerator StartEventCameraWait(GameObject target) {
         this.target = target;
-        transform.position = main.transform.position;
-        main.gameObject.SetActive(false);
+        transform.position = Main.transform.position;
+        Main.gameObject.SetActive(false);
         tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
 
@@ -46,11 +44,11 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
 
     public void EndEventCamera() {
         StopCoroutine(coroutine);
-        StartCoroutine(MoveToTarget(main.gameObject, 
+        StartCoroutine(MoveToTarget(Main.gameObject, 
             () => {
                 tag = "EventCamera";
                 UIController.instance.list.Remove(gameObject);
-                main.gameObject.SetActive(true);
+                Main.gameObject.SetActive(true);
             }));
         isChase = false;
     }

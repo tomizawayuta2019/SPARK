@@ -69,6 +69,9 @@ public struct ItemState
     [SerializeField]
     SEController.SEType SEType;
 
+    [SerializeField]
+    public GameObject getADVObj,viewADVObj;
+
     /// <summary>
     /// 対象のアイテムに使用可能か否か
     /// </summary>

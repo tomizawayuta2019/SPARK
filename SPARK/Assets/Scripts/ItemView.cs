@@ -19,6 +19,8 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     GameObject[] buttons;
     [SerializeField]
     int currenttextNum = 0;
+    [SerializeField]
+    GameObject diaryADV;
 
     /// <summary>
     /// ウィンドウ開く
@@ -36,11 +38,16 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         {
             text.text = target.state.itemText[0];
             text.gameObject.SetActive(true);
-            foreach (GameObject item in buttons) { item.SetActive(false); }
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].SetActive(false);
+            }
         }
         else if(target.state.itemText.Length > 1){
             text.gameObject.SetActive(true);
-            foreach (GameObject item in buttons) { item.SetActive(true); }
+            for (int i = 0; i < buttons.Length; i++) {
+                if (i == 0) { buttons[i].SetActive(true); }
+            }
             currenttextNum = 0;
             text.text = target.state.itemText[currenttextNum];
         }
@@ -60,6 +67,12 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         isItemView = false;
         gameObject.SetActive(false);
         ItemBagController.instance.itemBagActive = true;
+
+        if (target.state.itemType == ItemType.diary_open && diaryADV != null)
+        {
+            diaryADV.SetActive(true);
+            diaryADV = null;
+        }
     }
 
     /// <summary>
@@ -77,6 +90,9 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         currenttextNum = Mathf.Clamp(currenttextNum, 0, target.state.itemText.Length - 1);
         text.text = target.state.itemText[currenttextNum];
         SEController.instance.PlaySE(SEController.SEType.message);
+
+        buttons[0].SetActive(currenttextNum < target.state.itemText.Length - 1);
+        buttons[1].SetActive(currenttextNum != 0);
     }
 
     public void Click() {
