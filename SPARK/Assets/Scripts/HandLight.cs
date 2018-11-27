@@ -24,7 +24,7 @@ public class HandLight : GimmickKind {
             StartCoroutine(IEnumratorExt.Wait(animTime, () =>
             {
                 UIController.instance.list.Remove(gameObject);
-                StartCoroutine(GimmickMonster.MonsterInstance.DeadMonster(0.1f));
+                StartCoroutine(GimmickMonster.MonsterInstance.DeadMonster(2.0f));
             }));
             isEvent = false;
         }

@@ -88,13 +88,11 @@ public class GimmickMonster : MonoBehaviour {
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）
     public IEnumerator DeadMonster(float time)
     {
+        monsterSpeed = 0;
         yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
 
-        while (time >= 0)
-        {
-            time -= Time.deltaTime;
-            yield return time;
-        }
+        transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathTrigger");
+        yield return new WaitForSeconds(time);
         Destroy(gameObject);
 
         GameObject item = Instantiate(dropItem);

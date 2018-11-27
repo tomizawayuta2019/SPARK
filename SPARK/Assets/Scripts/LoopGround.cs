@@ -31,7 +31,7 @@ public class LoopGround : MonoBehaviour {
         isLoopLeftSide = loopFromX < loopForX;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (player == null) { player = PlayerController.instance; }
         if (isLoopLeftSide)
