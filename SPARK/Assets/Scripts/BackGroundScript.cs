@@ -55,6 +55,14 @@ public class BackGroundScript : MonoBehaviour {
         VisivleListInit(backVisible);
     }
 
+    /// <summary>
+    /// ループ地形に入ってワープする時、背景をいい感じにずらして瞬間移動させない処理
+    /// </summary>
+    /// <param name="distance">x座標のズレ</param>
+    public void LoopBackGround(float distance) {
+        backDefPos.x += distance * (1 - speed);
+    }
+
     private void VisivleListInit(List<OnCameraVisible> target) {
         bool contFlag = false;
         int count = 0;
