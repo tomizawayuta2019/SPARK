@@ -29,8 +29,12 @@ public class GimmickMonster : MonoBehaviour {
     [SerializeField]
     GameObject monsterDestADV;
 
+    [SerializeField]
+    StagePosition stagePosition;
+
     private void Start()
     {
+        transform.position = stagePosition.GetPosition();
         ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
         show.SetAction(new List<ShowTextAction>() {
             MonsterStart
