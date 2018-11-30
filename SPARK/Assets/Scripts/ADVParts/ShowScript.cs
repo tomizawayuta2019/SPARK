@@ -8,6 +8,21 @@ using UnityEngine.UI;
  *  テキストや立ち絵を表示・変更するスクリプト
  */
 
+public enum Position
+{
+    Left = 0,
+    Bottom,
+    Right,
+    empty
+}
+
+public enum Chara
+{
+    Yaku = 0,
+    Kiriya,
+    empty
+}
+
 /// <summary>
 /// ShowScriptに渡すAction
 /// </summary>
@@ -22,7 +37,7 @@ public class ShowScript : MonoBehaviour
 
     //リスト
     private List<Chara> personList = new List<Chara>();
-    private List<Potision> positionList = new List<Potision>();
+    private List<Position> positionList = new List<Position>();
     private List<string> contentsList = new List<string>();
     private List<string> commandList = new List<string>();
     private List<ShowTextAction> actions = new List<ShowTextAction>();
@@ -55,26 +70,11 @@ public class ShowScript : MonoBehaviour
     [NamedArrayAttribute(new string[] { "Left", "Bottom", "Right" })]
     [SerializeField]
     private Transform[] charaPotision = new Transform[3];
-    //いーなむ
-    public enum Potision
-    {
-        Left = 0,
-        Bottom,
-        Right,
-        empty
-    }
 
     //キャラ立ち絵を入れておく
     [NamedArrayAttribute(new string[] { "Yaku", "Kiriya"})]
     [SerializeField]
     private Sprite[] charaSprite;
-    //いーなむ
-    public enum Chara
-    {
-        Yaku = 0,
-        Kiriya,
-        empty
-    }
 
     //出ているキャラクターを配列で保持しておきたい
     private GameObject[] stageChara = new GameObject[3];
@@ -95,10 +95,10 @@ public class ShowScript : MonoBehaviour
     {
         xml = GetComponent<XMLLoad>();
 
-        positionList = xml.GetPotisionList();
-        personList = xml.GetPersonList();
-        contentsList = xml.GetContentsList();
-        commandList = xml.GetCommandList();
+        positionList = xml.data[0].Get_PositionList();
+        personList = xml.data[0].Get_PersonList();
+        contentsList = xml.data[0].Get_ContentsList();
+        commandList = xml.data[0].Get_CommandList();
 
         actionCount = 0;
 
@@ -198,7 +198,7 @@ public class ShowScript : MonoBehaviour
     private void CharaChange(int id)
     {
         //キャラがまだ表示されてなかったら開く
-        if (positionList[id] != Potision.empty && 
+        if (positionList[id] != Position.empty && 
             Is_StayChara((int)positionList[id]) == false)
         {
             ShowChara((int)positionList[id], (int)personList[id]);
