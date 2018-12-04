@@ -86,11 +86,7 @@ public class GimmickMonster : MonoBehaviour {
     {
         yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
 
-        while (time >= 0)
-        {
-            time -= Time.deltaTime;
-            yield return time;
-        }
+        yield return new WaitForSeconds(time);
         Destroy(gameObject);
 
         GameObject item = Instantiate(dropItem);
@@ -100,6 +96,6 @@ public class GimmickMonster : MonoBehaviour {
 
         while (monsterDestADV.activeSelf) { yield return null; }
         EventCamera.instance.EndEventCamera();
-        yield return time;
+        yield return new WaitForSeconds(time);
     }
 }
