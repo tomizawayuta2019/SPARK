@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f5878a8564e51d74bbd4fd66f93455b7
+timeCreated: 1544174656
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: NemukeMedium
+  fontNames:
+  - NemukeMedium
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
