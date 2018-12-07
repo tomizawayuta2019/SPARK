@@ -22,7 +22,7 @@ public class LoopGround : MonoBehaviour {
     bool isLoopLeftSide;
 
     [SerializeField]
-    BackGroundScript BG;
+    List<BackGroundScript> BG;
 
     PlayerController player;
 
@@ -46,7 +46,9 @@ public class LoopGround : MonoBehaviour {
     private void Loop() {
         Vector3 pos = player.transform.position;
         float distanceX = loopForX - pos.x;
-        BG.LoopBackGround(distanceX);
+        foreach (var bg in BG) {
+            bg.LoopBackGround(distanceX);
+        }
         pos.x = loopForX;
         player.transform.position = pos;
     }

@@ -28,6 +28,9 @@ public class BackGroundScript : MonoBehaviour {
     [SerializeField]
     public float cameraRange;
 
+    [SerializeField]
+    bool isCreate;
+
     private void Start()
     {
         backObj = new GameObject("back");
@@ -51,6 +54,7 @@ public class BackGroundScript : MonoBehaviour {
     }
 
     private void Init() {
+        if (!isCreate) { return; }
         VisivleListInit(frontVisible);
         VisivleListInit(backVisible);
     }
@@ -159,15 +163,10 @@ public class BackGroundScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Vector3 move = Vector3.zero;
-        //デバッグ用
-        if (Input.GetKey(KeyCode.LeftArrow)) { move += new Vector3(-10, 0, 0) * Time.deltaTime; }
-        if (Input.GetKey(KeyCode.RightArrow)) { move += new Vector3(10, 0, 0) * Time.deltaTime; }
-        Player.transform.position = Player.transform.position + move;
-
         Vector3 pos = backDefPos + ((targetCamera.transform.position - cameraDefPos) * speed);
         backObj.transform.localPosition = pos;
 
+        if (!isCreate) { return; }
         VisivleListUpdate(frontVisible);
         VisivleListUpdate(backVisible);
     }

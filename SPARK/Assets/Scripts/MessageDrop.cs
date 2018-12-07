@@ -6,12 +6,18 @@ public class MessageDrop : Haru {
     [SerializeField]
     GameObject cameraTarget;
     [SerializeField]
-    GameObject prefab;
+    GameObject target;
 
     public override void MoveStart() {
         if (isMoveStart) { return; }
         //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
-        EventCamera.instance.StartEventCamera(cameraTarget, () => { haruADV.SetActive(true); GameObject item = Instantiate(prefab); item.transform.position = transform.position; } );
+        EventCamera.instance.StartEventCamera(cameraTarget, () => {
+            haruADV.SetActive(true);
+            target.SetActive(true);
+            Vector3 pos = target.transform.position;
+            target.transform.SetParent(null);
+            target.transform.position = pos;
+        } );
     }
 
     protected override void MoveEnd()

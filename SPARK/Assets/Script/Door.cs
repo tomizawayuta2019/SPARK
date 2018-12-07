@@ -75,7 +75,7 @@ public class Door : GimmickKind ,ISwitchObject
     {
         if (collision.gameObject.tag == "Player") {
             //プレイヤーの移動停止
-            player.GetComponent<PlayerController>().targetPosition = player.transform.position;
+            PlayerController.instance.targetPosition = player.transform.position;
         }
     }
 

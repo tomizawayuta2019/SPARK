@@ -32,6 +32,9 @@ public class GimmickMonster : MonoBehaviour {
     [SerializeField]
     StagePosition stagePosition;
 
+    [SerializeField]
+    private GameObject wall;//移動に邪魔な障害物
+
     private void Start()
     {
         transform.position = stagePosition.GetPosition();
@@ -61,23 +64,26 @@ public class GimmickMonster : MonoBehaviour {
 
     void MonsterMove()
     {
+        if (wall != null) { return; }
         transform.Translate(monsterSpeed*Time.deltaTime, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //ライトに当たったら、
-        if (collision.gameObject.tag == "Light")
-        {
-            //３秒後に死ぬ
-            IEnumerator coroutine = DeadMonster(3f);
-            StartCoroutine(coroutine);
-        }
-
-        //playerdead;
-        if (collision.gameObject.tag == "Player")
-        {
-            PlayerHit(collision.gameObject);
+        switch (collision.gameObject.tag) {
+            //ライトに当たったら、
+            case "Lught":
+                //３秒後に死ぬ
+                IEnumerator coroutine = DeadMonster(3f);
+                StartCoroutine(coroutine);
+                break;
+            case "Player":
+                PlayerHit(collision.gameObject);
+                break;
+            case "Wall":
+                wall = collision.gameObject;
+                GetAnim().SetTrigger("AttackTrigger");
+                break;
         }
     }
 
@@ -91,7 +97,7 @@ public class GimmickMonster : MonoBehaviour {
         monsterSpeed = 0;
         yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
 
-        transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathTrigger");
+        GetAnim().SetTrigger("DeathTrigger");
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
 
@@ -103,5 +109,9 @@ public class GimmickMonster : MonoBehaviour {
         while (monsterDestADV.activeSelf) { yield return null; }
         EventCamera.instance.EndEventCamera();
         yield return time;
+    }
+
+    private Animator GetAnim() {
+        return transform.GetChild(0).GetComponent<Animator>();
     }
 }
