@@ -4,22 +4,22 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>name1</Person>
+			<Person>Kiriya</Person>
 			<Position>Left</Position>
 			<Contents>xml配列化のテストです</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>name2</Person>
+			<Person>Yaku</Person>
 			<Position>Right</Position>
 			<Contents>よろしくおねがいします</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>2</Id>
-			<Person>name1</Person>
-			<Position>Left</Position>
+			<Person>empty</Person>
+			<Position>empty</Position>
 			<Contents>尺あまり</Contents>
 			<Command>empty</Command>
 		</item>

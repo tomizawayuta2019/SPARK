@@ -7,6 +7,7 @@ using UnityEngine;
 
 /*
  *  XMLをロードしてシナリオデータを保持しておくスクリプト
+ *  現段階ではシングルトンだが、将来的にScriptableObjectに移行する予定
  */
 
 public enum XMLIndex
@@ -18,7 +19,22 @@ public enum XMLIndex
     Command
 }
 
-public class XMLLoad:MonoBehaviour
+public enum Position
+{
+    Left = 0,
+    Bottom,
+    Right,
+    empty
+}
+
+public enum Chara
+{
+    Yaku = 0,
+    Kiriya,
+    empty
+}
+
+public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
 {
     //xmlファイルを入れる場所
     [SerializeField]
@@ -27,24 +43,23 @@ public class XMLLoad:MonoBehaviour
     //xmlから読み込まれたデータを入れる場所
     public List<ScenarioData> data = new List<ScenarioData>();
 
-    //早めに読まないとNull吐かれそうなのでAwakeで
-    //あとはstatic化
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-        StartLoad();
-    }
-
     //他のスクリプトにデータを渡す用
     //ここの戻り値に複数の型は入るのか
     //public 
 
     //読み込み開始
-    private void StartLoad()
+    public void StartLoad()
     {
         for (int i = 0; i < xml.Length; i++)
         {
-            LoadXml(xml[i].text);
+            if(xml[i] != null)
+            {
+                LoadXml(xml[i].text);
+            }
+            else
+            {
+                Debug.LogAssertion("XMLLoadのXml入れがnullです");
+            }
         }
     }
 
