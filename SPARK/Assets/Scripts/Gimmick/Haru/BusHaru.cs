@@ -11,8 +11,6 @@ public class BusHaru : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isEventEnd || collision.tag != "Player") { return; }
-
-        Debug.Log("start");
         anim.Play();
         isEventEnd = true;
     }

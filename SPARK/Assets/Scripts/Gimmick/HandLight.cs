@@ -12,7 +12,6 @@ public class HandLight : GimmickKind {
 
     public void EventStart() {
         isEvent = true;
-        Debug.Log("isEvent");
     }
 
     public override void Click()

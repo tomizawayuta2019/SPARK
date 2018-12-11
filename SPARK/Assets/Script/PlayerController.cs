@@ -55,7 +55,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             ItemObject item = NowItem.GetComponent<ItemObject>();
             if (item != null)
             {
-                itemBagController.PutInItemBag(item);
                 item.GetItem();
             }
             else {
