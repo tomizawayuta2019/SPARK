@@ -53,8 +53,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
 
             */
             ItemObject item = NowItem.GetComponent<ItemObject>();
-            if (item != null) {
+            if (item != null)
+            {
                 itemBagController.PutInItemBag(item);
+                item.GetItem();
+            }
+            else {
                 Destroy(NowItem);
             }
             

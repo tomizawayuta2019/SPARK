@@ -16,4 +16,10 @@ public class ItemObject : MonoBehaviour {
             rig = GetComponent<Rigidbody2D>();
         }
     }
+
+    public void GetItem() {
+        ChildEffect child = GetComponent<ChildEffect>();
+        if (child != null) { child.RemoveParent(); }
+        Destroy(gameObject);
+    }
 }
