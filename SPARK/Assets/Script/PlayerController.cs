@@ -18,6 +18,8 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public bool isHaveLight = false;
     [SerializeField]
     HandLight handLight;
+    [SerializeField]
+    PlayerAnimController playerAnimController;
     bool isWait = false;
     public void SetPlayerActive(bool condition)
     {
@@ -74,7 +76,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             if (Input.GetMouseButton(0))
             {
                 mousePosition = Input.mousePosition;
-                if(mousePosition.x>=0.0f&& mousePosition.x<=1920.0f&& mousePosition.y >= 0.0f && mousePosition.y <= 880.0f)
+                if (mousePosition.x >= 0.0f && mousePosition.x <= 1920.0f && mousePosition.y >= 0.0f && mousePosition.y <= 880.0f)
                 {
                     mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
                     targetPosition = new Vector2(mousePosition.x, transform.position.y);
@@ -82,10 +84,14 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             }
 
             PlayerRotationUpdata();
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
+            Vector3 defPos = transform.position;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed * TimeManager.DeltaTime);
+            playerAnimController.SetBool("IsWalk", Vector3.Distance(defPos, transform.position) > 0.001f);
             PlayerSearchMouse();
         }
-
+        else {
+            playerAnimController.SetBool("IsWalk", false);
+        }
     }
 
     /// <summary>
@@ -112,15 +118,12 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
 
     public void PlayerUpdata()
     {
-        if (PlayerActive == true)
+        PlayerMoveMouse(PlayerSpeed);
+        if (Input.GetKey(KeyCode.Space))
         {
-            PlayerMoveMouse(PlayerSpeed);
+            SetPlayerActive(true);
         }
-            if (Input.GetKey(KeyCode.Space))
-            {
-                SetPlayerActive(true);
-            }
-        
+
     }
 
     /// <summary>
@@ -156,6 +159,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 //ライトを持つ
                 isHaveLight = true;
                 handLight.gameObject.SetActive(true);
+                playerAnimController.SetTrigger("HaveLight");
                 break;
             default:
                 return false;
