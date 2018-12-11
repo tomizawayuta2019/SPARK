@@ -34,7 +34,6 @@ public class ChildEffect : MonoBehaviour {
         yield return null;
         while(anim.GetCurrentAnimatorStateInfo(0).fullPathHash == Animator.StringToHash(animName)) {
             yield return null;
-            Debug.Log("wait");
         }
 
         cmp();

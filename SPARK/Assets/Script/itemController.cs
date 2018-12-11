@@ -68,23 +68,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
             return;
         }
 
-        IItemUse targetItem = null;
-        GameObject hitObject = null;
-        List<GameObject> hitObjects = new List<GameObject>();
-        do {
-            var hit = Physics2D.Raycast(tapPoint, -Vector3.up);
-            if (hit.collider == null) { break; }
-            hitObject = hit.collider.gameObject;
-            if (hitObject == null) { break; }
-            hitObjects.Add(hitObject);
-            hitObject.SetActive(false);
-            targetItem = hitObject.GetComponent<IItemUse>();
-
-        } while (targetItem == null && hitObject != null);//レイの当たるオブジェクトが無くなるか、対象となるオブジェクトが取得できるまで
-        
-        foreach (GameObject hit in hitObjects) {
-            hit.SetActive(true);
-        }
+        IItemUse targetItem = MouseExt.GetMousePosGimmick<IItemUse>();
 
         if (targetItem == null || !targetItem.IsCanUseItem(state)) {
             returnPos();

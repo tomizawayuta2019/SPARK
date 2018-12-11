@@ -12,6 +12,8 @@ public class DelayedChange<T> : MonoBehaviour {
     [SerializeField]
     public bool isPlayOnAwake, isLoop, isBouns;
 
+    System.Action cmp;
+
     protected virtual void Awake()
     {
         if (!isPlayOnAwake) { return; }
@@ -27,6 +29,11 @@ public class DelayedChange<T> : MonoBehaviour {
     public void Play()
     {
         StartCoroutine(RotateChangeDelay(start, end));
+    }
+
+    public void Play(System.Action cmp) {
+        this.cmp = cmp;
+        Play();
     }
 
     public void Stop() {
@@ -84,6 +91,9 @@ public class DelayedChange<T> : MonoBehaviour {
             {
                 StartCoroutine(RotateChangeDelay(start, end));
             }
+        }
+        else if(cmp != null){
+            cmp();
         }
     }
 }

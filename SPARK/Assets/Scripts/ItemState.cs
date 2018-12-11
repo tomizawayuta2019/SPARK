@@ -20,6 +20,7 @@ public enum ItemType {
     diary,
     diary_open,
     red_lighting,
+    knife,
 }
 
 public enum GimmickType {

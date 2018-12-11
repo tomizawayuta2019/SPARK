@@ -51,7 +51,8 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager> , IItemUse{
             return;
         }
 
-        if (targetObject.ItemUse(item.item)) {
+        if (targetObject.ItemUse(item.item))
+        {
             Destroy(dragItem.gameObject);
         }
 
