@@ -170,6 +170,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
             _input = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
             if(_input && TextBoxWrite.instance.textBreaing && isShow)
             {
+                TextBoxWrite.instance.BreakPageIcon();
                 id++;
                 if(id == contentsList.Count)
                 {

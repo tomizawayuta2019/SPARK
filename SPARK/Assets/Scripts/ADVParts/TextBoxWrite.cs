@@ -28,7 +28,13 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
 
     //コルーチン
     private Coroutine textCor;
-    private Coroutine sendPageIconCor;
+    private Coroutine PageIconCor;
+
+    //アイコン
+    [SerializeField]
+    private GameObject textIcon;
+    private Transform textIconPos;
+    private GameObject icon;
 
     /// <summary>
     /// テキストボックスの表示
@@ -78,6 +84,7 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                     StopCoroutine(textCor);
                     textCor = null;
                     textBreaing = true;
+                    PageIconCor = StartCoroutine(PageIconMove());
                     yield break;
                 }
                 yield return new WaitForSeconds(textSpeed);
@@ -90,8 +97,31 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     }
 
     //右下のアレ
-    private IEnumerator sendPageIconMove()
+    private IEnumerator PageIconMove()
     {
-        yield return null;
+        icon = Instantiate(textIcon);
+        textIconPos = ShowScript.instance.textBox.transform.Find("pos_Icon");
+        icon.transform.SetParent(textIconPos);
+        icon.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        Vector3 rot = icon.GetComponent<RectTransform>().eulerAngles;
+        while (true)
+        {
+            rot.x += 6;
+            rot.y += 6;
+            rot.z += 6;
+            icon.GetComponent<RectTransform>().eulerAngles = rot;
+            yield return null;
+        }
+    }
+
+    //右下のアレを止める
+    public void BreakPageIcon()
+    {
+        if(PageIconCor != null)
+        {
+            StopCoroutine(PageIconCor);
+            PageIconCor = null;
+            Destroy(icon);
+        }
     }
 }
