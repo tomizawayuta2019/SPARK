@@ -40,15 +40,25 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     /// テキストボックスの表示
     /// </summary>
     /// <param name="textBoxAnim">表示時のアニメーション</param>
-    public void ShowTextBox(int textBoxAnim = 0)
+    public IEnumerator TextBoxAnim(int textBoxAnim = 1)
     {
-        if(textBoxAnim == 0)
+        GameObject obj = ShowScript.instance.textBox.transform.Find("TextBox").gameObject;
+        ShowScript.instance.textBox.SetActive(true);
+        if (textBoxAnim == 0)
         {
-            ShowScript.instance.textBox.SetActive(true);
+            obj.GetComponent<CanvasGroup>().alpha = 1f;
+            yield break;
         }
         else
         {
-            //テキストボックスアニメーション
+            float alpha = 0f;
+            while (alpha <= 1f)
+            {
+                alpha += 0.04f;
+                obj.GetComponent<CanvasGroup>().alpha = alpha;
+                yield return null;
+            }
+            yield break;
         }
     }
 

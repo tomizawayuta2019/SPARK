@@ -130,9 +130,15 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         contentsList = activeData.Get_ContentsList();
         commandList = activeData.Get_CommandList();
 
-        TextBoxWrite.instance.ShowTextBox();
+        StartCoroutine(Show());
+    }
+
+    private IEnumerator Show()
+    {
+        yield return TextBoxWrite.instance.TextBoxAnim();
         TextBoxWrite.instance.UpdateTexts(id);
         CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
+        yield break;
     }
 
     private Sprite GetCharaImage(int id)
@@ -174,7 +180,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
                 id++;
                 if(id == contentsList.Count)
                 {
-                    Destroy(textBox);
+                    StartCoroutine(Destroy_TextBox());
                     isShow = false;
                 }
                 else
@@ -186,5 +192,18 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
             }
             yield return null;
         }
+    }
+
+    private IEnumerator Destroy_TextBox()
+    {
+        float alpha = 1f;
+        while (alpha >= 0f)
+        {
+            alpha -= 0.04f;
+            textBox.GetComponent<CanvasGroup>().alpha = alpha;
+            yield return null;
+        }
+        Destroy(textBox);
+        yield break;
     }
 }
