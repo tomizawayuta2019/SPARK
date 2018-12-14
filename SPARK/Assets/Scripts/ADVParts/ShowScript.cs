@@ -140,12 +140,12 @@ public class ShowScript : MonoBehaviour
         chara.transform.localPosition = Vector3.zero;
         chara.GetComponent<Image>().sprite = charaSprite[charaspr];
         //左右反転させる
-        if(/*左右反転するかどうか*/false)
-        {
-            Vector3 scale = chara.transform.localScale;
-            scale.x *= -1;
-            chara.transform.localScale = scale;
-        }
+        //if(/*左右反転するかどうか*/false)
+        //{
+        //    Vector3 scale = chara.transform.localScale;
+        //    scale.x *= -1;
+        //    chara.transform.localScale = scale;
+        //}
         stageChara[charapos] = chara;
     }
 

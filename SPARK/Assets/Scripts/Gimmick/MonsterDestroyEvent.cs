@@ -37,6 +37,7 @@ public class MonsterDestroyEvent : MonoBehaviour {
 
     private void Enter() {
         if (isEnterd) { return; }
+        if (PlayerController.instance == null) { return; }
         PlayerController.instance.MonsterDestroyEvent();
         isEnterd = true;
     }

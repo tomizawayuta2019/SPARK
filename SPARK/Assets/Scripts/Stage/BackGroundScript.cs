@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 背景（遠景・近景）表示と動作用クラス
 /// </summary>
-public class BackGroundScript : MonoBehaviour {
+public class BackGroundScript : CameraViewChangeObject {
     public Camera targetCamera;
     public GameObject Player;
     public SpriteRenderer back;
@@ -162,7 +162,7 @@ public class BackGroundScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void LateUpdate () {
+    public override void LateUpdate () {
         Vector3 pos = backDefPos + ((targetCamera.transform.position - cameraDefPos) * speed);
         backObj.transform.localPosition = pos;
 

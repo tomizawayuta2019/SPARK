@@ -5,12 +5,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CursorController : MonoBehaviour {
+public class CursorController : SingletonMonoBehaviour<CursorController> {
 
     //[SerializeField]
     //CursorEditorWindow cursorEditorWindow;
     public Texture2D normalCursor, itemCursor, itemGetCursor, itemUseCursor, gimmickCursor, nextADVCursor;
-    private static CursorController instance = null;
     private Dictionary<CursorType, Texture2D> cursorImageDict = null;
 
     public enum CursorType
@@ -23,8 +22,6 @@ public class CursorController : MonoBehaviour {
         nextADV,//ADVパートのページ送り
     }
 
-    public static CursorController Instance { get { return instance; } }
-
     //カーソルを指定したものに変化
     public void SetCursorImage(CursorType cursorType)
     {
@@ -32,8 +29,9 @@ public class CursorController : MonoBehaviour {
         Cursor.SetCursor(tex, Vector2.zero, CursorMode.Auto);
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         cursorImageDict = new Dictionary<CursorType, Texture2D>();
 
         cursorImageDict.Add(CursorType.normal, normalCursor);
@@ -51,36 +49,23 @@ public class CursorController : MonoBehaviour {
 
     public void CheckUI(Vector2 pos)
     {
-        List<GameObject> objList = new List<GameObject>();
         PointerEventData eventData = new PointerEventData(eventSystem);
         eventData.pressPosition = pos;
         eventData.position = pos;
 
         List<RaycastResult> list = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, list);
-        if (list.Count > 0)
+        for (int i = 0; i < list.Count; i++)
         {
-
-            for (int i = 0; i < list.Count; i++)
+            if (list[i].gameObject.tag == "Item")
             {
-                if (list[i].gameObject.tag == "Item")
-                {
-                    Debug.Log(list[i].gameObject.tag);
-                    SetCursorImage(CursorType.item);
-                    break;
-                }
-                else
-                {
-                    SetCursorImage(CursorType.normal);
-                }
-
-                //Debug.Log(list[i].gameObject.name);
-                
+                SetCursorImage(CursorType.item);
+                break;
             }
-        }
-        else
-        {
-            Debug.Log("没有UI");
+            else
+            {
+                SetCursorImage(CursorType.normal);
+            }
         }
     }
 

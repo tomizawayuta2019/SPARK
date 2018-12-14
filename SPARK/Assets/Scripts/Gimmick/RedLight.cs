@@ -17,7 +17,7 @@ public class RedLight : MonoBehaviour, IItemUse
 
     public bool IsCanUseItem(ItemState item)
     {
-        return true;
+        //return true;
         return !isEventEnd && item.itemType == ItemType.red_lighting;
     }
 

@@ -102,7 +102,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     /// </summary>
     /// <returns></returns>
     public bool IsEnterTargetPosition() {
-        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.001f;
+        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.01f;
     }
 
     private void PlayerRotationUpdata() {
