@@ -6,7 +6,7 @@ using UnityEngine;
 /// カメラを追従するクラス
 /// </summary>
 public class CompMainCamera : MonoBehaviour {
-    Vector3 defPos;
+    private Vector3 defPos;
 
     private void Awake()
     {

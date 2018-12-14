@@ -51,5 +51,6 @@ public class LoopGround : MonoBehaviour {
         }
         pos.x = loopForX;
         player.transform.position = pos;
+        GameController.instance.GetCameraController().CameraUpdate();
     }
 }

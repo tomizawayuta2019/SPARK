@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour {
         cameraMoveFlag = Player.GetComponent<PlayerController>().PlayerMoveFlag;
         cameraPosition = this.transform.position;
     }
+
     public void CameraMove(int moveFlag)
     {
         if (moveFlag == 1)

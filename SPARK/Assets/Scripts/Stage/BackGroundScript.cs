@@ -162,7 +162,7 @@ public class BackGroundScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void LateUpdate () {
         Vector3 pos = backDefPos + ((targetCamera.transform.position - cameraDefPos) * speed);
         backObj.transform.localPosition = pos;
 
