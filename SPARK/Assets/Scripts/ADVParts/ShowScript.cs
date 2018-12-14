@@ -122,6 +122,11 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     /// <param name="eventNum">イベントの番号</param>
     public void EventStart(int eventNum)
     {
+        if(isShow)
+        {
+            return;
+        }
+
         isShow = true;
         InitADV();
         activeData = XMLLoad.instance.data[eventNum];
