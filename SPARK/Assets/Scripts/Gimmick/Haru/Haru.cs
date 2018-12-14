@@ -58,12 +58,12 @@ public class Haru : MonoBehaviour {
     void Update () {
         if (!isMoveStart) { return; }
         if (waitTime > 0) {
-            waitTime -= Time.deltaTime;
+            waitTime -= TimeManager.DeltaTime;
             return;
         }
 
         Vector3 gotoPos = transform.position + new Vector3(10, 0, 0);
-        transform.position = Vector3.MoveTowards(transform.position, gotoPos, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, gotoPos, speed * TimeManager.DeltaTime);
 	}
 
     private void OnBecameInvisible()

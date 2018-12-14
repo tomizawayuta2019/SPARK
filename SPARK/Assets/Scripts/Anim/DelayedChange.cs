@@ -68,13 +68,13 @@ public class DelayedChange<T> : MonoBehaviour {
         UpdateValue(startValue);
         T value = startValue;
 
-        float nowTime = Time.deltaTime;
+        float nowTime = TimeManager.DeltaTime;
         while (nowTime < time)
         {
             value = LerpValue(start,end,nowTime / time);
             UpdateValue(value);
             yield return null;
-            nowTime += Time.deltaTime;
+            nowTime += TimeManager.DeltaTime;
         }
 
         value = end;

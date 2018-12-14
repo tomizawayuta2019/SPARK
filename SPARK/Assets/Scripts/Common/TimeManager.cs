@@ -15,6 +15,10 @@ public static class TimeManager {
     public static float DeltaTime {
         get {
             if (isStop) { return 0; }
+#if UNITY_EDITOR
+            timePer = Input.GetKeyDown(KeyCode.UpArrow) ? timePer + 0.2f : Input.GetKeyDown(KeyCode.DownArrow) ? timePer - 0.2f : timePer;
+            if (timePer < 0) { timePer = 0; }
+#endif
             return Time.deltaTime * timePer;
         }
     }

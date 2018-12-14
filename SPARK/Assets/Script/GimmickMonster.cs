@@ -65,7 +65,7 @@ public class GimmickMonster : MonoBehaviour {
     void MonsterMove()
     {
         if (wall != null) { return; }
-        transform.Translate(monsterSpeed*Time.deltaTime, 0, 0);
+        transform.Translate(monsterSpeed * TimeManager.DeltaTime, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

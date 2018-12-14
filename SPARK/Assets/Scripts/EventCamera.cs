@@ -57,7 +57,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         while (Mathf.Abs(transform.position.x - target.transform.position.x) > 0.1f) {
             Vector3 targetPos = transform.position;
             targetPos.x = target.transform.position.x;
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, 10 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, 10 * TimeManager.DeltaTime);
             yield return null;
         }
         comp();

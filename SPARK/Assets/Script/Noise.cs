@@ -49,13 +49,13 @@ public class Noise : MonoBehaviour
         alpha = start.a;
         renderer.material.color = color;
 
-        float nowTime = Time.deltaTime;
+        float nowTime = TimeManager.DeltaTime;
         while (nowTime < time) {
             color = Color.Lerp(start, end, nowTime / time);
             alpha = color.a;
             renderer.material.color = color;
             yield return null;
-            nowTime += Time.deltaTime;
+            nowTime += TimeManager.DeltaTime;
         }
 
         color = end;

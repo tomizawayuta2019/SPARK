@@ -25,7 +25,7 @@ public class RedMessage : MonoBehaviour {
         foreach (var item in textObjects) {
             while (time < item.time) {
                 yield return null;
-                time += Time.deltaTime;
+                time += TimeManager.DeltaTime;
             }
             item.obj.SetActive(true);
             time -= item.time;
