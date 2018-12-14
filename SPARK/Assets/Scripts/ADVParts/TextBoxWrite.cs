@@ -22,6 +22,8 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     //
     [System.NonSerialized]
     public bool textBreaing = false;
+    [System.NonSerialized]
+    public bool textWriting = false;
 
     //テキストの速さ
     [SerializeField]
@@ -82,16 +84,20 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
         {
             while (true)
             {
+                textWriting = true;
                 tgt = text.Substring(strLength, 1);
                 str = str + tgt;
                 ShowScript.instance.mainText.text = str;
                 strLength++;
                 if (tgt == "\n")
                 {
+                    textWriting = false;
+                    PageIconCor = StartCoroutine(PageIconMove());
                     break;
                 }
                 if (strLength >= text.Length)
                 {
+                    textWriting = false;
                     StopCoroutine(textCor);
                     textCor = null;
                     textBreaing = true;
@@ -102,6 +108,7 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
             }
             while (!ShowScript.instance._input)
             {
+
                 yield return null;
             }
         }
