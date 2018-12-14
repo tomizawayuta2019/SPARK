@@ -11,6 +11,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
     //CursorEditorWindow cursorEditorWindow;
     public Texture2D normalCursor, itemCursor, itemGetCursor, itemUseCursor, gimmickCursor, nextADVCursor;
     private Dictionary<CursorType, Texture2D> cursorImageDict = null;
+    private bool isUI;
 
     public enum CursorType
     {
@@ -47,7 +48,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
     public GraphicRaycaster m_CanvasUI;
     public EventSystem eventSystem;
 
-    public void CheckUI(Vector2 pos)
+    private void CheckUI(Vector2 pos)
     {
         PointerEventData eventData = new PointerEventData(eventSystem);
         eventData.pressPosition = pos;
@@ -69,6 +70,22 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
         }
     }
 
+    private void CheckGameObject() {
+        GameObject target = MouseExt.GetMousePosGameObject((obj) => {
+            if (obj.tag == "Item") { return true; }
+            return false;
+        });
+
+        if (target != null && target.tag == "Item")
+        {
+            SetCursorImage(CursorType.item);
+        }
+        else
+        {
+            SetCursorImage(CursorType.normal);
+        }
+    }
+
     // Use this for initialization
     void Start () {
         SetCursorImage(CursorType.normal);
@@ -76,6 +93,12 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckUI(Input.mousePosition);
+        if (isUI)
+        {
+            CheckUI(Input.mousePosition);
+        }
+        else {
+            CheckGameObject();
+        }
     }
 }
