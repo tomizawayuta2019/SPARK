@@ -10,7 +10,7 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
     private GameObject charaPrefab;
     
     //キャラの立ち絵を表示する
-    private void ShowChara(Sprite spr, Position charapos, Vector2 scale)
+    private IEnumerator ShowChara(Sprite spr, Position charapos, Vector2 scale, int anim = 1)
     {
         //基本構成
         GameObject chara = Instantiate(charaPrefab) as GameObject;
@@ -20,6 +20,21 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
         chara.transform.localPosition = Vector3.zero;
         chara.GetComponent<Image>().sprite = spr;
         chara.transform.localScale = scale;
+
+        chara.GetComponent<CanvasGroup>().alpha = 0f;
+
+        //if (anim == 1)
+        //{
+        //    float alpha = 0f;
+        //    chara.GetComponent<CanvasGroup>().alpha = alpha;
+        //    while (alpha <= 1f)
+        //    {
+        //        alpha += 0.02f;
+        //        chara.GetComponent<CanvasGroup>().alpha = alpha;
+        //        yield return null;
+        //    }
+        //}
+
         //左右反転させる
         if (/*左右反転するかどうか*/false)
         {
@@ -27,27 +42,47 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
             //scale.x *= -1;
         }
         ShowScript.instance.stageChara[(int)charapos] = chara;
+        yield break;
     }
 
     //メインキャラの切り替え
-    private void TalkingChara(int activeCharaNum)
+    private IEnumerator TalkingChara(int activeCharaNum)
     {
+        int time = 20;
+
+        List<CanvasGroup> canvasGroup = new List<CanvasGroup>();
+        List<float> alpha = new List<float>();
+        List<float> diffAlpha = new List<float>();
+
         for (int i = 0; i < ShowScript.instance.stageChara.Length; i++)
         {
-            CanvasGroup canvasgroup = null;
             if (ShowScript.instance.stageChara[i] != null)
             {
-                canvasgroup = ShowScript.instance.stageChara[i].GetComponent<CanvasGroup>();
+                canvasGroup.Add(ShowScript.instance.stageChara[i].GetComponent<CanvasGroup>());
+                alpha.Add(canvasGroup[canvasGroup.Count - 1].alpha);
+
                 if (i == activeCharaNum)
                 {
-                    canvasgroup.alpha = 1f;
+                    diffAlpha.Add((1f - alpha[alpha.Count - 1]) / time);
                 }
                 else
                 {
-                    canvasgroup.alpha = 0.5f;
+                    diffAlpha.Add((0.5f - alpha[alpha.Count - 1]) / time);
                 }
             }
         }
+
+        while (time > 0)
+        {
+            time--;
+            for(int i = 0; i < canvasGroup.Count; i++)
+            {
+                alpha[i] += diffAlpha[i];
+                canvasGroup[i].alpha = alpha[i];
+            }
+            yield return null;
+        }
+        yield break;
     }
 
     //そのポジション(配列)に同じキャラがいるか
@@ -61,14 +96,15 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
     }
 
     //キャラを切り替え
-    public void CharaChange(int id, Sprite spr, Vector2 scale)
+    public IEnumerator CharaChange(int id, Sprite spr, Vector2 scale)
     {
         //キャラがまだ表示されてなかったら開く
         if (ShowScript.instance.positionList[id] != Position.empty &&
             Is_StayChara((int)ShowScript.instance.positionList[id]) == false)
         {
-            ShowChara(spr ,ShowScript.instance.positionList[id], scale);
+            yield return ShowChara(spr, ShowScript.instance.positionList[id], scale);
         }
-        TalkingChara((int)ShowScript.instance.positionList[id]);
+        yield return TalkingChara((int)ShowScript.instance.positionList[id]);
+        yield break;
     }
 }

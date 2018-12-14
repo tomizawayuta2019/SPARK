@@ -136,8 +136,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     private IEnumerator Show()
     {
         yield return TextBoxWrite.instance.TextBoxAnim();
+        yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
         TextBoxWrite.instance.UpdateTexts(id);
-        CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
         yield break;
     }
 
@@ -186,8 +186,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
                 else
                 {
                     StartCoroutine(CustomEvent());
+                    yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
                     TextBoxWrite.instance.UpdateTexts(id);
-                    CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
                 }
             }
             yield return null;

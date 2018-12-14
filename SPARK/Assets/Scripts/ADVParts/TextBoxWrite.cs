@@ -20,6 +20,7 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     private ScenarioData activeData;
 
     //
+    [System.NonSerialized]
     public bool textBreaing = false;
 
     //テキストの速さ
