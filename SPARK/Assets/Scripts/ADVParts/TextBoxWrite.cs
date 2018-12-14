@@ -38,6 +38,9 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     private GameObject textIcon;
     private Transform textIconPos;
     private GameObject icon;
+    
+    [SerializeField]
+    private bool isLineBreakIgnore;
 
     /// <summary>
     /// テキストボックスの表示
@@ -89,7 +92,7 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 str = str + tgt;
                 ShowScript.instance.mainText.text = str;
                 strLength++;
-                if (tgt == "\n")
+                if (tgt == "\n" && !isLineBreakIgnore)
                 {
                     textWriting = false;
                     PageIconCor = StartCoroutine(PageIconMove());
