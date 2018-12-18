@@ -21,6 +21,8 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     int currenttextNum = 0;
     [SerializeField]
     GameObject diaryADV;
+    [SerializeField]
+    Piano piano;
 
     /// <summary>
     /// ウィンドウ開く
@@ -96,8 +98,13 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     }
 
     public void Click() {
-        if (target.state.itemType == ItemType.diary) {
-            target.ExChange();
+        switch (target.state.itemType) {
+            case ItemType.diary:
+                target.ExChange();
+                break;
+            case ItemType.piano:
+                piano.Click();
+                break;
         }
     }
 }

@@ -34,6 +34,10 @@ public class Piano : GimmickKind {
     bool checkKey;// 指定した鍵盤かどうかの判定用
     [SerializeField]
     private GameObject latterButton;// 手紙をとるボタン。ピアノの状態を確認して消す
+    int[] pushCount = new int[8];
+
+    [SerializeField]
+    ItemObject item;
 
     // pianoの状態
     private enum PianoState
@@ -76,9 +80,7 @@ public class Piano : GimmickKind {
     public override void Click()
     {
         base.Click();
-        SetUp();
-        
-    }
+        SetUp();    }
 
     /// <summary>
     /// 対応の鍵盤をクリックした際にウィンドウを出す(ABF)
@@ -87,7 +89,6 @@ public class Piano : GimmickKind {
     {
         latterButton.SetActive(false);
         yesInt = i;
-        Debug.Log("YesInt->" + yesInt.ToString());
         checkKey = true;
         pianoWindow.SetActive(true);
     }
@@ -102,6 +103,8 @@ public class Piano : GimmickKind {
     }
     public void SoundButton(int i)
     {
+        if (pushCount[i] > 3 && (i == 1 || i == 2 || i == 5)) { return; }
+        pushCount[i]++;
         AS.PlayOneShot(pianosSound[i]);
     }
     /// <summary>
@@ -131,12 +134,6 @@ public class Piano : GimmickKind {
             // ADVとピアノぱかー
             pianoImage.sprite = pianoSprite[(int)pianoImageState];
             StartCoroutine(PianoAnimation(0.5f));
-            
-            Debug.Log("正解");
-        }
-        else // デバッグ用
-        {
-            Debug.Log("現在外した鍵盤→"+answerInt.ToString());
         }
     }
     /// <summary>
@@ -169,7 +166,6 @@ public class Piano : GimmickKind {
         pianoImage.sprite = pianoSprite[(int)++pianoImageState];
         yield return new WaitForSeconds(wait);
         pianoImage.sprite = pianoSprite[(int)++pianoImageState];
-        Debug.Log("からあげ->"+pianoImageState);
     }
     /// <summary>
     /// ボタン用の手紙をゲットするやつ
@@ -177,6 +173,7 @@ public class Piano : GimmickKind {
     public void GetLetter()
     {
         // アイテムの取得的なのここに
+        if (item != null) { item.GetItem(); }
 
         // ピアノの絵を変更
         if (pianoImageState == PianoState.b1001) {

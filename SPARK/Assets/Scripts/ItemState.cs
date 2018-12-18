@@ -22,6 +22,7 @@ public enum ItemType {
     red_lighting,
     knife,
     brooch,
+    piano,
 }
 
 public enum GimmickType {
