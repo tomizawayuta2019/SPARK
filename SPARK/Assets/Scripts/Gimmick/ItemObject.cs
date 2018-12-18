@@ -8,7 +8,7 @@ public class ItemObject : MonoBehaviour {
     [SerializeField]
     public ItemState state;
 
-    public void GetItem() {
+    public virtual void GetItem() {
         ItemBagController.instance.PutInItemBag(this);
         ChildEffect child = GetComponent<ChildEffect>();
         if (child != null) { child.RemoveParent(); }

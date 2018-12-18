@@ -62,9 +62,10 @@ public class Haru : MonoBehaviour {
             return;
         }
 
-        Vector3 gotoPos = transform.position + new Vector3(speed, 0, 0);
-        transform.position = Vector3.MoveTowards(transform.position, gotoPos,TimeManager.DeltaTime);
-	}
+        Vector3 gotoPos = transform.position + new Vector3(speed * TimeManager.DeltaTime, 0, 0);
+        //transform.position = Vector3.MoveTowards(transform.position, gotoPos,TimeManager.DeltaTime);
+        transform.position = gotoPos;
+    }
 
     private void OnBecameInvisible()
     {
