@@ -6,6 +6,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public float PlayerSpeed;
     public int PlayerMoveFlag = 1;
     public bool PlayerActive;
+    public bool PlayerInputActive = true;
     
     public GameObject NowItem;
     public GameObject mainCamera;
@@ -76,7 +77,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
         //Vector3 Position = this.GetComponent<Transform>().position;
         if (PlayerActive)
         {
-            if (Input.GetMouseButton(0))
+            if (PlayerInputActive && Input.GetMouseButton(0))
             {
                 mousePosition = Input.mousePosition;
                 if (mousePosition.x >= 0.0f && mousePosition.x <= 1920.0f && mousePosition.y >= 0.0f && mousePosition.y <= 880.0f)

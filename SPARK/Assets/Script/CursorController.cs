@@ -82,7 +82,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
         }
         else
         {
-            SetCursorImage(CursorType.normal);
+            CheckUI(Input.mousePosition);
         }
     }
 

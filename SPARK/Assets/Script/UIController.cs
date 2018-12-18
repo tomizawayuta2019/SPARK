@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIController : SingletonMonoBehaviour<UIController> {
     public List<GameObject> list;
     [SerializeField]
-    public bool isCanInput = true;
+    private bool isCanInput = true;
     public bool IsCanInput { get {
             list.RemoveAll((item) => item == null);
             return list.Count == 0; ;
