@@ -25,7 +25,7 @@ public class Clows : GimmickKind {
     }
 
     List<Bird> birds =new List<Bird>();
-
+    
 
     private void Start()
     {
@@ -74,7 +74,7 @@ public class Clows : GimmickKind {
         bird.Anime.SetInteger("FlyType", (int)bird.type);
         yield return new WaitForSeconds(1);
         bird.clow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipX = false;
-
+        bird.Anime.SetInteger("FlyType", 0);
 
     }
 }

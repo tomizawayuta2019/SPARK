@@ -18,7 +18,7 @@ public class Brooch : GimmickKind
     //デバッグ用
     public override void Click()
     { 
-        //StartCoroutine(PosMove(Clow.transform.position));
+        StartCoroutine(PosMove(Clow.transform.position));
     }
     /// <summary>
     /// プレイヤーの位置からブローチを投げる
