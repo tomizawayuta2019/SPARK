@@ -16,6 +16,8 @@ public class Door : GimmickKind ,ISwitchObject
     [SerializeField]
     GameObject doorWorningADV;
     [SerializeField]
+    ShowScript show;
+    [SerializeField]
     GameObject openSprite;
 
     //クリックされたら
@@ -27,6 +29,7 @@ public class Door : GimmickKind ,ISwitchObject
         {
             //ADV表示
             doorWorningADV.gameObject.SetActive(true);
+            show.Restart();
             return;
         }
 

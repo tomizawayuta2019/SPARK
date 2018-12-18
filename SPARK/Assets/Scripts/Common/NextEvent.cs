@@ -7,6 +7,8 @@ public class NextEvent : MonoBehaviour {
     List<GameObject> eventObjs;
     [SerializeField]
     CallType type;
+    [SerializeField]
+    bool isActive = true;
 
     public enum CallType {
         Awake,
@@ -32,10 +34,16 @@ public class NextEvent : MonoBehaviour {
         StartNextEvent();
     }
 
+    private void OnDisable()
+    {
+        if (type != CallType.Destroy) { return; }
+        StartNextEvent();
+    }
+
     private void StartNextEvent() {
         foreach (GameObject obj in eventObjs) {
             if (obj == null) { continue; }
-            obj.SetActive(true);
+            obj.SetActive(isActive);
         }
     }
 }

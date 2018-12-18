@@ -75,8 +75,8 @@ public class Haru : MonoBehaviour {
     protected virtual void MoveEnd() {
         haruADV.SetActive(true);
         isMoveEnd = true;
-        //gameObject.SetActive(false);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 
     IEnumerator MoveStartAction() {

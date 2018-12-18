@@ -10,8 +10,6 @@ public class ReturnADV : MonoBehaviour {
     GameObject ADV;
     [SerializeField]
     ShowScript showScript;
-
-    [SerializeField]
     bool isWait = false;
 
     private void OnTriggerEnter2D(Collider2D collision)

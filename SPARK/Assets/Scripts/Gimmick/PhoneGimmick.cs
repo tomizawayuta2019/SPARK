@@ -22,6 +22,9 @@ public class PhoneGimmick : GimmickKind {
     [SerializeField]
     MessageDrop messageDrop;
 
+    [SerializeField]
+    GameObject returnPos;
+
     bool isEvent = false;
 
     public override void Click()
@@ -79,6 +82,8 @@ public class PhoneGimmick : GimmickKind {
         sr.color = color;
 
         messageDrop.MoveStart();
+
+        returnPos.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

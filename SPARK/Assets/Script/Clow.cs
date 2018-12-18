@@ -20,17 +20,10 @@ public class Clow : GimmickKind {
         Count += Random.Range(0f, 1.1f) * Time.deltaTime;
         if (Count >= 4.0f)
         {
-            if (gameObject.transform.localScale.x >= 0)
-            {
-                gameObject.transform.localScale = new Vector3(-gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-                
-            }
-            else{
-                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-            }
-
+            Vector3 scale = gameObject.transform.localScale;
+            gameObject.transform.localScale = new Vector3(-scale.x, scale.y, scale.z);
+            Count = 0;
         }
-        else { Count = 0; }
 	}
 
 }

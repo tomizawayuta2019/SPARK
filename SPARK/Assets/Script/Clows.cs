@@ -25,6 +25,9 @@ public class Clows : GimmickKind {
     }
 
     List<Bird> birds =new List<Bird>();
+
+    [SerializeField]
+    GameObject item;
     
 
     private void Start()
@@ -60,8 +63,6 @@ public class Clows : GimmickKind {
         float time = 0f;
         foreach(Bird bird in birds)
         {
-           
-            Debug.Log("obj="+bird.clow +"\nfloat=" + (float)bird.type);
             time = Random.Range(0.0f,1.0f);
             StartCoroutine(FlyClow(time, bird));
         }
@@ -72,10 +73,11 @@ public class Clows : GimmickKind {
         yield return new WaitForSeconds(wait);
         if ((float)bird.type <= 1) { bird.clow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipX = true; }
         bird.Anime.SetInteger("FlyType", (int)bird.type);
+        bird.Anime.SetTrigger("FlyTrigger");
         yield return new WaitForSeconds(1);
         bird.clow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipX = false;
-        bird.Anime.SetInteger("FlyType", 0);
 
+        item.SetActive(true);
     }
 }
 

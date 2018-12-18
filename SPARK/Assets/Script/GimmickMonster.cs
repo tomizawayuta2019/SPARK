@@ -20,6 +20,9 @@ public class GimmickMonster : MonoBehaviour {
     }
 
     [SerializeField]
+    int HP = 1;
+
+    [SerializeField]
     float monsterSpeed = 0.3f;
     [SerializeField]
     GameObject dropItem;
@@ -74,8 +77,11 @@ public class GimmickMonster : MonoBehaviour {
             //ライトに当たったら、
             case "Lught":
                 //３秒後に死ぬ
-                IEnumerator coroutine = DeadMonster(3f);
-                StartCoroutine(coroutine);
+                HP -= 1;
+                if (HP <= 0) {
+                    IEnumerator coroutine = DeadMonster(3f);
+                    StartCoroutine(coroutine);
+                }
                 break;
             case "Player":
                 PlayerHit(collision.gameObject);
@@ -109,6 +115,25 @@ public class GimmickMonster : MonoBehaviour {
         while (monsterDestADV.activeSelf) { yield return null; }
         EventCamera.instance.EndEventCamera();
         yield return time;
+    }
+
+    //　time秒後に死ぬ（time中にドロドロした演出を入れる）
+    public IEnumerator StopMonster(float time)
+    {
+        float swap = monsterSpeed;
+        monsterSpeed = 0;
+        yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
+
+        GetAnim().SetTrigger("DeathTrigger");
+        yield return new WaitForSeconds(time);
+
+        monsterDestADV.SetActive(true);
+
+        while (monsterDestADV.activeSelf) { yield return null; }
+        EventCamera.instance.EndEventCamera();
+        yield return time;
+
+        monsterSpeed = swap;
     }
 
     private Animator GetAnim() {

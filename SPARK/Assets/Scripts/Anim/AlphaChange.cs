@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class AlphaChange : DelayedChange<float> {
     [SerializeField]
-    Image image;
+    MaskableGraphic image;
     [SerializeField]
     SpriteRenderer sr;
 
     protected override void Awake()
     {
-        image = GetComponent<Image>();
+        image = GetComponent<MaskableGraphic>();
         sr = GetComponent<SpriteRenderer>();
         base.Awake();
     }

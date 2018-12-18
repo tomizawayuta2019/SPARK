@@ -26,6 +26,7 @@ public class MessageDrop : Haru {
     {
         base.MoveEnd();
         EventCamera.instance.EndEventCamera();
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
