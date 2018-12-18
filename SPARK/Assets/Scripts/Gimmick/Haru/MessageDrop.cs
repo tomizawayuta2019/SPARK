@@ -10,14 +10,16 @@ public class MessageDrop : Haru {
 
     public override void MoveStart() {
         if (isMoveStart) { return; }
-        //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
-        EventCamera.instance.StartEventCamera(cameraTarget, () => {
+        System.Action comp = () => {
             haruADV.SetActive(true);
             target.SetActive(true);
             Vector3 pos = target.transform.position;
             target.transform.SetParent(null);
             target.transform.position = pos;
-        } );
+        };
+        //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
+        if (cameraTarget != null) { EventCamera.instance.StartEventCamera(cameraTarget, comp); }
+        else { comp(); }
     }
 
     protected override void MoveEnd()

@@ -43,6 +43,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
     }
 
     public void EndEventCamera() {
+        if (coroutine == null) { return; }
         StopCoroutine(coroutine);
         StartCoroutine(MoveToTarget(Main.gameObject, 
             () => {

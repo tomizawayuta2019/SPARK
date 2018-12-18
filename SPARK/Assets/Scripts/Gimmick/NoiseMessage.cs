@@ -10,16 +10,7 @@ public class NoiseMessage : MonoBehaviour {
     [SerializeField]
     Color[] colors = new Color[3];
 
-    //private void Start()
-    //{
-    //    NoiseEventStart();
-    //}
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag != "Player") { return; }
-        NoiseEventStart();
-    }
+    System.Action compCallback = null;
 
     public void NoiseEventStart() {
         noise.gameObject.SetActive(true);
@@ -27,9 +18,24 @@ public class NoiseMessage : MonoBehaviour {
         StartCoroutine(Event());
     }
 
+    public void NoiseEventStart(System.Action comp)
+    {
+        compCallback = comp;
+        NoiseEventStart();
+    }
+
     IEnumerator Event() {
         yield return StartCoroutine(noise.ChangeColor(colors[0], colors[1], 2));
         yield return StartCoroutine(message.ObjDisp());
         yield return StartCoroutine(noise.ChangeColor(colors[1], colors[2], 2));
+        yield return StartCoroutine(noise.ChangeColor(colors[2], colors[0], 2));
+
+        if (compCallback != null) {
+            compCallback();
+            compCallback = null;
+        }
+
+        noise.gameObject.SetActive(false);
+        message.gameObject.SetActive(false);
     }
 }

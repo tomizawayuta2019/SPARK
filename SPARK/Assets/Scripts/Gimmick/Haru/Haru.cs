@@ -62,8 +62,8 @@ public class Haru : MonoBehaviour {
             return;
         }
 
-        Vector3 gotoPos = transform.position + new Vector3(10, 0, 0);
-        transform.position = Vector3.MoveTowards(transform.position, gotoPos, speed * TimeManager.DeltaTime);
+        Vector3 gotoPos = transform.position + new Vector3(speed, 0, 0);
+        transform.position = Vector3.MoveTowards(transform.position, gotoPos,TimeManager.DeltaTime);
 	}
 
     private void OnBecameInvisible()
@@ -74,7 +74,8 @@ public class Haru : MonoBehaviour {
     protected virtual void MoveEnd() {
         haruADV.SetActive(true);
         isMoveEnd = true;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     IEnumerator MoveStartAction() {
