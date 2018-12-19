@@ -12,11 +12,6 @@ public class Door : GimmickKind ,ISwitchObject
     [SerializeField]
     bool isOpen = false;
     public bool IsOpen { get { return isOpen; } }
-
-    [SerializeField]
-    GameObject doorWorningADV;
-    [SerializeField]
-    ShowScript show;
     [SerializeField]
     GameObject openSprite;
 
@@ -28,8 +23,7 @@ public class Door : GimmickKind ,ISwitchObject
         if (!isOpen)
         {
             //ADV表示
-            doorWorningADV.gameObject.SetActive(true);
-            show.Restart();
+            ShowScript.instance.EventStart(ShowScript.ADVType.Return_Erectric);
             return;
         }
 

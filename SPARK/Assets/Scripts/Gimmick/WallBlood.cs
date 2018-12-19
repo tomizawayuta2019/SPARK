@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WallBlood : GimmickKind {
-    [SerializeField]
-    GameObject ADVObject;
-
-    [SerializeField]
-    ShowScript showScript;
 
     [SerializeField]
     GameObject dropItem;
@@ -36,8 +31,7 @@ public class WallBlood : GimmickKind {
         base.Click();
 
         //文字の説明ADV
-        ADVObject.SetActive(true);
-        showScript.Restart();
+        ShowScript.instance.EventStart(ShowScript.ADVType.RedMessage_Read);
 
         DropItem();
     }

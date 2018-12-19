@@ -14,11 +14,6 @@ public class Movie : GimmickKind ,IItemUse
     private Sprite[] MovieSprites = new Sprite[2];
 
     [SerializeField]
-    GameObject ADV, movieADV;
-    [SerializeField]
-    ShowScript show, movieShow;
-
-    [SerializeField]
     GameObject finalEvent,monster;
 
     public override void Click()
@@ -39,8 +34,7 @@ public class Movie : GimmickKind ,IItemUse
         Noise.SetActive(true);
         check = true;
 
-        movieADV.SetActive(true);
-        movieShow.Restart();
+        ShowScript.instance.EventStart(ShowScript.ADVType.Movie_Start);
 
         StartCoroutine(Event());
 
@@ -48,7 +42,7 @@ public class Movie : GimmickKind ,IItemUse
     }
 
     IEnumerator Event() {
-        while (movieADV.activeSelf) {
+        while (ShowScript.instance.GetIsShow()) {
             yield return null;
         }
 

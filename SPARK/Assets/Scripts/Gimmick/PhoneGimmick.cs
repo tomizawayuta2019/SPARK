@@ -5,10 +5,6 @@ using UnityEngine;
 public class PhoneGimmick : GimmickKind {
     bool isPlayer = false;
     [SerializeField]
-    GameObject ADV;
-    [SerializeField]
-    ShowScript show;
-    [SerializeField]
     NoiseMessage noise;
 
     [SerializeField]
@@ -38,10 +34,9 @@ public class PhoneGimmick : GimmickKind {
     }
 
     IEnumerator Event() {
-        ADV.SetActive(true);
-        show.Restart();
+        ShowScript.instance.EventStart(ShowScript.ADVType.Phone_Start);
 
-        while (ADV.activeSelf) {
+        while (ShowScript.instance.GetIsShow()) {
             yield return null;
         }
 

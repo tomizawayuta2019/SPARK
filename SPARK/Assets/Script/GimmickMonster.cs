@@ -28,9 +28,7 @@ public class GimmickMonster : MonoBehaviour {
     GameObject dropItem;
     bool isCamera = true;//モンスターにカメラが追従中か
     [SerializeField]
-    GameObject monsterStartADV;
-    [SerializeField]
-    GameObject monsterDestADV;
+    ShowScript.ADVType startADV,deathADV;
 
     [SerializeField]
     StagePosition stagePosition;
@@ -41,12 +39,11 @@ public class GimmickMonster : MonoBehaviour {
     private void Start()
     {
         transform.position = stagePosition.GetPosition();
-        ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
-        show.SetAction(new List<ShowTextAction>() {
+        ShowScript.instance.SetAction(new List<ShowTextAction>() {
             MonsterStart
         });
 
-        monsterStartADV.SetActive(true);
+        ShowScript.instance.EventStart(startADV);
     }
 
     IEnumerator MonsterStart() {
@@ -59,7 +56,7 @@ public class GimmickMonster : MonoBehaviour {
     void Update () {
         //モンスターが動くよ
         MonsterMove();
-        if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+        if (ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }
@@ -110,9 +107,9 @@ public class GimmickMonster : MonoBehaviour {
         GameObject item = Instantiate(dropItem);
         item.transform.position = transform.position;
 
-        monsterDestADV.SetActive(true);
+        ShowScript.instance.EventStart(deathADV);
 
-        while (monsterDestADV.activeSelf) { yield return null; }
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
         EventCamera.instance.EndEventCamera();
         yield return time;
     }
@@ -127,9 +124,9 @@ public class GimmickMonster : MonoBehaviour {
         GetAnim().SetTrigger("DeathTrigger");
         yield return new WaitForSeconds(time);
 
-        monsterDestADV.SetActive(true);
+        ShowScript.instance.EventStart(deathADV);
 
-        while (monsterDestADV.activeSelf) { yield return null; }
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
         EventCamera.instance.EndEventCamera();
         yield return time;
 

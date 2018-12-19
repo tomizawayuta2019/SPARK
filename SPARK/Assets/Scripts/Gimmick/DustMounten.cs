@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DustMounten : GimmickKind ,IItemUse {
-    [SerializeField]
-    GameObject ADV;
-    [SerializeField]
-    ShowScript show;
 
     [SerializeField]
     ItemObject item;
@@ -16,8 +12,7 @@ public class DustMounten : GimmickKind ,IItemUse {
         if (item == null) { return; }
         base.Click();
 
-        ADV.SetActive(true);
-        show.Restart();
+        ShowScript.instance.EventStart(ShowScript.ADVType.ItemUse_Knife);
     }
 
     public bool IsCanUseItem(ItemState item)

@@ -6,78 +6,96 @@ using System.Xml;
 using UnityEngine;
 
 /*
- *  XMLをロードする
+ *  XMLをロードしてシナリオデータを保持しておくスクリプト
+ *  現段階ではシングルトンだが、将来的にScriptableObjectに移行する予定
  */
 
-public class XMLLoad:MonoBehaviour
+public enum XMLIndex
 {
+    Id = 0,
+    Person,
+    Position,
+    Contents,
+    Command
+}
+
+public enum Position
+{
+    Left = 0,
+    Bottom,
+    Right,
+    empty
+}
+
+public enum Chara
+{
+    Yaku = 0,
+    Kiriya,
+    empty
+}
+
+public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
+{
+    //xmlファイルを入れる場所
     [SerializeField]
-    private TextAsset xml;
-    private enum XMLIndex
+    private TextAsset[] xml;
+    public ShowScript.ADVType[] advTypes;
+
+    //xmlから読み込まれたデータを入れる場所
+    public List<ScenarioData> data = new List<ScenarioData>();
+
+    //他のスクリプトにデータを渡す用
+    //ここの戻り値に複数の型は入るのか
+    //public 
+
+    //読み込み開始
+    public void StartLoad()
     {
-        Id = 0,
-        Person,
-        Position,
-        Contents,
-        Command
-    }
-    
-    [SerializeField]
-    private List<string> personList_Before = new List<string>();
-    private List<string> positionList_Before = new List<string>();
-    private List<string> contentsList = new List<string>();
-    private List<string> commandList = new List<string>();
-
-    private List<ShowScript.Chara> personList = new List<ShowScript.Chara>();
-    private List<ShowScript.Potision> positionList = new List<ShowScript.Potision>();
-
-    XmlElement element;
-
-    private void Awake()
-    {
-        LoadXml(xml.text);
-        Person_ListChange();
-        Potision_ListChange();
+        for (int i = 0; i < xml.Length; i++)
+        {
+            if(xml[i] != null)
+            {
+                LoadXml(xml[i].text);
+            }
+            else
+            {
+                Debug.LogAssertion("XMLLoadのXml入れがnullです");
+            }
+        }
     }
 
-    public List<ShowScript.Chara> GetPersonList()
-    {
-        return personList;
-    }
-
-    public List<ShowScript.Potision> GetPotisionList()
-    {
-        return positionList;
-    }
-
-    public List<string> GetContentsList()
-    {
-        return contentsList;
-    }
-
-    public List<string> GetCommandList() {
-        return commandList;
-    }
-
+    //xmlを読み込む本体
     private void LoadXml(string xmlText)
     {
+        List<Chara> personList = new List<Chara>();
+        List<Position> positionList = new List<Position>();
+        List<string> contentsList = new List<string>();
+        List<string> commandList = new List<string>();
+
         var xml = new XmlDocument();
+        //ここのLoadXmlは別物
         xml.LoadXml(xmlText);
 
-        element = xml.DocumentElement;
-        
-        //var filter = element.GetElementsByTagName("test2");
+        XmlElement element = xml.DocumentElement;
 
-        personList_Before = SetList(XMLIndex.Person);
-        positionList_Before = SetList(XMLIndex.Position);
-        contentsList = SetList(XMLIndex.Contents);
-        commandList = SetList(XMLIndex.Command);
+        personList = Person_ListChange(SetList(XMLIndex.Person, element));
+        positionList = Position_ListChange(SetList(XMLIndex.Position, element));
+        contentsList = SetList(XMLIndex.Contents, element);
+        commandList = SetList(XMLIndex.Command, element);
 
-        Person_ListChange();
+        ScenarioData result = new ScenarioData();
+
+        result.Set_XmlElement(element);
+        result.Set_PersonList(personList);
+        result.Set_PositionList(positionList);
+        result.Set_ContentsList(contentsList);
+        result.Set_CommandList(commandList);
+
+        data.Add(result);
     }
 
     //リストを返す
-    private List<string> SetList(XMLIndex index)
+    private List<string> SetList(XMLIndex index, XmlElement element)
     {
         List<string> list = new List<string>();
         var contents = element.GetElementsByTagName(index.ToString());
@@ -98,35 +116,45 @@ public class XMLLoad:MonoBehaviour
     }
 
     //リストの変換
-    private void Person_ListChange()
+    //Parseに失敗したら、emptyを代わりに代入する
+    private List<Chara> Person_ListChange(List<string> str)
     {
-        for(int i = 0; i < personList_Before.Count; i++)
+        List<Chara> result = new List<Chara>();
+        for(int i = 0; i < str.Count; i++)
         {
-            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
             try
             {
-                personList.Add((ShowScript.Chara)Enum.Parse(typeof(ShowScript.Chara),
-                personList_Before[i], true));
+                result.Add((Chara)Enum.Parse(typeof(Chara), str[i], true));
             }
-            catch {
+            catch
+            {
                 Debug.LogAssertion("キャラ画像の名前が正しくありません");
+                result.Add(Chara.empty);
             }
         }
+        return result;
     }
 
-    private void Potision_ListChange()
+    private List<Position> Position_ListChange(List<string> str)
     {
-        for (int i = 0; i < positionList_Before.Count; i++)
+        List<Position> result = new List<Position>();
+        for (int i = 0; i < str.Count; i++)
         {
-            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
-            positionList.Add((ShowScript.Potision)Enum.Parse(typeof(ShowScript.Potision),
-                positionList_Before[i], true));
+            try
+            {
+                result.Add((Position)Enum.Parse(typeof(Position), str[i], true));
+            }
+            catch
+            {
+                Debug.LogAssertion("ポジションの名前が正しくありません");
+                result.Add(Position.empty);
+            }
         }
+        return result;
     }
-
-
-    //デバッグ用で置いてる
-    private void ShowData()
+    
+    //デバッグ用で置いてる(けど、もしかして動かなくなった？)
+    private void ShowData(XmlElement element)
     {
         string name = element.Name;
         string value = element.FirstChild != null ? element.FirstChild.Value : "";

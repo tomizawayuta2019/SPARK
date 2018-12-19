@@ -17,7 +17,7 @@ public class Haru : MonoBehaviour {
     float waitTime;
 
     [SerializeField]
-    protected GameObject haruADV;
+    protected ShowScript.ADVType adv;
 
     [SerializeField]
     protected bool isMoveStart;
@@ -27,19 +27,18 @@ public class Haru : MonoBehaviour {
     {
         if (isMoveStart) { MoveStart(); }
 
-        ShowScript show = haruADV.transform.Find("ADVParts").GetComponent<ShowScript>();
 
         switch (type)
         {
             case HaruType.gameStart:
-                haruADV.SetActive(true);
-                show.SetAction(new List<ShowTextAction>() { WaitForMoveEnd });
+                ShowScript.instance.EventStart(adv);
+                ShowScript.instance.SetAction(new List<ShowTextAction>() { WaitForMoveEnd });
 
 
                 break;
             case HaruType.messageDrop:
                 //haruADV.SetActive(true);
-                show.SetAction(new List<ShowTextAction>() {
+                ShowScript.instance.SetAction(new List<ShowTextAction>() {
                     MoveStartAction
                 });
                 break;
@@ -73,7 +72,7 @@ public class Haru : MonoBehaviour {
     }
 
     protected virtual void MoveEnd() {
-        haruADV.SetActive(true);
+        //haruADV.SetActive(true);
         isMoveEnd = true;
         gameObject.SetActive(false);
         //Destroy(gameObject);

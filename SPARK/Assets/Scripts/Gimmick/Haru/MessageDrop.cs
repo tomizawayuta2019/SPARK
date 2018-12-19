@@ -11,7 +11,7 @@ public class MessageDrop : Haru {
     public override void MoveStart() {
         if (isMoveStart) { return; }
         System.Action comp = () => {
-            haruADV.SetActive(true);
+            ShowScript.instance.EventStart(adv);
             target.SetActive(true);
             Vector3 pos = target.transform.position;
             target.transform.SetParent(null);

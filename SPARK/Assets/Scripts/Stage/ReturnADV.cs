@@ -5,11 +5,8 @@ using UnityEngine;
 public class ReturnADV : MonoBehaviour {
     [SerializeField]
     float returnRange;
-
     [SerializeField]
-    GameObject ADV;
-    [SerializeField]
-    ShowScript showScript;
+    ShowScript.ADVType adv;
     bool isWait = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,16 +14,14 @@ public class ReturnADV : MonoBehaviour {
         if (isWait || collision.gameObject.tag != "Player") { return; }
 
         isWait = true;
-
-        ADV.SetActive(true);
-        showScript.Restart();
+        ShowScript.instance.EventStart(adv);
 
         StartCoroutine(ADVWait());
     }
 
     public IEnumerator ADVWait() {
         PlayerController.instance.PlayerInputActive = false;
-        while (ADV.activeSelf) {
+        while (ShowScript.instance.GetIsShow()) {
             yield return null;
         }
         
