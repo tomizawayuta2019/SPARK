@@ -8,6 +8,7 @@ using UnityEngine;
 public static class TimeManager {
     private static float timePer = 1.0f;
     private static bool isStop = false;
+    public static float TimePer { get { return timePer; } }
 
     /// <summary>
     /// 前回のフレームからの経過時間

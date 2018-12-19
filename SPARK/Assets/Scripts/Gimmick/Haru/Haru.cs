@@ -25,22 +25,16 @@ public class Haru : MonoBehaviour {
 
     protected virtual void Start()
     {
-        if (isMoveStart) { MoveStart(); }
+        //if (isMoveStart) { MoveStart(); }
 
 
         switch (type)
         {
             case HaruType.gameStart:
-                ShowScript.instance.EventStart(adv);
-                ShowScript.instance.SetAction(new List<ShowTextAction>() { WaitForMoveEnd });
-
-
+                ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { WaitForMoveEnd });
                 break;
             case HaruType.messageDrop:
-                //haruADV.SetActive(true);
-                ShowScript.instance.SetAction(new List<ShowTextAction>() {
-                    MoveStartAction
-                });
+                //ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction });
                 break;
             default:
                 break;
@@ -78,7 +72,7 @@ public class Haru : MonoBehaviour {
         //Destroy(gameObject);
     }
 
-    IEnumerator MoveStartAction() {
+    protected IEnumerator MoveStartAction() {
         isMoveStart = true;
         yield return null;
     }

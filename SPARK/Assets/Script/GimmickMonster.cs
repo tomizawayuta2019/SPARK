@@ -39,11 +39,11 @@ public class GimmickMonster : MonoBehaviour {
     private void Start()
     {
         transform.position = stagePosition.GetPosition();
-        ShowScript.instance.SetAction(new List<ShowTextAction>() {
+        //ShowScript.instance.SetAction();
+
+        ShowScript.instance.EventStart(startADV, new List<ShowTextAction>() {
             MonsterStart
         });
-
-        ShowScript.instance.EventStart(startADV);
     }
 
     IEnumerator MonsterStart() {
@@ -56,7 +56,7 @@ public class GimmickMonster : MonoBehaviour {
     void Update () {
         //モンスターが動くよ
         MonsterMove();
-        if (ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }

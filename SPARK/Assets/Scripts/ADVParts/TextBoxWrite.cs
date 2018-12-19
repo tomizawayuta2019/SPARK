@@ -107,7 +107,7 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                     PageIconCor = StartCoroutine(PageIconMove());
                     yield break;
                 }
-                yield return new WaitForSeconds(textSpeed);
+                yield return new WaitForSeconds(textSpeed / TimeManager.TimePer);
             }
             while (!ShowScript.instance._input)
             {
@@ -123,14 +123,15 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
         icon = Instantiate(textIcon);
         textIconPos = ShowScript.instance.textBox.transform.Find("pos_Icon");
         icon.transform.SetParent(textIconPos);
-        icon.GetComponent<RectTransform>().localPosition = Vector3.zero;
-        Vector3 rot = icon.GetComponent<RectTransform>().eulerAngles;
-        while (true)
+        RectTransform rect = icon.GetComponent<RectTransform>();
+        rect.localPosition = Vector3.zero;
+        Vector3 rot = rect.eulerAngles;
+        while (rect != null)
         {
             rot.x += 6;
             rot.y += 6;
             rot.z += 6;
-            icon.GetComponent<RectTransform>().eulerAngles = rot;
+            rect.eulerAngles = rot;
             yield return null;
         }
     }

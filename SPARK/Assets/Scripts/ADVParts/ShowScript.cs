@@ -120,7 +120,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         return isShow;
     }
 
-    public void SetAction(List<ShowTextAction> value) {
+    private void SetAction(List<ShowTextAction> value) {
         actions = value;
     }
 
@@ -134,6 +134,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     public void Restart()
     {
         id = 0;
+        actionCount = 0;
         Start();
     }
 
@@ -149,6 +150,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         textBox.SetActive(false);
     
         id = 0;
+        actionCount = 0;
         stageChara = new GameObject[3];
     }
 
@@ -174,8 +176,9 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         StartCoroutine(Show());
     }
 
-    public void EventStart(ADVType eventType)
+    public void EventStart(ADVType eventType,List<ShowTextAction> value = null)
     {
+        SetAction(value);
         int num = 0,len = XMLLoad.instance.data.Count;
         for (int i = 0; i < len; i++) {
             if (XMLLoad.instance.advTypes[i] == eventType) {

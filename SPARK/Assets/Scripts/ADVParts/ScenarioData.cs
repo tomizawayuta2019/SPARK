@@ -9,7 +9,7 @@ using UnityEngine;
  *   複数生成できるやつ
  */
 
-public class ScenarioData:MonoBehaviour
+public class ScenarioData
 {
     private XmlElement element;
 

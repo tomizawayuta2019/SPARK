@@ -20,9 +20,9 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     [SerializeField]
     int currenttextNum = 0;
     [SerializeField]
-    GameObject diaryADV;
-    [SerializeField]
     Piano piano;
+
+    bool isDialy;
 
     /// <summary>
     /// ウィンドウ開く
@@ -70,10 +70,9 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         gameObject.SetActive(false);
         ItemBagController.instance.itemBagActive = true;
 
-        if (target.state.itemType == ItemType.diary_open && diaryADV != null)
+        if (target.state.itemType == ItemType.diary_open && !isDialy)
         {
-            diaryADV.SetActive(true);
-            diaryADV = null;
+            ShowScript.instance.EventStart(ShowScript.ADVType.Item_Dialy);
         }
     }
 

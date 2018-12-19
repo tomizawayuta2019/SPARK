@@ -11,7 +11,7 @@ public class MessageDrop : Haru {
     public override void MoveStart() {
         if (isMoveStart) { return; }
         System.Action comp = () => {
-            ShowScript.instance.EventStart(adv);
+            ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction });
             target.SetActive(true);
             Vector3 pos = target.transform.position;
             target.transform.SetParent(null);
@@ -31,7 +31,8 @@ public class MessageDrop : Haru {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player") {
+        if (collision.gameObject.tag == "Player")
+        {
             MoveStart();
         }
     }
