@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（さっき……ここに何かが……。ごみの中に、
+何か硬いものが入っている。……取り出せないかな？）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（これは……昔ハルと一緒に作ったカラクリだ。）</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>2</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（生まれ育った船を離れると、
+生きられないピアニストの映画を見て……）</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>3</Id>
+			<Person>Ai_smile</Person>
+			<Position>Left</Position>
+			<Contents>（二人でこのおもちゃピアノを作ったんだね。
+懐かしい……でも、なんでここに……？）</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>4</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（……そう、確かこのピアノはキーを外せると後ろの蓋が開くの。
+すごい時間をかけて作ったんだもん……）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>5</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（今でもまだ開くのかな？
+でも、どのキーを外せばいいのか……）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

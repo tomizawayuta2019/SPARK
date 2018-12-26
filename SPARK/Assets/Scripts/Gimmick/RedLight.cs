@@ -23,6 +23,7 @@ public class RedLight : MonoBehaviour, IItemUse
 
     public bool ItemUse(ItemState item)
     {
+        SEController.instance.PlaySE(SEController.SEType.set_light);
         targetLight.color = targetColor;
         targetObj.SetActive(true);
         return true;

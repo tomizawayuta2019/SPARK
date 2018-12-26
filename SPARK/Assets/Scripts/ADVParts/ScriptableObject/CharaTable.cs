@@ -56,6 +56,22 @@ public class CharaTable : ScriptableObject
         }
         return result;
     }
+
+    public bool GetIsRed(Chara chara) {
+        bool result = false;
+        if (chara == Chara.empty)
+        {
+            return result;
+        }
+        for (int i = 0; i < characters.Count; i++)
+        {
+            if (characters[i].callName == chara)
+            {
+                result = characters[i].isRed;
+            }
+        }
+        return result;
+    }
 }
 
 [System.Serializable]
@@ -69,4 +85,6 @@ public class CharaInfo
     public Sprite[] charaImages;
     [Header("Scale調整")]
     public Vector2 scale;
+
+    public bool isRed;
 }

@@ -18,8 +18,8 @@ public class Movie : GimmickKind ,IItemUse
 
     public override void Click()
     {
-        //ADV.SetActive(true);
-        //show.Restart();
+        if (check) { return; }
+        //ShowScript.instance.EventStart(ShowScript.ADVType.Movie_Enter);
         ItemUse(new ItemState());
     }
 

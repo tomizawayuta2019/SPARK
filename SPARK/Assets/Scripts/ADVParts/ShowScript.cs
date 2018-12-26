@@ -25,15 +25,22 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         Haru_MessageDrop = 2,
 
         Phone_Start = 40,//電話に出る
+        Phone_Message,
         RedMessage_Read = 45,//赤文字読む
+        Ticket,
         Movie_Start = 50,//映画見始める
+        Movie_Enter = 51,//映画館調べる
 
 
         Monster_Enter = 100,//化け物初登場
         Monster_Destroy = 101,//化け物倒した
+        Monster2_Enter,
 
         ItemGet_Light = 200,//灯篭持った
+        ItemCanUse_Knife = 219,//ナイフ使ってほしい
         ItemUse_Knife = 220,//ナイフ使う
+        ItemCanUse_Light = 221,
+
 
         Item_Dialy = 250,//手紙読んだ
 
@@ -44,7 +51,9 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         Return_Bird = 303,//カラスうるさい1
         Return_Monster = 304,//もう戻りたくない
 
+
         test = 0,
+        None = -1,
     }
 
     //変数エリア
@@ -178,6 +187,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
 
     public void EventStart(ADVType eventType,List<ShowTextAction> value = null)
     {
+        if (eventType == ADVType.None) { return; }
         SetAction(value);
         int num = 0,len = XMLLoad.instance.data.Count;
         for (int i = 0; i < len; i++) {

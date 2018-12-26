@@ -75,6 +75,7 @@ public class Brooch : GimmickKind , IItemUse
         effect.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
+        SEController.instance.PlaySE(SEController.SEType.drop_brooch);
 
         //カラスを飛ばすよ
         Clow.GetComponent<Clows>().FlyAway();

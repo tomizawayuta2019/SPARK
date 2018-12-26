@@ -9,6 +9,7 @@ public class ItemObject : MonoBehaviour {
     public ItemState state;
 
     public virtual void GetItem() {
+        SEController.instance.PlaySE(SEController.SEType.get_item);
         ItemBagController.instance.PutInItemBag(this);
         ChildEffect child = GetComponent<ChildEffect>();
         if (child != null) { child.RemoveParent(); }

@@ -11,12 +11,16 @@ public class MessageDrop : Haru {
     public override void MoveStart() {
         if (isMoveStart) { return; }
         System.Action comp = () => {
-            ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction });
-            target.SetActive(true);
-            Vector3 pos = target.transform.position;
-            target.transform.SetParent(null);
-            target.transform.position = pos;
+            if (type != HaruType.phone) { ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction }); }
+            else { ShowScript.instance.EventStart(adv);isMoveStart = true; }
+            if (target) {
+                target.SetActive(true);
+                Vector3 pos = target.transform.position;
+                target.transform.SetParent(null);
+                target.transform.position = pos;
+            }
         };
+        //if (type == HaruType.phone) { MoveStartAction(); }
         //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);
         if (cameraTarget != null) { EventCamera.instance.StartEventCamera(cameraTarget, comp); }
         else { comp(); }

@@ -23,7 +23,8 @@ public class DustMounten : GimmickKind ,IItemUse {
     public bool ItemUse(ItemState item)
     {
         if (this.item == null) { return false; }
-        SEController.instance.PlaySE(SEController.SEType.button);
+        ShowScript.instance.EventStart(ShowScript.ADVType.ItemUse_Knife);
+        SEController.instance.PlaySE(SEController.SEType.knife_cut);
         this.item.gameObject.SetActive(true);
         this.item.gameObject.transform.SetParent(null);
         gameObject.SetActive(false);

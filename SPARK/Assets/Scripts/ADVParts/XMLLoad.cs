@@ -24,14 +24,32 @@ public enum Position
     Left = 0,
     Bottom,
     Right,
-    empty
+    empty,
 }
 
 public enum Chara
 {
     Yaku = 0,
+    Ai_urei,
+    Ai_normal,
+    Ai_namidame,
     Kiriya,
-    empty
+    empty,
+    Ai_movie,
+    Ai_Smile,
+}
+
+public static class CharaExt
+{
+    public static string GetCharaSpriteName(this Chara type)
+    {
+        switch (type)
+        {
+
+            default:
+                return type.ToString();
+        }
+    }
 }
 
 public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
@@ -124,7 +142,39 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
         {
             try
             {
-                result.Add((Chara)Enum.Parse(typeof(Chara), str[i], true));
+                switch (str[i])
+                {
+                    case "藍":
+                    case "Ai_urei":
+                        result.Add(Chara.Ai_urei);
+                        break;
+                    case "Ai_normal":
+                        result.Add(Chara.Ai_normal);
+                        break;
+                    case "Ai_namidame":
+                        result.Add(Chara.Ai_namidame);
+                        break;
+                    case "？？？":
+                        result.Add(Chara.empty);
+                        break;
+                    case "映像の中の藍":
+                        result.Add(Chara.Ai_movie);
+                        break;
+                    case "Ai_Smile":
+                        result.Add(Chara.Ai_Smile);
+                        break;
+                        break;
+                    default:
+                        if (Enum.IsDefined(typeof(Chara), str[i]))
+                        {
+                            result.Add((Chara)Enum.Parse(typeof(Chara), str[i], true));
+                        }
+                        else
+                        {
+                            result.Add(Chara.Kiriya);
+                        }//？？？
+                        break;
+                }
             }
             catch
             {

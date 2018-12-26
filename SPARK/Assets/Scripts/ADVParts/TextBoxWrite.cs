@@ -42,6 +42,8 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     [SerializeField]
     private bool isLineBreakIgnore;
 
+    bool isRed;
+
     /// <summary>
     /// テキストボックスの表示
     /// </summary>
@@ -71,7 +73,9 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     public void UpdateTexts(int id)
     {
         //キャラの名前を表示
-        ShowScript.instance.charaText.text = charaTable.GetChara(ShowScript.instance.personList[id]);
+        isRed = charaTable.GetIsRed(ShowScript.instance.personList[id]);
+        if (isRed) { ShowScript.instance.charaText.text = "<color=#FF0000>" + charaTable.GetChara(ShowScript.instance.personList[id]) + "</color>"; }
+        else { ShowScript.instance.charaText.text = charaTable.GetChara(ShowScript.instance.personList[id]); }
         textCor = StartCoroutine(textLoad(ShowScript.instance.contentsList[id]));
     }
 
@@ -90,6 +94,10 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 textWriting = true;
                 tgt = text.Substring(strLength, 1);
                 str = str + tgt;
+                if (isRed)
+                {
+                    str = "<color=#FF0000>" + str + "</color>";
+                }
                 ShowScript.instance.mainText.text = str;
                 strLength++;
                 if (tgt == "\n" && !isLineBreakIgnore)

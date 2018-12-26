@@ -16,12 +16,21 @@ public class PhoneGimmick : GimmickKind {
     AudioClip phoneSE;
 
     [SerializeField]
+    AudioSource audio;
+
+    [SerializeField]
     MessageDrop messageDrop;
 
     [SerializeField]
     GameObject returnPos;
 
     bool isEvent = false;
+
+    private void Start()
+    {
+        audio.clip = phoneSE;
+        audio.Play();
+    }
 
     public override void Click()
     {
@@ -34,6 +43,8 @@ public class PhoneGimmick : GimmickKind {
     }
 
     IEnumerator Event() {
+        audio.clip = null;
+        SEController.instance.PlaySE(SEController.SEType.phone_get);
         ShowScript.instance.EventStart(ShowScript.ADVType.Phone_Start);
 
         while (ShowScript.instance.GetIsShow()) {
@@ -52,12 +63,13 @@ public class PhoneGimmick : GimmickKind {
             var p = PlayerController.instance;
             spriteRenderer.sprite = changeSprite;
             p.targetPosition = p.transform.position + new Vector3(-2, 0, 0);
-            StartCoroutine(NextEvent());
+            PlayerController.instance.StartCoroutine(NextEvent());
         });
     }
 
     IEnumerator NextEvent() {
         yield return new WaitForSeconds(1.0f);
+        returnPos.SetActive(false); Destroy(returnPos);
         messageDrop.gameObject.SetActive(true);
 
         SpriteRenderer sr = messageDrop.GetComponent<SpriteRenderer>();
@@ -78,7 +90,7 @@ public class PhoneGimmick : GimmickKind {
 
         messageDrop.MoveStart();
 
-        returnPos.SetActive(false);
+        Destroy(returnPos);returnPos.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

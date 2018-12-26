@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Haru : MonoBehaviour {
-    enum HaruType {
+    protected enum HaruType {
         gameStart,
         messageDrop,
+        phone,
     }
 
     [SerializeField]
-    HaruType type;
+    protected HaruType type;
 
     [SerializeField]
     float speed;

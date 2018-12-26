@@ -73,6 +73,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         if (target.state.itemType == ItemType.diary_open && !isDialy)
         {
             ShowScript.instance.EventStart(ShowScript.ADVType.Item_Dialy);
+            isDialy = true;
         }
     }
 

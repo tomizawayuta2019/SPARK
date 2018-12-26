@@ -68,6 +68,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
                 SetCursorImage(CursorType.normal);
             }
         }
+        if (list.Count == 0) { SetCursorImage(CursorType.normal); }
     }
 
     private void CheckGameObject() {

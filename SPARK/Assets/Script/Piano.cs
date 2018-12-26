@@ -125,6 +125,7 @@ public class Piano : GimmickKind {
             // ピアノのイメージを変更
             pianoImageState = (PianoState)System.Enum.ToObject(typeof(PianoState), (int)pianoImageState+yesInt); ;
             pianoImage.sprite = pianoSprite[(int)pianoImageState];
+            SEController.instance.PlaySE(SEController.SEType.piano_key);
         }
         pianoWindow.SetActive(false);
         
@@ -134,6 +135,7 @@ public class Piano : GimmickKind {
             // ADVとピアノぱかー
             pianoImage.sprite = pianoSprite[(int)pianoImageState];
             StartCoroutine(PianoAnimation(0.5f));
+            SEController.instance.PlaySE(SEController.SEType.piano_open);
         }
     }
     /// <summary>
