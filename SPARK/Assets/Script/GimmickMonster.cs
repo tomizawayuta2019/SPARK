@@ -5,7 +5,8 @@ using UnityEngine;
 /**
  * モンスターの行動
 */
-public class GimmickMonster : MonoBehaviour {
+public class GimmickMonster : MonoBehaviour
+{
 
     //シングルトン
     private static GimmickMonster monster;
@@ -28,9 +29,11 @@ public class GimmickMonster : MonoBehaviour {
     GameObject monsterStartADV;
     [SerializeField]
     GameObject monsterDestADV;
+    private SpriteRenderer monsterSPR;
 
     private void Start()
     {
+        monsterSPR = gameObject.GetComponent<SpriteRenderer>();
         ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
         show.SetAction(new List<ShowTextAction>() {
             MonsterStart
@@ -39,17 +42,20 @@ public class GimmickMonster : MonoBehaviour {
         monsterStartADV.SetActive(true);
     }
 
-    IEnumerator MonsterStart() {
+    IEnumerator MonsterStart()
+    {
         bool waitFlag = true;
         EventCamera.instance.StartEventCamera(gameObject, () => waitFlag = false);
         while (waitFlag) { yield return null; }
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         //モンスターが動くよ
         MonsterMove();
-        if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+        if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
+        {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }
@@ -57,7 +63,7 @@ public class GimmickMonster : MonoBehaviour {
 
     void MonsterMove()
     {
-        transform.Translate(monsterSpeed*Time.deltaTime, 0, 0);
+        transform.Translate(monsterSpeed * Time.deltaTime, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -77,7 +83,8 @@ public class GimmickMonster : MonoBehaviour {
         }
     }
 
-    private void PlayerHit(GameObject target) {
+    private void PlayerHit(GameObject target)
+    {
         GameController.instance.GameOver();
     }
 
@@ -96,6 +103,27 @@ public class GimmickMonster : MonoBehaviour {
 
         while (monsterDestADV.activeSelf) { yield return null; }
         EventCamera.instance.EndEventCamera();
+        yield return new WaitForSeconds(time);
+    }
+    /// <summary>
+    /// time秒までに徐々に透明になる
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public IEnumerator MonsterAlpha(float time)
+    {
+        int x = 0;
+        Color mc = monsterSPR.color;
+        float alpha = mc.a;
+        float num = mc.a / (time / Time.deltaTime);
+        while (time > 0)
+        {
+            alpha -= num;
+            monsterSPR.color = new Color(mc.r, mc.g, mc.b, alpha);
+            time -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        monsterSPR.color = new Color(mc.r, mc.g, mc.b, 0);
         yield return new WaitForSeconds(time);
     }
 }
