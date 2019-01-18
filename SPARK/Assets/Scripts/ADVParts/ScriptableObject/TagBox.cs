@@ -35,7 +35,8 @@ public class TagBox : ScriptableObject
             if(colorTag[i].simpleTag == tag)
             {
                 tagMode = TAGMODE.COLOR;
-                return colorTag[i].regularTag;
+                return "<color=#" + ColorUtility.ToHtmlStringRGB(colorTag[i].color) + ">";
+                //return colorTag[i].regularTag;
             }
         }
         
