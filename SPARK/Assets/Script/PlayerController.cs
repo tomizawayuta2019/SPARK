@@ -169,6 +169,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 isHaveLight = true;
                 handLight.gameObject.SetActive(true);
                 playerAnimController.SetTrigger("HaveLight");
+                ItemView.instance.Close();
                 break;
             default:
                 return false;

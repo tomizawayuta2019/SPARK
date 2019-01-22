@@ -13,6 +13,9 @@ public class RedLight : MonoBehaviour, IItemUse
     [SerializeField]
     GameObject targetObj;
 
+    [SerializeField]
+    Animator busAnim;
+
     bool isEventEnd = false;
 
     public bool IsCanUseItem(ItemState item)
@@ -26,6 +29,7 @@ public class RedLight : MonoBehaviour, IItemUse
         SEController.instance.PlaySE(SEController.SEType.set_light);
         targetLight.color = targetColor;
         targetObj.SetActive(true);
+        busAnim.SetTrigger("RedLightTrigger");
         return true;
     }
 }

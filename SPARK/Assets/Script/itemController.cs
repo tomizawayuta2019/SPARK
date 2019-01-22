@@ -53,13 +53,24 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         };
         image.raycastTarget = true;
 
-        if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
+        //if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
+        if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)ItemImage.currentTargetImage.item.itemType))
         {
             state.Use();
-            itemBagController.itemView.target.ExChange();
+            //詳細表示してる側へのドラッグ
+            if (ItemImage.currentTargetImage.isBigSizeItem)
+            {
+                itemBagController.itemView.target.ExChange();
+            }
+            else
+            {
+                ItemImage.currentTargetImage.GetComponent<itemController>().ExChange();
+            }
+            
             Destroy(gameObject);
             return;
         }
+
 
         var tapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (!Physics2D.OverlapPoint(tapPoint)) {

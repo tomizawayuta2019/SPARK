@@ -193,7 +193,6 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         {
             return;
         }
-        isShow = true;
 
         SetAction(value);
         int num = 0,len = XMLLoad.instance.data.Count;

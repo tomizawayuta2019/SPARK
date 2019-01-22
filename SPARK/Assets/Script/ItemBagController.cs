@@ -33,6 +33,8 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
 
                 items[i] = Instantiate(prefabImage, transform.position, transform.rotation, transform) as Image;
                 itemController item = items[i].gameObject.AddComponent<itemController>();
+                ItemImage image = items[i].gameObject.AddComponent<ItemImage>();
+                image.item = nowItem.state;
                 item.state = nowItem.state;
                 items[i].transform.Translate(-800 + 200 * i, 0, 0);
                 items[i].name = nowItem.state.itemName;
