@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ending : MonoBehaviour {
+public class Ending : SingletonMonoBehaviour<Ending> {
 
     public Sprite[] endMovies = new Sprite[13];
     public GameObject nextImage;

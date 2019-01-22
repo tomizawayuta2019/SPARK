@@ -10,6 +10,9 @@ public class Accident : GimmickKind
     private GameObject WaterSp;
     [SerializeField]
     private Sprite[] waterSprites = new Sprite[16];
+    [SerializeField]
+    private GameObject monster;
+
     bool AccidentC = false;
 
     private void Start()
@@ -56,6 +59,10 @@ public class Accident : GimmickKind
         }
 
         // ここにADV
+
+
+        
+        monster.gameObject.SetActive(true);
 
         yield return null;
     }
