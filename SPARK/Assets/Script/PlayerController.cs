@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUse {
     public float PlayerSpeed;
     public int PlayerMoveFlag = 1;
-    public bool PlayerActive;
+    [SerializeField]
+    private bool PlayerActive;
     public bool PlayerInputActive = true;
     
-    public GameObject NowItem;
-    public GameObject mainCamera;
-    public Vector2 mousePosition;
-    public Vector2 targetPosition;
+    [HideInInspector]public GameObject NowItem;
+    [HideInInspector]public Vector2 mousePosition;
+    [HideInInspector] public Vector2 targetPosition;
     [SerializeField]
     ItemBagController itemBagController;
     [SerializeField]
@@ -21,6 +21,8 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     HandLight handLight;
     [SerializeField]
     PlayerAnimController playerAnimController;
+    [SerializeField]
+    SpriteRotationOffset spriteOffset;
     bool isWait = false;
     public void SetPlayerActive(bool condition)
     {
@@ -49,10 +51,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     {
         if (NowItem != null)
         {
-            SetPlayerActive(false);
-            /*アイテム調査動作をここに入れる
-
-            */
             ItemObject item = NowItem.GetComponent<ItemObject>();
             if (item != null)
             {
@@ -61,8 +59,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             else {
                 Destroy(NowItem);
             }
-            
-            PlayerActive = true;
         }
     }
 
@@ -71,11 +67,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     {
         SetPlayerActive(true);
     }
-    //マオス移動
+    //マウス移動
     void PlayerMoveMouse(float moveSpeed)
     {
         //Vector3 Position = this.GetComponent<Transform>().position;
-        if (PlayerActive)
+        if (PlayerActive && UIController.instance.isCanInput)
         {
             if (PlayerInputActive && Input.GetMouseButton(0))
             {
@@ -109,16 +105,25 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     private void PlayerRotationUpdata() {
         if (IsEnterTargetPosition()) { return; }
         //進行方向に向く
-        Vector3 scale = transform.localScale;
         if (targetPosition.x > transform.position.x)
         {
-            transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+            spriteOffset.LookToRight();
         }
         else if (targetPosition.x < transform.position.x)
         {
-            transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+            spriteOffset.LookToLeft();
         }
     }
+
+    //private void LookToLeft() {
+    //    Vector3 scale = transform.localScale;
+    //    transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+    //}
+
+    //private void LookToRight() {
+    //    Vector3 scale = transform.localScale;
+    //    transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+    //}
 
     public void PlayerUpdata()
     {
@@ -173,7 +178,28 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     }
 
     public void MonsterDestroyEvent() {
-        GetComponent<Animator>().SetBool("isLight",true);
+        //playerAnimController.SetTrigger("UseLightTrigger");
+        playerAnimController.SetBool("isCanUseLight", true);
         handLight.EventStart();
+    }
+
+    public void ClickLight() {
+        playerAnimController.SetTrigger("UseLightTrigger");
+        spriteOffset.LookToLeft();
+        SetPlayerActive(false);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            Transform tran = collision.transform;
+            //プレイヤーが壁の方向に動こうとしている場合
+            if ((tran.position.x - transform.position.x)* (targetPosition.x - transform.position.x) > 0)
+            {
+                //プレイヤーの移動停止
+                targetPosition = transform.position;
+            }
+        }
     }
 }

@@ -12,7 +12,14 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
             return main; } }
     bool isChase = false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        gameObject.SetActive(false);
+    }
+
     public void StartEventCamera(GameObject target,System.Action comp = null) {
+        gameObject.SetActive(true);
         this.target = target;
         transform.position = Main.transform.position;
         if (comp != null) { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
@@ -23,6 +30,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
     }
 
     public IEnumerator StartEventCameraWait(GameObject target) {
+        gameObject.SetActive(true);
         this.target = target;
         transform.position = Main.transform.position;
         Main.gameObject.SetActive(false);
@@ -50,6 +58,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
                 tag = "EventCamera";
                 UIController.instance.list.Remove(gameObject);
                 Main.gameObject.SetActive(true);
+                gameObject.SetActive(false);
             }));
         isChase = false;
     }

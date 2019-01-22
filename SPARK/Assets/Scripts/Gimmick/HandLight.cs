@@ -9,22 +9,26 @@ public class HandLight : GimmickKind {
     GameObject monster;
     [SerializeField]
     float animTime;
+    [SerializeField]
+    Animator anim;
 
     public void EventStart() {
         isEvent = true;
+        anim.SetBool("isFlash", true);
     }
 
     public override void Click()
     {
         if (isEvent) {
             UIController.instance.list.Add(gameObject);
-            Animator anim = PlayerController.instance.GetComponent<Animator>();
-            anim.SetTrigger("LightAttack");
-            anim.SetBool("isLight", false);
+            PlayerController.instance.ClickLight();
+            anim.SetTrigger("Flash");
+            anim.SetBool("isFlash", false);
             StartCoroutine(IEnumratorExt.Wait(animTime, () =>
             {
                 UIController.instance.list.Remove(gameObject);
                 StartCoroutine(GimmickMonster.MonsterInstance.DeadMonster(2.0f));
+                PlayerController.instance.SetPlayerActive(true);
             }));
             isEvent = false;
         }

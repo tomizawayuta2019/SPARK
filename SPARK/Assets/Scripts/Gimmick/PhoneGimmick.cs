@@ -90,7 +90,8 @@ public class PhoneGimmick : GimmickKind {
 
         messageDrop.MoveStart();
 
-        Destroy(returnPos);returnPos.SetActive(false);
+        returnPos.SetActive(false);
+        Destroy(returnPos);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

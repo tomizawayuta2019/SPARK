@@ -24,6 +24,7 @@ public enum ItemType {
     brooch,
     piano,
     ticket,
+    message,
 }
 
 public enum GimmickType {

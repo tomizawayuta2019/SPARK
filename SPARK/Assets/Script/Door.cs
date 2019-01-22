@@ -68,14 +68,6 @@ public class Door : GimmickKind ,ISwitchObject
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player") {
-            //プレイヤーの移動停止
-            PlayerController.instance.targetPosition = player.transform.position;
-        }
-    }
-
     public void SetValue(bool value)
     {
         isOpen = value;

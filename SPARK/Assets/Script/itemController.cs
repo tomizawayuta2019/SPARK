@@ -28,7 +28,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
     {
         // ドラッグ前の位置を記憶しておく
         prevPos = transform.position;
-        playerController.PlayerActive = false;
+        playerController.SetPlayerActive(false);
         itemBagController.itemBagActive = false;
         UIController.instance.list.Add(gameObject);
 
@@ -48,7 +48,6 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
         {
             // ドラッグ前の位置に戻す
             transform.position = prevPos;
-            playerController.PlayerActive = true;
             itemBagController.itemBagActive = true;
             UIController.instance.list.Remove(gameObject);
         };
@@ -82,6 +81,8 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
         //正常に使用完了したのでアイテム消費
         Destroy(gameObject);
+
+        playerController.SetPlayerActive(true);
     }
 
     public void OnDrop(PointerEventData eventData)

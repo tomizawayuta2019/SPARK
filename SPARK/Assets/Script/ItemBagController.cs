@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
+    [SerializeField]
     float itemBagSpeed;//移動スピード
     Vector3 mousePosition;//マオス今のポジション
     Vector3 itemBagPosition;//アイテム欄今のポジション
@@ -12,6 +13,11 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
 
     [SerializeField]
     Image prefabImage;
+    [SerializeField]
+    ItemObject diaryItem;
+
+    itemController dialy;
+
     // Use this for initialization
 
     public bool itemBagActive = true;
@@ -28,7 +34,7 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
                 items[i] = Instantiate(prefabImage, transform.position, transform.rotation, transform) as Image;
                 itemController item = items[i].gameObject.AddComponent<itemController>();
                 item.state = nowItem.state;
-                items[i].transform.Translate(-800+200 * i, 0, 0);
+                items[i].transform.Translate(-800 + 200 * i, 0, 0);
                 items[i].name = nowItem.state.itemName;
                 string itemSpriteName = nowItem.state.sprite.name;
                 //items[i].GetComponent<Image>().sprite = Resources.Load("GameSprite/" + itemSpriteName, typeof(Sprite)) as Sprite;
@@ -67,8 +73,9 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
         }
     }
     void Start () {
-        itemBagSpeed = 4.0f;
         SetInitializationPosition();
+        PutInItemBag(diaryItem);
+        dialy = items[0].GetComponent<itemController>();
 	}
 	
 	// Update is called once per frame

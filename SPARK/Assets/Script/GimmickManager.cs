@@ -11,7 +11,7 @@ public class GimmickManager : SingletonMonoBehaviour<GimmickManager> {
 
     private void ClickInput()
     {
-        if (UIController.instance && !UIController.instance.IsCanInput) { return; }
+        if (UIController.instance && !UIController.instance.isCanInput) { return; }
         //マウスクリックの判定
         if (!Input.GetMouseButtonDown(0)) return;
 

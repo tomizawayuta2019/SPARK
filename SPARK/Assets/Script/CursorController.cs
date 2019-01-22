@@ -73,17 +73,24 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
 
     private void CheckGameObject() {
         GameObject target = MouseExt.GetMousePosGameObject((obj) => {
-            if (obj.tag == "Item") { return true; }
+            if (obj.tag == "Item" || obj.tag == "Gimick") { return true; }
             return false;
         });
 
-        if (target != null && target.tag == "Item")
-        {
-            SetCursorImage(CursorType.item);
-        }
-        else
+        if (target == null)
         {
             CheckUI(Input.mousePosition);
+            return;
+        }
+
+        switch (target.tag)
+        {
+            case "Item":
+                SetCursorImage(CursorType.item);
+                break;
+            case "Gimick":
+                SetCursorImage(CursorType.gimmick);
+                break;
         }
     }
 
@@ -94,11 +101,14 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
 	
 	// Update is called once per frame
 	void Update () {
+        isUI = !UIController.instance.isCanInput;
+
         if (isUI)
         {
             CheckUI(Input.mousePosition);
         }
-        else {
+        else
+        {
             CheckGameObject();
         }
     }

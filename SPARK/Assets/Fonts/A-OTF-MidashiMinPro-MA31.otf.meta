@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: a8f4dc09b8d22a2498ded06378c0c678
+timeCreated: 1547185117
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: A-OTF Midashi Min MA31 Pro
+  fontNames:
+  - A-OTF Midashi Min MA31 Pro
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
