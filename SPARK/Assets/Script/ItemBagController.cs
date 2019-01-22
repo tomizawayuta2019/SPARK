@@ -59,7 +59,7 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
     {
         if (!itemBagActive) { return; }
         mousePosition = Input.mousePosition;
-        if (mousePosition.y >= Screen.height * 0.8f && mousePosition.y <= Screen.height)
+        if (itemView.IsItemView ||( mousePosition.y >= Screen.height * 0.8f && mousePosition.y <= Screen.height))
         {
             if (this.gameObject.transform.position.y > Screen.height * 0.9f)
             {
