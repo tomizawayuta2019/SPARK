@@ -7,11 +7,20 @@ using UnityEngine.UI;
  * テキストボックスを更新する *
  ******************************/
 
+public enum ADDTEXTMODE
+{
+    NORMAL = 0,
+    TAG
+}
+
 public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
 {
     //scriptableobjectを入れる
     [SerializeField]
     private CharaTable charaTable;
+
+    [SerializeField]
+    private TagBox tagBox;
 
     //scriptableobjectにしたい(暫定版としてここから呼び出す)
     private XMLLoad xml;
@@ -29,6 +38,10 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     [SerializeField]
     private float textSpeed = 0.05f;
 
+    private float textSpeed_Sonic = 0.001f;
+
+    public bool isTextSkip = false;
+
     //コルーチン
     private Coroutine textCor;
     private Coroutine PageIconCor;
@@ -39,10 +52,11 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
     private Transform textIconPos;
     private GameObject icon;
     
-    [SerializeField]
-    private bool isLineBreakIgnore;
+    public bool isLineBreakIgnore;
 
     bool isRed;
+
+    private ADDTEXTMODE textMode;
 
     /// <summary>
     /// テキストボックスの表示
@@ -87,19 +101,53 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
         int strLength = 0;
         textBreaing = false;
 
+        string retentionTag = "";
+
         while (true)
         {
             while (true)
             {
                 textWriting = true;
                 tgt = text.Substring(strLength, 1);
-                str = str + tgt;
-                if (isRed)
+
+                if(tgt == "<")
                 {
-                    str = "<color=#FF0000>" + str + "</color>";
+                    int tagEndPos = strLength;
+                    while(tgt != ">")
+                    {
+                        tagEndPos++;
+                        tgt = text.Substring(tagEndPos, 1);
+                    }
+                    string tag = text.Substring(strLength, (tagEndPos + 1) - strLength);
+                    //タグ比較
+                    string result = tagBox.TagCheck(tag);
+                    if (result != null && tag != tagBox.endTag_Simple)
+                    {
+                        textMode = ADDTEXTMODE.TAG;
+                        retentionTag = result;
+                    }
+                    else
+                    {
+                        textMode = ADDTEXTMODE.NORMAL;
+                    }
+                    if (result != null)
+                    {
+                        strLength += tag.Length;
+                    }
+                    tgt = text.Substring(strLength, 1);
                 }
-                ShowScript.instance.mainText.text = str;
+
+                if(textMode == ADDTEXTMODE.TAG)
+                {
+                    str = str + retentionTag + tgt + tagBox.ColorEndTag;
+                }
+                else if(textMode == ADDTEXTMODE.NORMAL)
+                {
+                    str = str + tgt;
+                }
                 strLength++;
+                ShowScript.instance.mainText.text = str;
+
                 if (tgt == "\n" && !isLineBreakIgnore)
                 {
                     textWriting = false;
@@ -113,9 +161,18 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                     textCor = null;
                     textBreaing = true;
                     PageIconCor = StartCoroutine(PageIconMove());
+                    isLineBreakIgnore = false;
+                    isTextSkip = false;
                     yield break;
                 }
-                yield return new WaitForSeconds(textSpeed / TimeManager.TimePer);
+                if(isTextSkip)
+                {
+                    yield return new WaitForSeconds(textSpeed_Sonic / TimeManager.TimePer);
+                }
+                else
+                {
+                    yield return new WaitForSeconds(textSpeed / TimeManager.TimePer);
+                }
             }
             while (!ShowScript.instance._input)
             {

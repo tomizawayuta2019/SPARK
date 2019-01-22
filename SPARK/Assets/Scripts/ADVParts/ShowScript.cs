@@ -250,6 +250,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
             if (_input && TextBoxWrite.instance.textWriting)
             {
                 //テキスト飛ばし処理
+                TextBoxWrite.instance.isLineBreakIgnore = true;
+                TextBoxWrite.instance.isTextSkip = true;
             }
 
             if (_input && !TextBoxWrite.instance.textWriting)

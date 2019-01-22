@@ -130,6 +130,12 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                 }
             }
         }
+
+        //カラータグを変換する
+        if(index == XMLIndex.Contents)
+        {
+
+        }
         return list;
     }
 
