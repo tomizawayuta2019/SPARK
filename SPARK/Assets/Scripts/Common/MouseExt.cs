@@ -65,7 +65,7 @@ public static class MouseExt {
 
         do
         {
-            hit = Physics2D.Raycast(tapPoint, -Vector3.up);
+            hit = Physics2D.Raycast(tapPoint, Vector3.forward);
             if (hit.collider == null) { break; }
             if (func(hit.collider.gameObject)) { obj = hit.collider.gameObject; }
 
