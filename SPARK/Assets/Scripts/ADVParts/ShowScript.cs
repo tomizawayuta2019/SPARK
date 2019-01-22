@@ -173,8 +173,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         {
             return;
         }
-
         isShow = true;
+
         InitADV();
         activeData = XMLLoad.instance.data[eventNum];
         personList = activeData.Get_PersonList();
@@ -188,6 +188,13 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     public void EventStart(ADVType eventType,List<ShowTextAction> value = null)
     {
         if (eventType == ADVType.None) { return; }
+
+        if (isShow)
+        {
+            return;
+        }
+        isShow = true;
+
         SetAction(value);
         int num = 0,len = XMLLoad.instance.data.Count;
         for (int i = 0; i < len; i++) {
@@ -235,13 +242,18 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     /// 通常はマウスのクリックだが、デバッグ用でスペースキーでも
     /// </summary>
     /// <returns></returns>
-    IEnumerator update()
+    private IEnumerator update()
     {
         while(true)
         {
             _input = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
-            
-            if(_input && !TextBoxWrite.instance.textWriting)
+
+            if (_input && TextBoxWrite.instance.textWriting)
+            {
+                //テキスト飛ばし処理
+            }
+
+            if (_input && !TextBoxWrite.instance.textWriting)
             {
                 TextBoxWrite.instance.BreakPageIcon();
             }
