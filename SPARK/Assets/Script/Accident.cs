@@ -63,8 +63,6 @@ public class Accident : GimmickKind
 
         
         monster.gameObject.SetActive(true);
-
-        yield return null;
     }
     //　SE
     IEnumerator AccidentSE()

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ending : SingletonMonoBehaviour<Ending> {
+public class Ending : MonoBehaviour {
 
     public Sprite[] endMovies = new Sprite[13];
     public GameObject nextImage;
-    public GameObject Camera;
     private SpriteRenderer endSP;
-
+    [SerializeField]
+    float endPos;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class Ending : SingletonMonoBehaviour<Ending> {
 
         yield return new WaitForSeconds(60.0f*Time.deltaTime);
         //Debug.Log(gameObject.transform.localPosition.y);
-        while (gameObject.transform.localPosition.y < 10f) { 
+        while (gameObject.transform.localPosition.y < endPos) { 
             gameObject.transform.Translate(0, 2.5f * Time.deltaTime, 0);
             nextImage.gameObject.transform.position = gameObject.transform.position;
             yield return new WaitForSeconds(Time.deltaTime);

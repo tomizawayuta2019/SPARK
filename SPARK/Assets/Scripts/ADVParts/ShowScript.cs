@@ -225,7 +225,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         //Actionが指定されていたら実行し、終了まで待機する
         if (commandList[id] != "empty")
         {
-            if (actions[actionCount] == null)
+            if (actionCount < actions.Count && actions[actionCount] == null)
             {
                 actionCount++;
             }

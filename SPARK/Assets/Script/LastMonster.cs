@@ -11,18 +11,13 @@ public class LastMonster : MonoBehaviour {
     float monsterSpeed = 0.3f;
     bool isCamera = true;// モンスターにカメラが追従中か
     [SerializeField]
-    GameObject monsterStartADV;
+    ShowScript.ADVType monsterStartADV;
 
     
 
     private void Start()
     {
-        ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
-        show.SetAction(new List<ShowTextAction>() {
-            MonsterStart
-        });
-
-        monsterStartADV.SetActive(true);
+        ShowScript.instance.EventStart(ShowScript.ADVType.Haru_GameStart);
     }
 
     IEnumerator MonsterStart()
@@ -63,8 +58,9 @@ public class LastMonster : MonoBehaviour {
     {
         //
         gameOver.gameObject.SetActive(true);
-        yield return new WaitForSeconds(10.0f);
+        yield return new WaitForSeconds(4.0f);
         gameOver.gameObject.SetActive(true);
-        StartCoroutine(Ending.instance.EndingMovie());
+        //StartCoroutine(Ending.instance.EndingMovie());
+        MovieController.instance.StartEndingMovie();
     }
 }
