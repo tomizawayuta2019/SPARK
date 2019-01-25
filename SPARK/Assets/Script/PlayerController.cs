@@ -27,7 +27,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
-        Debug.Log(condition);
+        //Debug.Log(condition);
     }
     //当たり判定によるアイテム調査
     void OnTriggerEnter2D(Collider2D other)
