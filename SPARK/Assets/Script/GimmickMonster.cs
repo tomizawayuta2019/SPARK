@@ -31,6 +31,8 @@ public class GimmickMonster : MonoBehaviour
     GameObject monsterDestADV;
     private SpriteRenderer monsterSPR;
 
+    float offset;
+
     private void Start()
     {
         monsterSPR = gameObject.GetComponent<SpriteRenderer>();
@@ -52,6 +54,7 @@ public class GimmickMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if(GETADVtekina) { return; }
         //モンスターが動くよ
         MonsterMove();
         if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
@@ -64,6 +67,8 @@ public class GimmickMonster : MonoBehaviour
     void MonsterMove()
     {
         transform.Translate(monsterSpeed * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(Time.deltaTime, 0, 0);
+        transform.localScale += new Vector3(Time.deltaTime/100, Time.deltaTime / 100, Time.deltaTime / 100);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
