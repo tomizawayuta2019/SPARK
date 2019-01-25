@@ -134,7 +134,15 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                     {
                         strLength += tag.Length;
                     }
-                    tgt = text.Substring(strLength, 1);
+                    if(strLength == text.Length)
+                    {
+                        //エラー回避
+                        tgt = "";
+                    }
+                    else
+                    {
+                        tgt = text.Substring(strLength, 1);
+                    }
                 }
 
                 if(textMode == ADDTEXTMODE.TAG)
