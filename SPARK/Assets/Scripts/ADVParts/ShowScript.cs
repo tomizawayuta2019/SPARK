@@ -51,6 +51,10 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         Return_Bird = 303,//カラスうるさい1
         Return_Monster = 304,//もう戻りたくない
 
+        Ending_Eat = 400,//もぐもぐ前
+        Ending_Black = 401,//暗い時
+        Ending = 500,//エンディング
+
 
         test = 0,
         None = -1,
@@ -108,6 +112,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     //出ているキャラクターを配列で保持しておきたい
     [System.NonSerialized]
     public GameObject[] stageChara = new GameObject[3];
+    private System.Action comp;
 
     private void Start()
     {
@@ -185,7 +190,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         StartCoroutine(Show());
     }
 
-    public void EventStart(ADVType eventType,List<ShowTextAction> value = null)
+    public void EventStart(ADVType eventType,List<ShowTextAction> value = null,System.Action comp = null)
     {
         if (eventType == ADVType.None) { return; }
 
@@ -193,6 +198,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         {
             return;
         }
+
+        this.comp = comp;
 
         SetAction(value);
         int num = 0,len = XMLLoad.instance.data.Count;
@@ -225,7 +232,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         //Actionが指定されていたら実行し、終了まで待機する
         if (commandList[id] != "empty")
         {
-            if (actionCount < actions.Count && actions[actionCount] == null)
+            if (actions != null && actionCount < actions.Count && actions[actionCount] == null)
             {
                 actionCount++;
             }
@@ -288,6 +295,10 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
             yield return null;
         }
         Destroy(textBox);
+        if (comp != null)
+        {
+            comp();
+        }
         yield break;
     }
 }

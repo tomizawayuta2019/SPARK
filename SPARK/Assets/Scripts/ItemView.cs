@@ -7,22 +7,34 @@ using UnityEngine.UI;
 /// アイテム情報表示用クラス
 /// </summary>
 public class ItemView : SingletonMonoBehaviour<ItemView> {
-    public itemController target;
+    [HideInInspector] public itemController target;
     private bool isItemView = false;
     public bool IsItemView { get { return isItemView; } }
 
     [SerializeField]
     Image image;
     [SerializeField]
+    GameObject textGroup;
+    [SerializeField]
     Text text;
+    [SerializeField]
+    float textSize;
+    [SerializeField]
+    float maxTextHeight;
+    [SerializeField]
+    Vector3 textDefPos;
     [SerializeField]
     GameObject[] buttons;
     [SerializeField]
     int currenttextNum = 0;
     [SerializeField]
     Piano piano;
+    [SerializeField]
+    List<Sprite> dialySprites;
 
     bool isDialy;
+
+    [SerializeField]float textHeight;
 
     /// <summary>
     /// ウィンドウ開く
@@ -32,27 +44,19 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         this.target = target;
         Close();
         isItemView = true;
-        if (target.state.sprite != null) {
-            image.sprite = target.state.sprite;
+
+        if (target.state.itemType == ItemType.diary)
+        {
+            SetImage(dialySprites[target.state.itemText.Length == 0 ? 0 : 1]);
             image.gameObject.SetActive(true);
         }
-        if (target.state.itemText.Length <= 1 && target.state.itemText[0] != "")
-        {
-            text.text = target.state.itemText[0];
-            text.gameObject.SetActive(true);
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                buttons[i].SetActive(false);
-            }
+
+        else if (target.state.sprite != null) {
+            SetImage(target.state.sprite);
+            image.gameObject.SetActive(true);
         }
-        else if(target.state.itemText.Length > 1){
-            text.gameObject.SetActive(true);
-            for (int i = 0; i < buttons.Length; i++) {
-                if (i == 0) { buttons[i].SetActive(true); }
-            }
-            currenttextNum = 0;
-            text.text = target.state.itemText[currenttextNum];
-        }
+
+        SetItemText(target.state);
 
         gameObject.SetActive(true);
         ItemBagController.instance.itemBagActive = false;
@@ -90,21 +94,124 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
     public void PageButton(int pageMove) {
         currenttextNum += pageMove;
         currenttextNum = Mathf.Clamp(currenttextNum, 0, target.state.itemText.Length - 1);
-        text.text = target.state.itemText[currenttextNum];
+        FadeManager.instance.FadeStart(
+            new FadeManager.FadeState()
+            {
+                fadeTime = 0.5f,
+                outComp = () =>
+                    {
+                        SetText(target.state.itemText[currenttextNum]);
+                        //image.sprite = dialySprites[1];
+                    }
+            });
         SEController.instance.PlaySE(SEController.SEType.message);
+        StartCoroutine(DialyPageAnim(0.5f, pageMove < 0));
 
         buttons[0].SetActive(currenttextNum < target.state.itemText.Length - 1);
         buttons[1].SetActive(currenttextNum != 0);
     }
 
+    private IEnumerator DialyPageAnim(float time, bool isReverse = false)
+    {
+        List<int> indexs = new List<int>() { 2, 3};
+        if (isReverse) { indexs.Reverse(); }
+        for (int i = 0; i < indexs.Count; i++)
+        {
+            SetImage(dialySprites[indexs[i]]);
+            yield return new WaitForSeconds(time / 4);
+        }
+        SetImage(dialySprites[1]);
+    }
+
     public void Click() {
         switch (target.state.itemType) {
             case ItemType.diary:
-                target.ExChange();
+                //target.ExChange();
                 break;
             case ItemType.piano:
                 piano.Click();
                 break;
+        }
+    }
+
+    private void SetItemText(ItemState value)
+    {
+        text.transform.localPosition = textDefPos;
+        currenttextNum = 0;
+
+        if (value.itemText == null || value.itemText.Length == 0 || value.itemText[0] == "")
+        {
+            textGroup.SetActive(false);
+            return;
+        }
+
+        textGroup.SetActive(true);
+        if (value.itemText.Length == 1)
+        {
+            SetText(value.itemText[0]);
+            text.gameObject.SetActive(true);
+            SetButtonActive(false);
+        }
+        else if (value.itemText.Length > 1)
+        {
+            text.gameObject.SetActive(true);
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                if (i == 0) { buttons[i].SetActive(true); }
+            }
+            currenttextNum = 0;
+            SetText(value.itemText[currenttextNum]);
+        }
+    }
+
+    private void SetImage(Sprite sprite)
+    {
+        image.sprite = sprite;
+        image.GetComponent<RectTransform>().sizeDelta = sprite.rect.size;
+    }
+
+    private void SetText(string value)
+    {
+        text.text = value;
+        if (currenttextNum == 0) { buttons[1].SetActive(false); }
+    }
+
+    private void Update()
+    {
+        //表示してからでないと行数が計算されないのでUpdateに記述
+        textHeight = text.cachedTextGenerator.lineCount * textSize;
+
+        SetUpDownButtonActive(textHeight > maxTextHeight);
+    }
+
+    public void MoveText(float value)
+    {
+        if (value > 0)
+        {
+            if (text.transform.localPosition.y < textDefPos.y + textHeight - maxTextHeight)
+            {
+                text.transform.position = text.transform.position + new Vector3(0, value * TimeManager.DeltaTime, 0);
+            }
+        }
+        else if(text.transform.localPosition.y > textDefPos.y)
+        {
+            text.transform.position = text.transform.position + new Vector3(0, value * TimeManager.DeltaTime, 0);
+        }
+    }
+
+    private void SetButtonActive(bool value)
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(value);
+        }
+    }
+
+    private void SetUpDownButtonActive(bool value)
+    {
+        for (int i = 2; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(value);
         }
     }
 }

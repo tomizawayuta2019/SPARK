@@ -19,8 +19,9 @@ public class Movie : GimmickKind ,IItemUse
     public override void Click()
     {
         if (check) { return; }
-        //ShowScript.instance.EventStart(ShowScript.ADVType.Movie_Enter);
-        ItemUse(new ItemState());
+        ShowScript.instance.EventStart(ShowScript.ADVType.Movie_Enter);
+        PlayerController.instance.LookToBack(true);
+        //ItemUse(new ItemState());
     }
 
     public bool IsCanUseItem(ItemState item)
@@ -35,6 +36,7 @@ public class Movie : GimmickKind ,IItemUse
         check = true;
 
         ShowScript.instance.EventStart(ShowScript.ADVType.Movie_Start);
+        PlayerController.instance.LookToBack(true);
 
         StartCoroutine(Event());
 

@@ -27,6 +27,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
+        Debug.Log(condition);
     }
     //当たり判定によるアイテム調査
     void OnTriggerEnter2D(Collider2D other)
@@ -113,17 +114,8 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
         {
             spriteOffset.LookToLeft();
         }
+        LookToBack(false);
     }
-
-    //private void LookToLeft() {
-    //    Vector3 scale = transform.localScale;
-    //    transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
-    //}
-
-    //private void LookToRight() {
-    //    Vector3 scale = transform.localScale;
-    //    transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
-    //}
 
     public void PlayerUpdata()
     {
@@ -154,6 +146,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
 
         comp();
         isWait = false;
+    }
+
+    public void LookToBack(bool value)
+    {
+        playerAnimController.SetBool("IsLookToBack", value);
     }
 
     public bool IsCanUseItem(ItemState item)

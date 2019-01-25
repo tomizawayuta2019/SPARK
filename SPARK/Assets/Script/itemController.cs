@@ -34,6 +34,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
         isClick = false;
         image.raycastTarget = false;
+        transform.SetAsLastSibling();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -44,6 +45,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        playerController.SetPlayerActive(true);
         System.Action returnPos = () =>
         {
             // ドラッグ前の位置に戻す
@@ -60,7 +62,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
             Destroy(gameObject);
             return;
         }
-        else if (ItemImage.currentTargetImage != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
+        else if (ItemImage.currentTargetImage != null && itemBagController.itemView.target != null && state.IsCanUseItem((int)itemBagController.itemView.target.state.itemType))
         {
             state.Use();
             itemBagController.itemView.target.ExChange();
@@ -88,8 +90,6 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
         //正常に使用完了したのでアイテム消費
         Destroy(gameObject);
-
-        playerController.SetPlayerActive(true);
     }
 
     public void OnDrop(PointerEventData eventData)

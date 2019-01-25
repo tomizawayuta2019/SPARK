@@ -12,7 +12,7 @@ public class DustMounten : GimmickKind ,IItemUse {
         if (item == null) { return; }
         base.Click();
 
-        ShowScript.instance.EventStart(ShowScript.ADVType.ItemUse_Knife);
+        ShowScript.instance.EventStart(ShowScript.ADVType.ItemCanUse_Knife);
     }
 
     public bool IsCanUseItem(ItemState item)

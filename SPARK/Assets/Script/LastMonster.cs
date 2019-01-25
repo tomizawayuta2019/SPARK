@@ -12,20 +12,7 @@ public class LastMonster : MonoBehaviour {
     bool isCamera = true;// モンスターにカメラが追従中か
     [SerializeField]
     ShowScript.ADVType monsterStartADV;
-
-    
-
-    private void Start()
-    {
-        ShowScript.instance.EventStart(ShowScript.ADVType.Haru_GameStart);
-    }
-
-    IEnumerator MonsterStart()
-    {
-        bool waitFlag = true;
-        EventCamera.instance.StartEventCamera(gameObject, () => waitFlag = false);
-        while (waitFlag) { yield return null; }
-    }
+    bool isHit = false;
 
     // Update is called once per frame
     void Update()
@@ -42,15 +29,17 @@ public class LastMonster : MonoBehaviour {
 
     void MonsterMove()
     {
+        if (isHit) { return; }
         transform.Translate(monsterSpeed * Time.deltaTime, 0, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // ここにムービー
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" && !isHit)
         {
-            StartCoroutine(PlayerHit());
+            isHit = true;
+            ShowScript.instance.EventStart(monsterStartADV, null, () => { StartCoroutine(PlayerHit()); });
         }
     }
     // ゲームオーバーのふりしてエンディング
@@ -58,9 +47,12 @@ public class LastMonster : MonoBehaviour {
     {
         //
         gameOver.gameObject.SetActive(true);
-        yield return new WaitForSeconds(4.0f);
-        gameOver.gameObject.SetActive(true);
-        //StartCoroutine(Ending.instance.EndingMovie());
-        MovieController.instance.StartEndingMovie();
+        yield return new WaitForSeconds(1.0f);
+        ShowScript.instance.EventStart(ShowScript.ADVType.Ending_Black, null, () => 
+        {
+            gameOver.gameObject.SetActive(false);
+            //StartCoroutine(Ending.instance.EndingMovie());
+            MovieController.instance.StartEndingMovie();
+        });
     }
 }

@@ -54,6 +54,8 @@ public class Ending : MonoBehaviour {
         
         endSP.sprite = endMovies[12];
 
+        ShowScript.instance.EventStart(ShowScript.ADVType.Ending);
+
         //2秒
         //yield return new WaitForSeconds(Time.deltaTime * 60 * 2);
     }

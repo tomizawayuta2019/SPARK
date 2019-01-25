@@ -24,6 +24,13 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
 
     public void PutInItemBag(ItemObject nowItem)
     {
+        if (nowItem.state.itemType == ItemType.diary && items[0] != null)
+        {
+            itemController icon = items[0].gameObject.GetComponent<itemController>();
+            icon.state.AddItemText(nowItem.state.itemText[0]);
+            return;
+        }
+
         for(int i=0; i < 8; i++)
         {
             if (items[i] == null)

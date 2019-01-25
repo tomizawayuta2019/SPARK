@@ -38,7 +38,7 @@ public static class MouseExt {
 
         do
         {
-            hit = Physics2D.Raycast(tapPoint, -Vector3.up);
+            hit = Physics2D.Raycast(tapPoint, Vector3.forward);
             if (hit.collider == null) { break; }
             gimmick = hit.collider.GetComponent<T>();
             //hit.collider.gameObject.SetActive(false);

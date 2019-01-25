@@ -6,7 +6,7 @@
 			<Id>0</Id>
 			<Person>？？？</Person>
 			<Position>empty</Position>
-			<Contents>「アイ……」</Contents>
+			<Contents>[red]「アイ……」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -27,7 +27,7 @@
 			<Id>3</Id>
 			<Person>霧谷柊晴</Person>
 			<Position>empty</Position>
-			<Contents>「なぁ…大学って、楽しいか？」</Contents>
+			<Contents>[red]「なぁ…大学って、楽しいか？」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -41,8 +41,8 @@
 			<Id>5</Id>
 			<Person>霧谷柊晴</Person>
 			<Position>empty</Position>
-			<Contents>「こんな古臭い町を捨てて、
-君はもう僕たちのことなんて必要ないだろう？」</Contents>
+			<Contents>[red]「こんな古臭い町を捨てて、
+君はもう僕たちのことなんて必要ないだろう？」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -56,7 +56,7 @@
 			<Id>7</Id>
 			<Person>霧谷柊晴</Person>
 			<Position>empty</Position>
-			<Contents>「噓つキは、どっちナンだ？」</Contents>
+			<Contents>[red]「噓つキは、どっちナンだ？」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -70,35 +70,35 @@
 			<Id>9</Id>
 			<Person>霧谷柊晴？</Person>
 			<Position>empty</Position>
-			<Contents>「ウソつキ……」</Contents>
+			<Contents>[red]「ウソつキ……」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>10</Id>
 			<Person>霧谷柊晴？</Person>
 			<Position>empty</Position>
-			<Contents>「ゆるサナ、イ…… 」</Contents>
+			<Contents>[red]「ゆるサナ、イ…… 」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>11</Id>
 			<Person>霧谷柊晴？</Person>
 			<Position>empty</Position>
-			<Contents>「ユルサナイ」</Contents>
+			<Contents>[red]「ユルサナイ」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>12</Id>
 			<Person>霧谷柊晴？</Person>
 			<Position>empty</Position>
-			<Contents>「ユルサナイ。ユルサナイ。ユルサナイ」</Contents>
+			<Contents>[red]「ユルサナイ。ユルサナイ。ユルサナイ」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>13</Id>
 			<Person>霧谷柊晴？</Person>
 			<Position>empty</Position>
-			<Contents>「ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ」</Contents>
+			<Contents>[red]「ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ」[end]</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

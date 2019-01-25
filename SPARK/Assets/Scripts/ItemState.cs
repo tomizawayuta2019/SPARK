@@ -111,4 +111,26 @@ public struct ItemState
         if (SEType == SEController.SEType.none) { return null; }
         return SEController.instance.PlaySE(SEType);
     }
+
+    public void AddItemText(string value)
+    {
+        string[] swap = new string[itemText.Length + 1];
+
+        for (int i = 0; i < itemText.Length; i++)
+        {
+            swap[i] = itemText[i];
+        }
+
+        swap[itemText.Length] = value;
+        itemText = swap;
+    }
+
+    /// <summary>
+    /// Textの行数を取得する処理
+    /// </summary>
+    /// <param name="index"></param>
+    public float GetItemTextHight(int index)
+    {
+        return 100;
+    }
 }
