@@ -110,10 +110,10 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 textWriting = true;
                 tgt = text.Substring(strLength, 1);
 
-                if(tgt == "<")
+                if(tgt == "[")
                 {
                     int tagEndPos = strLength;
-                    while(tgt != ">")
+                    while(tgt != "]")
                     {
                         tagEndPos++;
                         tgt = text.Substring(tagEndPos, 1);
