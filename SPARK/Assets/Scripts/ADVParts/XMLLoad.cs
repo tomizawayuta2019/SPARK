@@ -37,6 +37,7 @@ public enum Chara
     empty,
     Ai_movie,
     Ai_Smile,
+    Haru_Movie,
 }
 
 public static class CharaExt
@@ -169,6 +170,8 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                     case "Ai_Smile":
                         result.Add(Chara.Ai_Smile);
                         break;
+                    case "映像の中の晴":
+                        result.Add(Chara.Haru_Movie);
                         break;
                     default:
                         if (Enum.IsDefined(typeof(Chara), str[i]))

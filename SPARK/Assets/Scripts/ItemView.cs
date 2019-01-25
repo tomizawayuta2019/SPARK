@@ -45,6 +45,8 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         Close();
         isItemView = true;
 
+
+
         if (target.state.itemType == ItemType.diary)
         {
             SetImage(dialySprites[target.state.itemText.Length == 0 ? 0 : 1]);
