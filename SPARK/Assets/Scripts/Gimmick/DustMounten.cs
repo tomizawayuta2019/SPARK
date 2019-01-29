@@ -5,7 +5,7 @@ using UnityEngine;
 public class DustMounten : GimmickKind ,IItemUse {
 
     [SerializeField]
-    ItemObject item;
+    GameObject item;
 
     public override void Click()
     {

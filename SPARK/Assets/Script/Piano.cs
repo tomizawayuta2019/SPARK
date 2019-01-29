@@ -59,7 +59,7 @@ public class Piano : GimmickKind {
     void SetUp()
     {
         latterButton.SetActive(false);
-        pianoForm.gameObject.SetActive(true);
+        //pianoForm.gameObject.SetActive(true);
         checkKey = false;
         AS = GetComponent<AudioSource>();
         answerInt = 0;
@@ -77,10 +77,10 @@ public class Piano : GimmickKind {
         }
     }
 
-    public override void Click()
+    private void Start()
     {
-        base.Click();
-        SetUp();    }
+        SetUp();
+    }
 
     /// <summary>
     /// 対応の鍵盤をクリックした際にウィンドウを出す(ABF)
