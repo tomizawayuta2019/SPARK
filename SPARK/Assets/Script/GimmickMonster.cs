@@ -30,8 +30,29 @@ public class GimmickMonster : MonoBehaviour
     [SerializeField]
     GameObject monsterDestADV;
     private SpriteRenderer monsterSPR;
+        
+    [SerializeField]
+    private float acceleration = 1; // 時間で加速するときの倍率
+    [SerializeField]
+    private float growing = 1; // 時間で大きくなるときの倍率
 
-    float offset;
+    private bool testAdvCon = false;// アドベンチャーが続いてるかどうかのテストboolean
+    private bool testAdvYes = false;// モンスターが動いていいかのテストboolean
+
+    public bool TestAdvCon
+    {
+        set
+        {
+            testAdvCon = value;
+        }
+    }
+    public bool TestAdvYes
+    {
+        set
+        {
+            testAdvYes = value;
+        }
+    }
 
     private void Start()
     {
@@ -54,9 +75,12 @@ public class GimmickMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(GETADVtekina) { return; }
-        //モンスターが動くよ
-        MonsterMove();
+        // モンスターを動かすかの判定
+        if (testAdvCon && testAdvYes)
+        {
+            // モンスターの移動と拡大
+            MonsterMove();
+        }
         if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
         {
             EventCamera.instance.EndEventCamera();
@@ -64,11 +88,22 @@ public class GimmickMonster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// モンスターをTranslateで移動させるスクリプト　時間で加速、大きくなる
+    /// </summary>
     void MonsterMove()
     {
-        transform.Translate(monsterSpeed * Time.deltaTime, 0, 0);
-        transform.position += new Vector3(Time.deltaTime, 0, 0);
-        transform.localScale += new Vector3(Time.deltaTime/100, Time.deltaTime / 100, Time.deltaTime / 100);
+        // 増加率(growing)*適当な値分増加する。growingで調整可能
+        float bigger  = 0.00025f * growing;
+        // 画像の縦サイズを取得する
+        float sizeY = GetComponent<SpriteRenderer>().bounds.size.y;
+        // 縦と横に少しずつ増加
+        transform.localScale += new Vector3(bigger, bigger, 0);
+        // 現在のサイズから上記で取得した縦サイズを引いて差を取得する
+        float difSizeY = GetComponent<SpriteRenderer>().bounds.size.y - sizeY;
+        //  モンスターの移動に加速する値を追加していく　yにはy軸に拡大した分の二分の一上げていく
+        transform.Translate((monsterSpeed * Time.deltaTime) + (Time.deltaTime * acceleration), difSizeY/2, 0);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
