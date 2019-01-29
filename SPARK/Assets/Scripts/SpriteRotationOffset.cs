@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpriteRotationOffset : MonoBehaviour {
     [SerializeField] float offset;
+    float defPos;
 
     private Transform tran;
     private bool isLeft;
@@ -11,6 +12,7 @@ public class SpriteRotationOffset : MonoBehaviour {
     private void Awake()
     {
         tran = transform;
+        defPos = tran.localPosition.x;
     }
 
     public void LookToLeft()
@@ -24,7 +26,7 @@ public class SpriteRotationOffset : MonoBehaviour {
     {
         isLeft = false;
         tran.localScale = new Vector3(Mathf.Abs(tran.localScale.x), tran.localScale.y, tran.localScale.z);
-        tran.localPosition = Vector3.zero;
+        tran.localPosition = new Vector3(defPos, 0, 0);
     }
 
     public void LookToBack()
