@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUse {
     [SerializeField] float PlayerSpeed;
-    [SerializeField] float runSpeed;
-    [SerializeField] float runDelta;
     public float MoveSpeed {
         get
         {
-            if (IsRun()) { return runSpeed; }
-            else { return PlayerSpeed; }
+            float delta = targetPosition.x - transform.position.x;
+            return moveSpeedCurve.Evaluate(Mathf.Abs(delta) / maxDistance) * PlayerSpeed;
         }
     }
+
+    [SerializeField] AnimationCurve moveSpeedCurve;
+    float maxDistance = 20;
+
     public int PlayerMoveFlag = 1;
     [SerializeField]
     private bool PlayerActive;
