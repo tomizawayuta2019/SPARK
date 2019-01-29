@@ -6,24 +6,32 @@ public class WalkObject : MonoBehaviour {
     [SerializeField]
     AudioSource walkAudio;
 
-    Vector3 defPos;
+ //   Vector3 defPos;
 
-    private void Start()
+ //   private void Start()
+ //   {
+ //       defPos = transform.position;
+ //   }
+
+ //   // Update is called once per frame
+ //   void Update () {
+ //       //if (Vector3.Distance(defPos, transform.position) > 0.001f)
+ //       //{
+ //       //    if (!walkAudio.isPlaying) {
+ //       //        walkAudio.Play();
+ //       //    }
+ //       //}
+ //       //else {
+ //       //    walkAudio.Stop();
+ //       //}
+ //       //defPos = transform.position;
+	//}
+
+    /// <summary>
+    /// 足が接地するごとに呼び出される処理
+    /// </summary>
+    public void Step()
     {
-        defPos = transform.position;
+        walkAudio.Play();
     }
-
-    // Update is called once per frame
-    void Update () {
-        if (Vector3.Distance(defPos, transform.position) > 0.001f)
-        {
-            if (!walkAudio.isPlaying) {
-                walkAudio.Play();
-            }
-        }
-        else {
-            walkAudio.Stop();
-        }
-        defPos = transform.position;
-	}
 }
