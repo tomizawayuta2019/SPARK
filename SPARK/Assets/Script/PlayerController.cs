@@ -94,6 +94,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 }
             }
 
+            playerAnimController.SetSpeed(MoveSpeed / 2);
             PlayerRotationUpdata();
             Vector3 defPos = transform.position;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * TimeManager.DeltaTime);
@@ -101,6 +102,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
             PlayerSearchMouse();
         }
         else {
+            playerAnimController.SetSpeed(1);
             playerAnimController.SetBool("IsWalk", false);
         }
     }
@@ -209,10 +211,5 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 targetPosition = transform.position;
             }
         }
-    }
-
-    private bool IsRun()
-    {
-        return Mathf.Abs(Mathf.Abs(transform.position.x) - Mathf.Abs(targetPosition.x)) > runDelta;
     }
 }

@@ -33,4 +33,9 @@ public class PlayerAnimController : MonoBehaviour {
         //光の影響を受ける用レイヤーの画像更新
         lightLayer.sprite = spriteRenderer.sprite;
     }
+
+    public void SetSpeed(float value)
+    {
+        anim.speed = value;
+    }
 }
