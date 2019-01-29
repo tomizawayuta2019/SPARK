@@ -19,12 +19,6 @@ public class LastMonster : MonoBehaviour {
     {
         //モンスターが動くよ
         MonsterMove();
-        // 使うかわからない
-        //if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
-        //{
-        //    EventCamera.instance.EndEventCamera();
-        //    isCamera = false;
-        //}
     }
 
     void MonsterMove()
@@ -45,9 +39,10 @@ public class LastMonster : MonoBehaviour {
     // ゲームオーバーのふりしてエンディング
     private IEnumerator PlayerHit()
     {
-        //
+        
         gameOver.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.0f);
+        Destroy(gameObject);
         ShowScript.instance.EventStart(ShowScript.ADVType.Ending_Black, null, () => 
         {
             gameOver.gameObject.SetActive(false);

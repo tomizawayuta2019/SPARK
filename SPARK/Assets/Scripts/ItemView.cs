@@ -34,7 +34,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
 
     bool isDialy;
 
-    [SerializeField]float textHeight;
+    [SerializeField] float textHeight;
 
     /// <summary>
     /// ウィンドウ開く
@@ -49,7 +49,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
 
         if (target.state.itemType == ItemType.diary)
         {
-            SetImage(dialySprites[target.state.itemText.Length == 0 ? 0 : 1]);
+            SetImage(GetDiarySprite(target.state.itemText.Length));
             image.gameObject.SetActive(true);
         }
 
@@ -62,6 +62,11 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
 
         gameObject.SetActive(true);
         ItemBagController.instance.itemBagActive = false;
+    }
+
+    private Sprite GetDiarySprite(int index)
+    {
+        return dialySprites[index == 0 ? 0 : index == 1 ? 1 : 2];
     }
 
     /// <summary>
@@ -115,14 +120,14 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
 
     private IEnumerator DialyPageAnim(float time, bool isReverse = false)
     {
-        List<int> indexs = new List<int>() { 2, 3};
+        List<int> indexs = new List<int>() { 3, 4};
         if (isReverse) { indexs.Reverse(); }
         for (int i = 0; i < indexs.Count; i++)
         {
             SetImage(dialySprites[indexs[i]]);
             yield return new WaitForSeconds(time / 4);
         }
-        SetImage(dialySprites[1]);
+        SetImage(GetDiarySprite(2));
     }
 
     public void Click() {
@@ -144,11 +149,12 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         if (value.itemText == null || value.itemText.Length == 0 || value.itemText[0] == "")
         {
             textGroup.SetActive(false);
+            SetButtonActive(false);
             return;
         }
 
         textGroup.SetActive(true);
-        if (value.itemText.Length == 1)
+        if (value.itemText.Length <= 1)
         {
             SetText(value.itemText[0]);
             text.gameObject.SetActive(true);

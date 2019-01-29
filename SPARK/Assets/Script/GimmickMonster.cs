@@ -128,9 +128,19 @@ public class GimmickMonster : MonoBehaviour {
 
         while (ShowScript.instance.GetIsShow()) { yield return null; }
         EventCamera.instance.EndEventCamera();
-        yield return time;
+        //yield return time;
 
         monsterSpeed = swap;
+    }
+
+    IEnumerable<float> TimeAsValue(float min,float max)
+    {
+        float time = min;
+        while (time < max)
+        {
+            time = Mathf.Clamp(time + TimeManager.DeltaTime, min, max);
+            yield return time;
+        }
     }
 
     private Animator GetAnim() {
