@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>「Vの抗争」</Contents>
+			<Command>empty</Command>
+		</item>
+	<item>
+			<Id>1</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>とある全体主義国家で、イヴィーは夜間外出禁止令を破り捕まりそうになる。
+そんな彼女を助けたのは、面をかぶったおかしな男「V」。</Contents>
+			<Command>empty</Command>
+		</item>
+<item>
+			<Id>2</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>彼の抗争計画を知るにつれ、イヴィーは次第に
+自分が暮らしている社会の滑稽さを思い知らされる。</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

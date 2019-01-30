@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Right</Position>
+			<Contents>（化け物がずっと柵を叩いてる……このままだといつか柵が壊れるかも……
+大丈夫、さっきは追い払えたんだから……！）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>
