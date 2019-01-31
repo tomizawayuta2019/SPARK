@@ -52,19 +52,23 @@ public static class CharaExt
     }
 }
 
+[DefaultExecutionOrder(-1)]
 public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
 {
-    //xmlファイルを入れる場所
-    [SerializeField]
+    public XmlSettings setting;
+    
     private TextAsset[] xml;
+    [System.NonSerialized]
     public ShowScript.ADVType[] advTypes;
 
     //xmlから読み込まれたデータを入れる場所
     public List<ScenarioData> data = new List<ScenarioData>();
 
-    //他のスクリプトにデータを渡す用
-    //ここの戻り値に複数の型は入るのか
-    //public 
+    private void Start()
+    {
+        xml = setting.xml;
+        advTypes = setting.advTypes;
+    }
 
     //読み込み開始
     public void StartLoad()
