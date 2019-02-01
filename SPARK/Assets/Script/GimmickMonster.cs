@@ -35,7 +35,6 @@ public class GimmickMonster : MonoBehaviour
     private float acceleration = 1; // 時間で加速するときの倍率
     [SerializeField]
     private float growing = 1; // 時間で大きくなるときの倍率
-
     private bool testAdvCon = false;// アドベンチャーが続いてるかどうかのテストboolean
     private bool testAdvYes = false;// モンスターが動いていいかのテストboolean
 
