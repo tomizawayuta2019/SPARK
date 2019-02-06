@@ -14,7 +14,7 @@
 			<Person>Ai_gaman</Person>
 			<Position>Left</Position>
 			<Contents>「ハル待って……！」</Contents>
-			<Command>empty</Command>
+			<Command>haru</Command>
 		</item>
 			<item>
 			<Id>2</Id>

@@ -77,7 +77,7 @@ public class GimmickMonster : MonoBehaviour
             // モンスターの移動と拡大
             MonsterMove();
         }
-        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
+        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 30)
         {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
@@ -111,8 +111,8 @@ public class GimmickMonster : MonoBehaviour
             //ライトに当たったら、
             case "Lught":
                 //３秒後に死ぬ
-                IEnumerator coroutine = DeadMonster(3f);
-                StartCoroutine(coroutine);
+                //IEnumerator coroutine = DeadMonster(3f);
+                //StartCoroutine(coroutine);
                 break;
             case "Player":
                 PlayerHit(collision.gameObject);
