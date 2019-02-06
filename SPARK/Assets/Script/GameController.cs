@@ -26,4 +26,8 @@ public class GameController : SingletonMonoBehaviour<GameController> {
     public void GameOver() {
         gameOver.gameObject.SetActive(true);
     }
+
+    public CameraController GetCameraController() {
+        return cameraController;
+    }
 }

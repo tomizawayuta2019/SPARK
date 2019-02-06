@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「ハル……！」</Contents>
+			<Command>empty</Command>
+		</item>	
+		<item>
+			<Id>1</Id>
+			<Person>Ai_gaman</Person>
+			<Position>Left</Position>
+			<Contents>「ハル待って……！」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>2</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「本当に、ハルだった……！
+動いて……歩いて行った！」</Contents>
+			<Command>empty</Command>
+		</item>	
+			<item>
+			<Id>3</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「ハルは……ハルはまだ
+いなくなってなんかいないよ、きっと……」</Contents>
+			<Command>empty</Command>
+		</item>	
+		<item>
+			<Id>4</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「ハルを探さなきゃ……！」</Contents>
+			<Command>empty</Command>
+		</item>	
+	</items>
+</root>

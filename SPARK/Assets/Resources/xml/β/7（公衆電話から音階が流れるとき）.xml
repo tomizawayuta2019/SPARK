@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（この曲……どこかで聞いたことあるような……）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

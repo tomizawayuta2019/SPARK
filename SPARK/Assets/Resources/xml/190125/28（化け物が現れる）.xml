@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>「ひっ……！」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>「な、なに……！？」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>2</Id>
+			<Person>Ai_gaman</Person>
+			<Position>Right</Position>
+			<Contents>「い、いや……！
+来ないで……！」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>3</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>「き、消えた……？」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>4</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>「怖かった……
+……？　何かが……落ちてる？」</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

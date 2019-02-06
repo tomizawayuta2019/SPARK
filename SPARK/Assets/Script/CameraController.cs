@@ -9,14 +9,15 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         cameraMoveFlag = Player.GetComponent<PlayerController>().PlayerMoveFlag;
-        cameraPosition = this.transform.position;
+        cameraPosition = transform.position;
     }
+
     public void CameraMove(int moveFlag)
     {
         if (moveFlag == 1)
         {
             cameraPosition = Player.transform.position;
-            this.transform.position = new Vector3(cameraPosition.x, transform.position.y,-10);
+            transform.position = new Vector3(cameraPosition.x, transform.position.y,-10);
         }
     }
 

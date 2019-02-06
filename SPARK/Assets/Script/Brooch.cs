@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brooch : GimmickKind
+public class Brooch : GimmickKind , IItemUse
 {
     private Vector2 offset; //　初期位置
     // timeSpeedは速さ、ratioは割合（どこで落ちるか）、angleは基準の角度
     public float timeSpeed, ratio, angle;　// おすすめ(0.1,0.5,30)
     [SerializeField]
     GameObject Clow;
-    private void Start()
-    {
-        //デバッグ用
-        offset = transform.position;
-        
-    }
-    //デバッグ用
-    public override void Click()
-    { 
-        StartCoroutine(PosMove(Clow.transform.position));
-    }
+    [SerializeField]
+    GameObject throwTarget;
+    [SerializeField]
+    GameObject effect;
+
+    bool isEnd;
+
     /// <summary>
     /// プレイヤーの位置からブローチを投げる
     /// </summary>
@@ -30,7 +26,7 @@ public class Brooch : GimmickKind
         // ブローチの位置をプレイヤーの位置に
         transform.position = vec;
 
-        StartCoroutine(PosMove(Clow.transform.position));
+        StartCoroutine(PosMove(throwTarget.transform.position));
 
     }
 
@@ -73,10 +69,32 @@ public class Brooch : GimmickKind
 
             yield return null;
         }
+
+        transform.position = vec;
+
+        effect.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+        SEController.instance.PlaySE(SEController.SEType.drop_brooch);
+
         //カラスを飛ばすよ
         Clow.GetComponent<Clows>().FlyAway();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1.5f);
+        effect.SetActive(false);
     }
-    
-    
+
+    public bool IsCanUseItem(ItemState item)
+    {
+        return !isEnd && item.itemType == ItemType.brooch;
+    }
+
+    public bool ItemUse(ItemState item)
+    {
+        GetComponent<SpriteRenderer>().enabled = true;
+        ThrowBrooch(PlayerController.instance.transform.position);
+        isEnd = true;
+        return true;
+    }
 }

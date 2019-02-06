@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUse {
-    public float PlayerSpeed;
+    [SerializeField] float PlayerSpeed;
+    public float MoveSpeed {
+        get
+        {
+            float delta = targetPosition.x - transform.position.x;
+            return moveSpeedCurve.Evaluate(Mathf.Abs(delta) / maxDistance) * PlayerSpeed;
+        }
+    }
+
+    [SerializeField] AnimationCurve moveSpeedCurve;
+    float maxDistance = 20;
+
     public int PlayerMoveFlag = 1;
-    public bool PlayerActive;
-    
-    public GameObject NowItem;
-    public GameObject mainCamera;
-    public Vector2 mousePosition;
-    public Vector2 targetPosition;
+    [SerializeField]
+    private bool PlayerActive;
+    public bool PlayerInputActive = true;
+
+    [HideInInspector] GameObject NowItem;
+    [HideInInspector] Vector2 mousePosition;
+    [HideInInspector] public Vector2 targetPosition;
     [SerializeField]
     ItemBagController itemBagController;
     [SerializeField]
@@ -18,6 +30,10 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public bool isHaveLight = false;
     [SerializeField]
     HandLight handLight;
+    [SerializeField]
+    PlayerAnimController playerAnimController;
+    [SerializeField]
+    SpriteRotationOffset spriteOffset;
     bool isWait = false;
     public void SetPlayerActive(bool condition)
     {
@@ -46,17 +62,14 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     {
         if (NowItem != null)
         {
-            SetPlayerActive(false);
-            /*アイテム調査動作をここに入れる
-
-            */
             ItemObject item = NowItem.GetComponent<ItemObject>();
-            if (item != null) {
-                itemBagController.PutInItemBag(item);
+            if (item != null)
+            {
+                item.GetItem();
+            }
+            else {
                 Destroy(NowItem);
             }
-            
-            PlayerActive = true;
         }
     }
 
@@ -65,27 +78,33 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     {
         SetPlayerActive(true);
     }
-    //マオス移動
+    //マウス移動
     void PlayerMoveMouse(float moveSpeed)
     {
         //Vector3 Position = this.GetComponent<Transform>().position;
-        if (PlayerActive)
+        if (PlayerActive && UIController.instance.isCanInput)
         {
-            if (Input.GetMouseButton(0))
+            if (PlayerInputActive && Input.GetMouseButton(0))
             {
                 mousePosition = Input.mousePosition;
-                if(mousePosition.x>=0.0f&& mousePosition.x<=1920.0f&& mousePosition.y >= 0.0f && mousePosition.y <= 880.0f)
+                if (mousePosition.x >= 0.0f && mousePosition.x <= 1920.0f && mousePosition.y >= 0.0f && mousePosition.y <= 880.0f)
                 {
                     mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
                     targetPosition = new Vector2(mousePosition.x, transform.position.y);
                 }
             }
 
+            playerAnimController.SetSpeed(MoveSpeed / 2);
             PlayerRotationUpdata();
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed);
+            Vector3 defPos = transform.position;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * TimeManager.DeltaTime);
+            playerAnimController.SetBool("IsWalk", Vector3.Distance(defPos, transform.position) > 0.001f);
             PlayerSearchMouse();
         }
-
+        else {
+            playerAnimController.SetSpeed(1);
+            playerAnimController.SetBool("IsWalk", false);
+        }
     }
 
     /// <summary>
@@ -93,34 +112,31 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     /// </summary>
     /// <returns></returns>
     public bool IsEnterTargetPosition() {
-        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.001f;
+        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.01f;
     }
 
     private void PlayerRotationUpdata() {
         if (IsEnterTargetPosition()) { return; }
         //進行方向に向く
-        Vector3 scale = transform.localScale;
         if (targetPosition.x > transform.position.x)
         {
-            transform.localScale = new Vector3(Mathf.Abs(scale.x), scale.y, scale.z);
+            spriteOffset.LookToRight();
         }
         else if (targetPosition.x < transform.position.x)
         {
-            transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+            spriteOffset.LookToLeft();
         }
+        LookToBack(false);
     }
 
     public void PlayerUpdata()
     {
-        if (PlayerActive == true)
+        PlayerMoveMouse(MoveSpeed);
+        if (Input.GetKey(KeyCode.Space))
         {
-            PlayerMoveMouse(PlayerSpeed);
+            SetPlayerActive(true);
         }
-            if (Input.GetKey(KeyCode.Space))
-            {
-                SetPlayerActive(true);
-            }
-        
+
     }
 
     /// <summary>
@@ -144,6 +160,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
         isWait = false;
     }
 
+    public void LookToBack(bool value)
+    {
+        playerAnimController.SetBool("IsLookToBack", value);
+    }
+
     public bool IsCanUseItem(ItemState item)
     {
         return item.itemType == ItemType.lighting;
@@ -156,6 +177,8 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 //ライトを持つ
                 isHaveLight = true;
                 handLight.gameObject.SetActive(true);
+                playerAnimController.SetTrigger("HaveLight");
+                ItemView.instance.Close();
                 break;
             default:
                 return false;
@@ -165,7 +188,28 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     }
 
     public void MonsterDestroyEvent() {
-        GetComponent<Animator>().SetBool("isLight",true);
+        //playerAnimController.SetTrigger("UseLightTrigger");
+        playerAnimController.SetBool("isCanUseLight", true);
         handLight.EventStart();
+    }
+
+    public void ClickLight() {
+        playerAnimController.SetTrigger("UseLightTrigger");
+        spriteOffset.LookToLeft();
+        SetPlayerActive(false);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Wall")
+        {
+            Transform tran = collision.transform;
+            //プレイヤーが壁の方向に動こうとしている場合
+            if ((tran.position.x - transform.position.x)* (targetPosition.x - transform.position.x) > 0)
+            {
+                //プレイヤーの移動停止
+                targetPosition = transform.position;
+            }
+        }
     }
 }

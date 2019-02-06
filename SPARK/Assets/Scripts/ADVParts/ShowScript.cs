@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
- *  テキストや立ち絵を表示・変更するスクリプト
+ *  テキストや立ち絵を表示・変更の管理をするスクリプト
  */
 
 /// <summary>
@@ -14,97 +14,156 @@ using UnityEngine.UI;
 /// <returns></returns>
 public delegate IEnumerator ShowTextAction();
 
-public class ShowScript : MonoBehaviour
+public class ShowScript : SingletonMonoBehaviour<ShowScript>
 {
+    /// <summary>
+    /// ADVの種類
+    /// </summary>
+    public enum ADVType
+    {
+        Haru_GameStart = 1,
+        Haru_MessageDrop = 2,
+
+        Phone_Start = 40,//電話に出る
+        Phone_Message,
+        Phone_After,
+        Haru_Away,
+        RedMessage_Read = 45,//赤文字読む
+        Phone_MusicScale,
+        Phone_CheckMusicScale,
+        Ticket,
+        Movie_Start = 50,//映画見始める
+        Movie_Enter = 51,//映画館調べる
+
+        Through_Mouse,
+        Lantern_NoHit,
+        Lantern_Hit,
+        If_Back,
+        Get_SmellBag,
+        Piano_BadChoice,
+
+        Check_BusStop,
+        Check_PhoneBox,
+        Check_DustBox,
+
+        JapaneseDoll_Before,
+        JapaneseDoll_After,
+        Check_Switchboard,
+        Check_NumLock,
+        Haru_Move,
+
+        ElectricFence_Before,
+        ElectricFence_MoreCheck,
+        ElectricFence_After,
+
+        BusStop_Light,
+        MusicScale,
+        Item_CantUse,
+
+        MoviePoster_1,
+        MoviePoster_2,
+        MoviePoster_3,
+
+        Monster_Enter = 100,//化け物初登場
+        Monster_Destroy = 101,//化け物倒した
+        Monster2_Enter,
+
+        ItemGet_Light = 200,//灯篭持った
+        ItemCanUse_Knife = 219,//ナイフ使ってほしい
+        ItemUse_Knife = 220,//ナイフ使う
+        ItemCanUse_Light = 221,
+
+
+        Item_Dialy = 250,//手紙読んだ
+
+
+        Return_Light = 300,//光がないので進めない
+        Return_Erectric = 301,//電気びりびり
+        Return_Phone = 302,//電話が気になる
+        Return_Bird = 303,//カラスうるさい1
+        Return_Monster = 304,//もう戻りたくない
+
+        Ending_Eat = 400,//もぐもぐ前
+        Ending_Black = 401,//暗い時
+        Ending = 500,//エンディング
+
+
+        test = 0,
+        None = -1,
+    }
+
     //変数エリア
 
     /*----------総合(リストとか)----------*/
 
     //リスト
-    private List<Chara> personList = new List<Chara>();
-    private List<Potision> positionList = new List<Potision>();
-    private List<string> contentsList = new List<string>();
-    private List<string> commandList = new List<string>();
-    private List<ShowTextAction> actions = new List<ShowTextAction>();
+    //ここにデータ色々ぶちこんでなんやかんや
+    private ScenarioData activeData;
+    [System.NonSerialized]
+    public List<Chara> personList = new List<Chara>();
+    [System.NonSerialized]
+    public List<Position> positionList = new List<Position>();
+    [System.NonSerialized]
+    public List<string> contentsList = new List<string>();
+    [System.NonSerialized]
+    public List<string> commandList = new List<string>();
+    [System.NonSerialized]
+    public List<ShowTextAction> actions = new List<ShowTextAction>();
 
-    //コルーチン
-    private Coroutine updateCor;
-    private Coroutine textCor;
-
-    //id
+    public bool isShow = false;
     private int id;
-    private int length;
-    private int actionCount;//何番目のActionを実行するか
+    private int actionCount; //何番目のActionを実行するか
 
     //テキストを進める用
-    private bool toTheNext;
+    [System.NonSerialized]
+    public bool _input;
 
-    private XMLLoad xml;
+    private Coroutine cor_Update;
+
+    /*----------オブジェクト----------*/
+
+    //テキストボックス
+    [SerializeField]
+    private GameObject textBoxPrefab;
+    [System.NonSerialized]
+    public GameObject textBox;
+    [System.NonSerialized]
+    public Text charaText;
+    [System.NonSerialized]
+    public Text mainText;
 
     /*----------立ち絵関連----------*/
 
-    //Canvasを親にしたい
     [SerializeField]
-    private GameObject canvas;
-
-    //キャラ表示用のプレハブ
-    [SerializeField]
-    private GameObject charaPrefab;
+    private CharaTable charaTable;
 
     //立ち絵のポジション
     [NamedArrayAttribute(new string[] { "Left", "Bottom", "Right" })]
-    [SerializeField]
-    private Transform[] charaPotision = new Transform[3];
-    //いーなむ
-    public enum Potision
-    {
-        Left = 0,
-        Bottom,
-        Right,
-        empty
-    }
-
-    //キャラ立ち絵を入れておく
-    [NamedArrayAttribute(new string[] { "Yaku", "Kiriya"})]
-    [SerializeField]
-    private Sprite[] charaSprite;
-    //いーなむ
-    public enum Chara
-    {
-        Yaku = 0,
-        Kiriya,
-        empty
-    }
+    public Transform[] charaPotision = new Transform[3];
 
     //出ているキャラクターを配列で保持しておきたい
-    private GameObject[] stageChara = new GameObject[3];
+    [System.NonSerialized]
+    public GameObject[] stageChara = new GameObject[3];
+    private System.Action comp;
 
-    /*----------テキスト関連----------*/
-    
-    [SerializeField]
-    private Text textBox;
-
-    //テキストの速さ
-    [SerializeField]
-    private float textSpeed = 0.05f;
-
-    //
-
-    //ほぼコルーチン起動用
     private void Start()
     {
-        xml = GetComponent<XMLLoad>();
+        //コルーチンを起動
+        cor_Update = StartCoroutine(update());
+        XMLLoad.instance.StartLoad();
+    }
 
-        positionList = xml.GetPotisionList();
-        personList = xml.GetPersonList();
-        contentsList = xml.GetContentsList();
-        commandList = xml.GetCommandList();
+    //デバッグ
+    private void Update()
+    {
+        //if(Input.GetKeyDown(KeyCode.A))
+        //{
+        //    EventStart(0);
+        //}
+    }
 
-        actionCount = 0;
-
-        updateCor = StartCoroutine(update());
-
-        ShowText();
+    public bool GetIsShow() {
+        return isShow;
     }
 
     public void SetAction(List<ShowTextAction> value) {
@@ -118,160 +177,160 @@ public class ShowScript : MonoBehaviour
         }
     }
 
-    public void Restart() {
+    public void Restart()
+    {
         id = 0;
+        actionCount = 0;
         Start();
     }
 
-    //起動でテキストが動く
-    private void ToTheNext()
+    //初期化
+    private void InitADV()
     {
-        toTheNext = true;
+        textBox = Instantiate(textBoxPrefab);
+        charaText = textBox.transform.Find("TextBox/CharaText").GetComponent<Text>();
+        mainText = textBox.transform.Find("TextBox/MainText").GetComponent<Text>();
+        charaPotision[0] = textBox.transform.Find("Potisions/pos_Left");
+        charaPotision[1] = textBox.transform.Find("Potisions/pos_Bottom");
+        charaPotision[2] = textBox.transform.Find("Potisions/pos_Right");
+        textBox.SetActive(false);
+    
+        id = 0;
+        actionCount = 0;
+        stageChara = new GameObject[3];
     }
 
-    //キャラの立ち絵を表示する
-    public void ShowChara(int charapos, int charaspr)
+    /// <summary>
+    /// ADVイベントの呼び出し
+    /// </summary>
+    /// <param name="eventNum">イベントの番号</param>
+    public void EventStart(int eventNum)
     {
-        //基本構成
-        GameObject chara = Instantiate(charaPrefab) as GameObject;
-        //位置を代入するとキャラの位置がずれるバグがあったので子要素でlocalpositionを0に
-        chara.transform.SetParent(charaPotision[charapos].transform);
-        chara.transform.SetAsFirstSibling();
-        chara.transform.localPosition = Vector3.zero;
-        chara.GetComponent<Image>().sprite = charaSprite[charaspr];
-        //左右反転させる
-        if(/*左右反転するかどうか*/false)
+        if(isShow)
         {
-            Vector3 scale = chara.transform.localScale;
-            scale.x *= -1;
-            chara.transform.localScale = scale;
+            return;
         }
-        stageChara[charapos] = chara;
+        isShow = true;
+
+        InitADV();
+        activeData = XMLLoad.instance.data[eventNum];
+        personList = activeData.Get_PersonList();
+        positionList = activeData.Get_PositionList();
+        contentsList = activeData.Get_ContentsList();
+        commandList = activeData.Get_CommandList();
+
+        StartCoroutine(Show());
     }
 
-    //メインキャラの切り替え
-    public void TalkingChara (int activeCharaNum)
+    public void EventStart(ADVType eventType,List<ShowTextAction> value = null,System.Action comp = null)
     {
-        for(int i = 0; i < stageChara.Length; i++)
+        if (eventType == ADVType.None) { return; }
+
+        if (isShow)
         {
-            CanvasGroup canvasgroup = null;
-            if (stageChara[i] != null)
+            return;
+        }
+
+        this.comp = comp;
+
+        SetAction(value);
+        int num = 0,len = XMLLoad.instance.data.Count;
+        for (int i = 0; i < len; i++) {
+            if (XMLLoad.instance.advTypes[i] == eventType) {
+                num = i;
+                break;
+            }
+        }
+        EventStart(num);
+    }
+
+    private IEnumerator Show()
+    {
+        yield return TextBoxWrite.instance.TextBoxAnim();
+        yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
+        TextBoxWrite.instance.UpdateTexts(id);
+        yield break;
+    }
+
+    private Sprite GetCharaImage(int id)
+    {
+        Sprite result = null;
+        result = charaTable.GetCharaImage(personList[id], 0);
+        return result;
+    }
+
+    private IEnumerator CustomEvent()
+    {
+        //Actionが指定されていたら実行し、終了まで待機する
+        if (commandList[id] != "empty")
+        {
+            if (actions != null && actionCount < actions.Count && actions[actionCount] == null)
             {
-                canvasgroup = stageChara[i].GetComponent<CanvasGroup>();
-                if (i == activeCharaNum)
-                {
-                    canvasgroup.alpha = 1f;
-                }
-                else
-                {
-                    canvasgroup.alpha = 0.5f;
-                }
+                actionCount++;
+            }
+            else
+            {
+                yield return StartCoroutine(actions[actionCount++]());
             }
         }
     }
-
-    //そのポジション(配列)に同じキャラがいるか
-    private bool Is_StayChara(int potision)
-    {
-        if(stageChara[potision] != null)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    //テキストを表示(更新)したい
-    public void ShowText()
-    {
-        length = contentsList.Count;
-        if(textCor != null)
-        {
-            StopCoroutine(textCor);
-        }
-        toTheNext = true;
-
-        if (!gameObject.activeSelf) { gameObject.SetActive(true); }
-        textCor = StartCoroutine(TextLoad(contentsList[id]));
-    }
-
-    //キャラを切り替え
-    private void CharaChange(int id)
-    {
-        //キャラがまだ表示されてなかったら開く
-        if (positionList[id] != Potision.empty && 
-            Is_StayChara((int)positionList[id]) == false)
-        {
-            ShowChara((int)positionList[id], (int)personList[id]);
-        }
-        TalkingChara((int)positionList[id]);
-    }
-
-    //テキスト更新
-    IEnumerator TextLoad(string text)
-    {
-        string str = "";
-        string tgt = "";
-        int strLength = 0;
-
-        CharaChange(id);
-
-        while (true)
-        {
-            while (!toTheNext)
-            {
-                yield return null;
-            }
-            while (true)
-            {
-                tgt = text.Substring(strLength, 1);
-                str = str + tgt;
-                textBox.text = str;
-                strLength++;
-                if (tgt == "\n")
-                {
-                    break;
-                }
-                if (strLength >= text.Length)
-                {
-                    StopCoroutine(textCor);
-                    textCor = null;
-                    yield break;
-                }
-                yield return new WaitForSeconds(0.05f);
-            }
-        }
-    }
-
-    //矢印キーを扱う
-    IEnumerator update()
+    
+    /// <summary>
+    /// ADVパートでの、入力を扱う
+    /// 通常はマウスのクリックだが、デバッグ用でスペースキーでも
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator update()
     {
         while(true)
         {
-            toTheNext = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetMouseButtonDown(0);
-            if (toTheNext)
+            _input = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
+
+            if (_input && TextBoxWrite.instance.textWriting)
             {
-                //Debug.Log((textCor == null) + ":" + id.ToString());
-                //ここのタイミングでキャラ更新も
-                if (textCor == null && id < length - 1)
+                //テキスト飛ばし処理
+                TextBoxWrite.instance.isLineBreakIgnore = true;
+                TextBoxWrite.instance.isTextSkip = true;
+            }
+
+            if (_input && !TextBoxWrite.instance.textWriting)
+            {
+                TextBoxWrite.instance.BreakPageIcon();
+            }
+
+            if (_input && TextBoxWrite.instance.textBreaing && isShow)
+            {
+                id++;
+                if(id == contentsList.Count)
                 {
-                    id++;
-                    //CharaChange(id);
-
-                    //Actionが指定されていたら実行し、終了まで待機する
-                    if (commandList[id] != "empty") {
-                        if (actions[actionCount] == null) { actionCount++; }
-                        else { yield return StartCoroutine(actions[actionCount++]()); }
-                    }
-
-                    textCor = StartCoroutine(TextLoad(contentsList[id]));
-                } else if (textCor == null) {
-                    //全てのテキストを見終わったら終了
-                    transform.parent.gameObject.SetActive(false);
-                    yield break;
+                    StartCoroutine(Destroy_TextBox());
+                    isShow = false;
+                }
+                else
+                {
+                    StartCoroutine(CustomEvent());
+                    yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
+                    TextBoxWrite.instance.UpdateTexts(id);
                 }
             }
             yield return null;
-            toTheNext = false;
         }
+    }
+
+    private IEnumerator Destroy_TextBox()
+    {
+        float alpha = 1f;
+        while (alpha >= 0f)
+        {
+            alpha -= 0.04f;
+            textBox.GetComponent<CanvasGroup>().alpha = alpha;
+            yield return null;
+        }
+        Destroy(textBox);
+        if (comp != null)
+        {
+            comp();
+        }
+        yield break;
     }
 }

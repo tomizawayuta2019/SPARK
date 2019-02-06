@@ -7,10 +7,12 @@ using UnityEngine.EventSystems;
 public class ItemImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
     public static ItemImage currentTargetImage;
+    public bool isBigSizeItem;
+    public ItemState item;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ItemView.instance.Click();
+        if (isBigSizeItem) { ItemView.instance.Click(); }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

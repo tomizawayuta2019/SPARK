@@ -63,12 +63,12 @@ public class Accident : GimmickKind
 
         
         monster.gameObject.SetActive(true);
-
-        yield return null;
+        UIController.instance.list.Remove(gameObject);
     }
     //　SE
     IEnumerator AccidentSE()
     {
+        UIController.instance.list.Add(gameObject);
         //SEController.instance.PlaySE();//ここにブレーキ音
         yield return new WaitForSeconds(2.0f);
         //SEController.instance.PlaySE();//ここにドン音

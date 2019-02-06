@@ -11,6 +11,8 @@ public class RedMessage : MonoBehaviour {
     }
     [SerializeField]
     OBjAndFloat[] textObjects;
+    [SerializeField]
+    CanvasGroup group;
 
     private void Start()
     {
@@ -19,16 +21,20 @@ public class RedMessage : MonoBehaviour {
         }
     }
 
-
     public IEnumerator ObjDisp() {
         float time = 0;
         foreach (var item in textObjects) {
             while (time < item.time) {
                 yield return null;
-                time += Time.deltaTime;
+                time += TimeManager.DeltaTime;
             }
             item.obj.SetActive(true);
             time -= item.time;
         }
+    }
+
+    public void SetAlpha(float value)
+    {
+        group.alpha = value;
     }
 }

@@ -126,7 +126,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
         while (nowTime < targetTime) {
             yield return null;
 
-            nowTime += Time.deltaTime;
+            nowTime += TimeManager.DeltaTime;
             color = targetImage.color;
             color.a = defValue + (valueDelta * nowTime);
             targetImage.color = color;

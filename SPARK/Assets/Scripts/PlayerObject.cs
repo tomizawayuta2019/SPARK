@@ -13,8 +13,8 @@ public class PlayerObject : SingletonMonoBehaviour<PlayerObject> {
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow)) { move.x += 3 * Time.deltaTime; }
-        if (Input.GetKey(KeyCode.LeftArrow)) { move.x -= 3 * Time.deltaTime; }
+        if (Input.GetKey(KeyCode.RightArrow)) { move.x += 3 * TimeManager.DeltaTime; }
+        if (Input.GetKey(KeyCode.LeftArrow)) { move.x -= 3 * TimeManager.DeltaTime; }
     }
 
     private void FixedUpdate()

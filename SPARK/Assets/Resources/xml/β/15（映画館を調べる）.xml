@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「大きいスクリーン……
+ここは、映画館……？」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「昔見た映画の看板がいっぱい」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>2</Id>
+			<Person>Ai_smile</Person>
+			<Position>Left</Position>
+			<Contents>「昔は……ハルと一緒に、
+たくさん映画を見たんだね……」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>3</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（また、一緒に見に行けるって
+思ってたのに……）</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>4</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（ここは、いったいどこ……？
+ハルはずっと、一人でここにいたの……？）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>5</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（あっ、あそこに受付がある。
+でも、チケットなんて……）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>
