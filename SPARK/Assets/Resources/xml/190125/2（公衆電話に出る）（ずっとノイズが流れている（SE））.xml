@@ -25,7 +25,7 @@
 		</item>
 		<item>
 			<Id>3</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「なぁ…大学って、楽しいか？」</Contents>
 			<Command>empty</Command>
@@ -39,7 +39,7 @@
 		</item>
 		<item>
 			<Id>5</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「僕と古臭い町を捨てて、都会の大学に行ってさ
 僕たちのことなんて、もう必要ないだろう？」</Contents>
@@ -54,7 +54,7 @@
 		</item>
 		<item>
 			<Id>7</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「噓つキは、どっちナンだ？」</Contents>
 			<Command>empty</Command>
@@ -68,35 +68,35 @@
 		</item>
 		<item>
 			<Id>9</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「ウソつキ……」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>10</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「ゆるサナ、イ…… 」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>11</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「ユルサナイ」</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>12</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「ユルサナイ。ユルサナイ。ユルサナイ」</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>13</Id>
-			<Person>霧谷柊晴？</Person>
+			<Person>霧谷柊晴_Dummy</Person>
 			<Position>empty</Position>
 			<Contents>「ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。
 ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。ユルサナイ。

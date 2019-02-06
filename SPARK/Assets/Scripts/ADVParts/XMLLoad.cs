@@ -182,7 +182,7 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                     case "霧谷柊晴":
                         result.Add(Chara.Kiriya);
                         break;
-                    case "霧谷柊晴？":
+                    case "霧谷柊晴_Dummy":
                         result.Add(Chara.Kiriya_Dummy);
                         break;
                     case "Ai_gaman":
