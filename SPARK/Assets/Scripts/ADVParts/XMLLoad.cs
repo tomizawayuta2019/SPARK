@@ -38,6 +38,8 @@ public enum Chara
     Ai_movie,
     Ai_Smile,
     Haru_Movie,
+    Kiriya_Dummy,
+    Ai_Gaman,
 }
 
 public static class CharaExt
@@ -53,19 +55,23 @@ public static class CharaExt
     }
 }
 
+[DefaultExecutionOrder(-1)]
 public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
 {
-    //xmlファイルを入れる場所
-    [SerializeField]
+    public XmlSettings setting;
+    
     private TextAsset[] xml;
+    [System.NonSerialized]
     public ShowScript.ADVType[] advTypes;
 
     //xmlから読み込まれたデータを入れる場所
     public List<ScenarioData> data = new List<ScenarioData>();
 
-    //他のスクリプトにデータを渡す用
-    //ここの戻り値に複数の型は入るのか
-    //public 
+    private void Start()
+    {
+        xml = setting.xml;
+        advTypes = setting.advTypes;
+    }
 
     //読み込み開始
     public void StartLoad()
@@ -172,6 +178,15 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                         break;
                     case "映像の中の晴":
                         result.Add(Chara.Haru_Movie);
+                        break;
+                    case "霧谷柊晴":
+                        result.Add(Chara.Kiriya);
+                        break;
+                    case "霧谷柊晴？":
+                        result.Add(Chara.Kiriya_Dummy);
+                        break;
+                    case "Ai_gaman":
+                        result.Add(Chara.Ai_Gaman);
                         break;
                     default:
                         if (Enum.IsDefined(typeof(Chara), str[i]))

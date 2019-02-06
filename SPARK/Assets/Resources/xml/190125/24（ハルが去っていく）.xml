@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「ハル……！」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「どうして……ハルがここに……？
+だって私……」</Contents>
+			<Command>empty</Command>
+		</item>]
+			<item>
+			<Id>2</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「ハルはもう……
+この世界からいなくなったのに」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>3</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（私……どうしても
+あの告別式に行けなかったの。
+だって……）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>4</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「ううん……わからないわ……！
+もしかしたら、ハルはまだ……」</Contents>
+			<Command>empty</Command>
+		</item>
+			<item>
+			<Id>5</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「ハルを追いかけなきゃ……」</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

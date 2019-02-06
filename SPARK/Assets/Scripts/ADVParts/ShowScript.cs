@@ -26,11 +26,43 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
 
         Phone_Start = 40,//電話に出る
         Phone_Message,
+        Phone_After,
+        Haru_Away,
         RedMessage_Read = 45,//赤文字読む
+        Phone_MusicScale,
+        Phone_CheckMusicScale,
         Ticket,
         Movie_Start = 50,//映画見始める
         Movie_Enter = 51,//映画館調べる
 
+        Through_Mouse,
+        Lantern_NoHit,
+        Lantern_Hit,
+        If_Back,
+        Get_SmellBag,
+        Piano_BadChoice,
+
+        Check_BusStop,
+        Check_PhoneBox,
+        Check_DustBox,
+
+        JapaneseDoll_Before,
+        JapaneseDoll_After,
+        Check_Switchboard,
+        Check_NumLock,
+        Haru_Move,
+
+        ElectricFence_Before,
+        ElectricFence_MoreCheck,
+        ElectricFence_After,
+
+        BusStop_Light,
+        MusicScale,
+        Item_CantUse,
+
+        MoviePoster_1,
+        MoviePoster_2,
+        MoviePoster_3,
 
         Monster_Enter = 100,//化け物初登場
         Monster_Destroy = 101,//化け物倒した
