@@ -6,8 +6,6 @@ public class HandLight : GimmickKind {
     [SerializeField]
     bool isEvent = false;
     [SerializeField]
-    GameObject monster;
-    [SerializeField]
     float animTime;
     [SerializeField]
     Animator anim;
@@ -24,10 +22,11 @@ public class HandLight : GimmickKind {
             PlayerController.instance.ClickLight();
             anim.SetTrigger("Flash");
             anim.SetBool("isFlash", false);
+            GimmickMonster.Instance.Stop();
             StartCoroutine(IEnumratorExt.Wait(animTime, () =>
             {
                 UIController.instance.list.Remove(gameObject);
-                StartCoroutine(GimmickMonster.MonsterInstance.DeadMonster(2.0f));
+                StartCoroutine(GimmickMonster.Instance.DeadMonster(2.0f));
                 PlayerController.instance.SetPlayerActive(true);
             }));
             isEvent = false;

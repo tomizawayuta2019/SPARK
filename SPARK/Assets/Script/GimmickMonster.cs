@@ -10,7 +10,7 @@ public class GimmickMonster : MonoBehaviour
 
     //シングルトン
     private static GimmickMonster monster;
-    public static GimmickMonster MonsterInstance
+    public static GimmickMonster Instance
     {
         get { return monster; }
     }
@@ -25,43 +25,29 @@ public class GimmickMonster : MonoBehaviour
     [SerializeField]
     GameObject dropItem;
     bool isCamera = true;//モンスターにカメラが追従中か
+    bool isMove = true;
     [SerializeField]
-    GameObject monsterStartADV;
-    [SerializeField]
-    GameObject monsterDestADV;
+    ShowScript.ADVType startADV, deathADV;
     private SpriteRenderer monsterSPR;
-        
+
+    [SerializeField]
+    StagePosition stagePosition;
+
     [SerializeField]
     private float acceleration = 1; // 時間で加速するときの倍率
+    [SerializeField] float acceTime;//何秒で最大速度に達するか
+    float nowAcce = 0;
     [SerializeField]
     private float growing = 1; // 時間で大きくなるときの倍率
-    private bool testAdvCon = false;// アドベンチャーが続いてるかどうかのテストboolean
-    private bool testAdvYes = false;// モンスターが動いていいかのテストboolean
-
-    public bool TestAdvCon
-    {
-        set
-        {
-            testAdvCon = value;
-        }
-    }
-    public bool TestAdvYes
-    {
-        set
-        {
-            testAdvYes = value;
-        }
-    }
 
     protected virtual void Start()
     {
-        monsterSPR = gameObject.GetComponent<SpriteRenderer>();
-        ShowScript show = monsterStartADV.transform.Find("ADVParts").GetComponent<ShowScript>();
-        show.SetAction(new List<ShowTextAction>() {
+        monsterSPR = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        transform.position = stagePosition.GetPosition();
+
+        ShowScript.instance.EventStart(startADV, new List<ShowTextAction>() {
             MonsterStart
         });
-
-        monsterStartADV.SetActive(true);
     }
 
     IEnumerator MonsterStart()
@@ -71,16 +57,26 @@ public class GimmickMonster : MonoBehaviour
         while (waitFlag) { yield return null; }
     }
 
+    public void Stop()
+    {
+        isMove = false;
+    }
+
+    public void Restart()
+    {
+        isMove = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
         // モンスターを動かすかの判定
-        if (testAdvCon && testAdvYes)
+        if ((!ShowScript.instance.GetIsShow() || isCamera) && isMove)
         {
             // モンスターの移動と拡大
             MonsterMove();
         }
-        if (!monsterStartADV.activeSelf && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
+        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
         {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
@@ -95,14 +91,16 @@ public class GimmickMonster : MonoBehaviour
         // 増加率(growing)*適当な値分増加する。growingで調整可能
         float bigger  = 0.00025f * growing;
         // 画像の縦サイズを取得する
-        float sizeY = GetComponent<SpriteRenderer>().bounds.size.y;
+        float sizeY = monsterSPR.bounds.size.y;
         // 縦と横に少しずつ増加
-        transform.localScale += new Vector3(bigger, bigger, 0);
+        transform.localScale += new Vector3(transform.localScale.x > 0 ? bigger : -bigger, bigger, 0);
         // 現在のサイズから上記で取得した縦サイズを引いて差を取得する
-        float difSizeY = GetComponent<SpriteRenderer>().bounds.size.y - sizeY;
+        float difSizeY = monsterSPR.bounds.size.y - sizeY;
         //  モンスターの移動に加速する値を追加していく　yにはy軸に拡大した分の二分の一上げていく
-        transform.Translate((monsterSpeed * Time.deltaTime) + (Time.deltaTime * acceleration), difSizeY/2, 0);
-
+        transform.Translate((monsterSpeed * TimeManager.DeltaTime) + (TimeManager.DeltaTime * nowAcce), difSizeY/2, 0);
+        nowAcce = acceleration < 0 ?
+            Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, acceleration, 0) :
+            Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, 0, acceleration);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -130,19 +128,21 @@ public class GimmickMonster : MonoBehaviour
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）
     public IEnumerator DeadMonster(float time)
     {
+        monsterSpeed = 0;
         yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
 
+        GetAnim().SetTrigger("DeathTrigger");
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
 
         GameObject item = Instantiate(dropItem);
         item.transform.position = transform.position;
 
-        monsterDestADV.SetActive(true);
+        ShowScript.instance.EventStart(deathADV);
 
-        while (monsterDestADV.activeSelf) { yield return null; }
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
         EventCamera.instance.EndEventCamera();
-        yield return new WaitForSeconds(time);
+        yield return time;
     }
     /// <summary>
     /// time秒までに徐々に透明になる
@@ -164,5 +164,10 @@ public class GimmickMonster : MonoBehaviour
         }
         monsterSPR.color = new Color(mc.r, mc.g, mc.b, 0);
         yield return new WaitForSeconds(time);
+    }
+
+    private Animator GetAnim()
+    {
+        return transform.GetChild(0).GetComponent<Animator>();
     }
 }
