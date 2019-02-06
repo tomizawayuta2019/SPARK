@@ -20,7 +20,7 @@ public class GimmickMonster : MonoBehaviour {
     }
 
     [SerializeField]
-    int HP = 1;
+    protected int HP = 1;
 
     [SerializeField]
     float monsterSpeed = 0.3f;
@@ -36,7 +36,7 @@ public class GimmickMonster : MonoBehaviour {
     [SerializeField]
     private GameObject wall;//移動に邪魔な障害物
 
-    private void Start()
+    protected virtual void Start()
     {
         transform.position = stagePosition.GetPosition();
         //ShowScript.instance.SetAction();

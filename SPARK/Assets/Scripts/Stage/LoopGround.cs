@@ -26,6 +26,8 @@ public class LoopGround : MonoBehaviour {
 
     PlayerController player;
 
+    List<GameObject> targets = new List<GameObject>();
+
     private void Awake()
     {
         isLoopLeftSide = loopFromX < loopForX;
@@ -49,9 +51,18 @@ public class LoopGround : MonoBehaviour {
         foreach (var bg in BG) {
             bg.LoopBackGround(distanceX);
         }
+        foreach (var go in targets) {
+            if (go == null) { continue; }
+            go.transform.position += new Vector3(distanceX, 0, 0);
+        }
         pos.x = loopForX;
         player.transform.position = pos;
         GameController.instance.GetCameraController().CameraUpdate();
         CameraViewChangeObject.UpdateCameraView();
+    }
+
+    public void SetLoopObject(GameObject target)
+    {
+        targets.Add(target);
     }
 }
