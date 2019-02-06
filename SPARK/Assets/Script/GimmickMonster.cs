@@ -5,11 +5,12 @@ using UnityEngine;
 /**
  * モンスターの行動
 */
-public class GimmickMonster : MonoBehaviour {
+public class GimmickMonster : MonoBehaviour
+{
 
     //シングルトン
     private static GimmickMonster monster;
-    public static GimmickMonster MonsterInstance
+    public static GimmickMonster Instance
     {
         get { return monster; }
     }
@@ -20,65 +21,98 @@ public class GimmickMonster : MonoBehaviour {
     }
 
     [SerializeField]
-    int HP = 1;
-
-    [SerializeField]
     float monsterSpeed = 0.3f;
     [SerializeField]
     GameObject dropItem;
     bool isCamera = true;//モンスターにカメラが追従中か
+    bool isMove = true;
     [SerializeField]
-    ShowScript.ADVType startADV,deathADV;
+    ShowScript.ADVType startADV, deathADV;
+    private SpriteRenderer monsterSPR;
 
     [SerializeField]
     StagePosition stagePosition;
 
     [SerializeField]
-    private GameObject wall;//移動に邪魔な障害物
+    private float acceleration = 1; // 時間で加速するときの倍率
+    [SerializeField] float acceTime;//何秒で最大速度に達するか
+    float nowAcce = 0;
+    [SerializeField]
+    private float growing = 1; // 時間で大きくなるときの倍率
+    GameObject wall;
 
-    private void Start()
+    protected virtual void Start()
     {
+        monsterSPR = transform.GetChild(0).GetComponent<SpriteRenderer>();
         transform.position = stagePosition.GetPosition();
-        //ShowScript.instance.SetAction();
 
         ShowScript.instance.EventStart(startADV, new List<ShowTextAction>() {
             MonsterStart
         });
     }
 
-    IEnumerator MonsterStart() {
+    IEnumerator MonsterStart()
+    {
         bool waitFlag = true;
         EventCamera.instance.StartEventCamera(gameObject, () => waitFlag = false);
         while (waitFlag) { yield return null; }
     }
 
+    public void Stop()
+    {
+        isMove = false;
+    }
+
+    public void Restart()
+    {
+        isMove = true;
+    }
+
     // Update is called once per frame
-    void Update () {
-        //モンスターが動くよ
-        MonsterMove();
-        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15) {
+    void Update()
+    {
+        // モンスターを動かすかの判定
+        if ((!ShowScript.instance.GetIsShow() || isCamera) && isMove && wall == null)
+        {
+            // モンスターの移動と拡大
+            MonsterMove();
+        }
+        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 15)
+        {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }
     }
 
+    /// <summary>
+    /// モンスターをTranslateで移動させるスクリプト　時間で加速、大きくなる
+    /// </summary>
     void MonsterMove()
     {
-        if (wall != null) { return; }
-        transform.Translate(monsterSpeed * TimeManager.DeltaTime, 0, 0);
+        // 増加率(growing)*適当な値分増加する。growingで調整可能
+        float bigger = TimeManager.DeltaTime * growing;
+        // 画像の縦サイズを取得する
+        float sizeY = monsterSPR.bounds.size.y;
+        // 縦と横に少しずつ増加
+        transform.localScale += new Vector3(transform.localScale.x > 0 ? bigger : -bigger, bigger, 0);
+        // 現在のサイズから上記で取得した縦サイズを引いて差を取得する
+        float difSizeY = monsterSPR.bounds.size.y - sizeY;
+        //  モンスターの移動に加速する値を追加していく　yにはy軸に拡大した分の二分の一上げていく
+        transform.Translate((monsterSpeed * TimeManager.DeltaTime) + (TimeManager.DeltaTime * nowAcce), difSizeY/2, 0);
+        nowAcce = acceleration < 0 ?
+            Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, acceleration, 0) :
+            Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, 0, acceleration);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch (collision.gameObject.tag) {
+        switch (collision.gameObject.tag)
+        {
             //ライトに当たったら、
             case "Lught":
                 //３秒後に死ぬ
-                HP -= 1;
-                if (HP <= 0) {
-                    IEnumerator coroutine = DeadMonster(3f);
-                    StartCoroutine(coroutine);
-                }
+                IEnumerator coroutine = DeadMonster(3f);
+                StartCoroutine(coroutine);
                 break;
             case "Player":
                 PlayerHit(collision.gameObject);
@@ -90,7 +124,8 @@ public class GimmickMonster : MonoBehaviour {
         }
     }
 
-    private void PlayerHit(GameObject target) {
+    private void PlayerHit(GameObject target)
+    {
         GameController.instance.GameOver();
     }
 
@@ -113,27 +148,30 @@ public class GimmickMonster : MonoBehaviour {
         EventCamera.instance.EndEventCamera();
         yield return time;
     }
-
-    //　time秒後に死ぬ（time中にドロドロした演出を入れる）
-    public IEnumerator StopMonster(float time)
+    /// <summary>
+    /// time秒までに徐々に透明になる
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public IEnumerator MonsterAlpha(float time)
     {
-        float swap = monsterSpeed;
-        monsterSpeed = 0;
-        yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
-
-        GetAnim().SetTrigger("DeathTrigger");
+        int x = 0;
+        Color mc = monsterSPR.color;
+        float alpha = mc.a;
+        float num = mc.a / (time / Time.deltaTime);
+        while (time > 0)
+        {
+            alpha -= num;
+            monsterSPR.color = new Color(mc.r, mc.g, mc.b, alpha);
+            time -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        monsterSPR.color = new Color(mc.r, mc.g, mc.b, 0);
         yield return new WaitForSeconds(time);
-
-        ShowScript.instance.EventStart(deathADV);
-
-        while (ShowScript.instance.GetIsShow()) { yield return null; }
-        EventCamera.instance.EndEventCamera();
-        yield return time;
-
-        monsterSpeed = swap;
     }
 
-    private Animator GetAnim() {
+    private Animator GetAnim()
+    {
         return transform.GetChild(0).GetComponent<Animator>();
     }
 }

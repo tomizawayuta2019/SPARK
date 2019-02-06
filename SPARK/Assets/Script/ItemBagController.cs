@@ -22,6 +22,36 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
 
     public bool itemBagActive = true;
 
+
+    public GameObject itemsContains(string itemName)
+    {
+        bool flag = false;
+        int num = 0;
+        for (int i = 0; i < 8; i++)
+        {
+            if (items[i] != null)   
+            {
+                if (items[i].name == itemName)
+                {
+                    flag = true;
+                    num = i; ;
+                }
+            }
+        }
+        if (flag == false)
+        {
+
+            return null;
+        }
+        else
+        {
+            return items[num].gameObject;
+        }
+
+    }
+
+
+
     public void PutInItemBag(ItemObject nowItem)
     {
         if (nowItem.state.itemType == ItemType.diary && items[0] != null)

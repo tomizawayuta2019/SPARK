@@ -25,6 +25,8 @@ public class Password : GimmickKind
 
     [SerializeField]
     GameObject targetgimmick;
+    [SerializeField] Sprite openLockSprite;
+    [SerializeField] Image lockImage;
 
     private void Start()
     {
@@ -98,6 +100,7 @@ public class Password : GimmickKind
         passwordForm.gameObject.SetActive(false);
 
         if (isOpen) {
+            lockImage.sprite = openLockSprite;
             SEController.instance.PlaySE(SEController.SEType.Unlock);
         }
     }

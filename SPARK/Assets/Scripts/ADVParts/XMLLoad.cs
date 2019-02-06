@@ -37,6 +37,7 @@ public enum Chara
     empty,
     Ai_movie,
     Ai_Smile,
+    Haru_Movie,
     Kiriya_Dummy,
     Ai_Gaman,
 }
@@ -174,6 +175,9 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                         break;
                     case "Ai_Smile":
                         result.Add(Chara.Ai_Smile);
+                        break;
+                    case "映像の中の晴":
+                        result.Add(Chara.Haru_Movie);
                         break;
                     case "霧谷柊晴":
                         result.Add(Chara.Kiriya);

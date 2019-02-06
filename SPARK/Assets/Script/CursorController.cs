@@ -73,7 +73,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
 
     private void CheckGameObject() {
         GameObject target = MouseExt.GetMousePosGameObject((obj) => {
-            if (obj.tag == "Item" || obj.tag == "Gimick") { return true; }
+            if (obj.tag == "Item" || obj.tag == "Gimick" || obj.tag == "Detail") { return true; }
             return false;
         });
 
@@ -86,6 +86,7 @@ public class CursorController : SingletonMonoBehaviour<CursorController> {
         switch (target.tag)
         {
             case "Item":
+            case "Detail":
                 SetCursorImage(CursorType.item);
                 break;
             case "Gimick":

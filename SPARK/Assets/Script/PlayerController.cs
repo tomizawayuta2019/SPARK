@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUse {
-    public float PlayerSpeed;
+    [SerializeField] float PlayerSpeed;
+    public float MoveSpeed {
+        get
+        {
+            float delta = targetPosition.x - transform.position.x;
+            return moveSpeedCurve.Evaluate(Mathf.Abs(delta) / maxDistance) * PlayerSpeed;
+        }
+    }
+
+    [SerializeField] AnimationCurve moveSpeedCurve;
+    float maxDistance = 20;
+
     public int PlayerMoveFlag = 1;
     [SerializeField]
     private bool PlayerActive;
     public bool PlayerInputActive = true;
-    
-    [HideInInspector]public GameObject NowItem;
-    [HideInInspector]public Vector2 mousePosition;
+
+    [HideInInspector] GameObject NowItem;
+    [HideInInspector] Vector2 mousePosition;
     [HideInInspector] public Vector2 targetPosition;
     [SerializeField]
     ItemBagController itemBagController;
@@ -27,7 +38,6 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public void SetPlayerActive(bool condition)
     {
         PlayerActive = condition;
-        //Debug.Log(condition);
     }
     //当たり判定によるアイテム調査
     void OnTriggerEnter2D(Collider2D other)
@@ -84,13 +94,15 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
                 }
             }
 
+            playerAnimController.SetSpeed(MoveSpeed / 2);
             PlayerRotationUpdata();
             Vector3 defPos = transform.position;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, PlayerSpeed * TimeManager.DeltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * TimeManager.DeltaTime);
             playerAnimController.SetBool("IsWalk", Vector3.Distance(defPos, transform.position) > 0.001f);
             PlayerSearchMouse();
         }
         else {
+            playerAnimController.SetSpeed(1);
             playerAnimController.SetBool("IsWalk", false);
         }
     }
@@ -119,7 +131,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
 
     public void PlayerUpdata()
     {
-        PlayerMoveMouse(PlayerSpeed);
+        PlayerMoveMouse(MoveSpeed);
         if (Input.GetKey(KeyCode.Space))
         {
             SetPlayerActive(true);

@@ -166,7 +166,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         return isShow;
     }
 
-    private void SetAction(List<ShowTextAction> value) {
+    public void SetAction(List<ShowTextAction> value) {
         actions = value;
     }
 

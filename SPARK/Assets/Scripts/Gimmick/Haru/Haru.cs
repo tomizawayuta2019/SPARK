@@ -24,6 +24,13 @@ public class Haru : MonoBehaviour {
     protected bool isMoveStart;
     bool isMoveEnd;
 
+    [SerializeField] Animator anim;
+
+    protected virtual void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     protected virtual void Start()
     {
         //if (isMoveStart) { MoveStart(); }
@@ -50,15 +57,21 @@ public class Haru : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (!isMoveStart) { return; }
+        if (!isMoveStart)
+        {
+            anim.SetBool("IsWalk", false);
+            return;
+        }
         if (waitTime > 0) {
             waitTime -= TimeManager.DeltaTime;
+            anim.SetBool("IsWalk", false);
             return;
         }
 
         Vector3 gotoPos = transform.position + new Vector3(speed * TimeManager.DeltaTime, 0, 0);
         //transform.position = Vector3.MoveTowards(transform.position, gotoPos,TimeManager.DeltaTime);
         transform.position = gotoPos;
+        anim.SetBool("IsWalk", true);
     }
 
     private void OnBecameInvisible()

@@ -7,7 +7,11 @@ public class ChildEffect : MonoBehaviour {
     GameObject effectPrefab;
     [SerializeField]
     bool isKeepPrefabScale;//親のサイズではなく、プレファブのサイズと同じにするか
+    [SerializeField]
+    bool isKeepPrefabRotation = true;
     GameObject effectInstance;
+
+    Quaternion defRotation;
 
     private void Awake()
     {
@@ -15,12 +19,25 @@ public class ChildEffect : MonoBehaviour {
 
         if (isKeepPrefabScale)
         {
-            transform.localScale = effectPrefab.transform.localScale;
-            transform.eulerAngles = effectPrefab.transform.eulerAngles;
+            effectInstance.transform.localScale = effectPrefab.transform.localScale;
+            effectInstance.transform.eulerAngles = effectPrefab.transform.eulerAngles;
+        }
+
+        if (isKeepPrefabRotation)
+        {
+            defRotation = effectInstance.transform.rotation;
         }
 
         effectInstance.transform.SetParent(transform);
         effectInstance.transform.localPosition = Vector3.zero;
+    }
+
+    private void Update()
+    {
+        if (isKeepPrefabRotation)
+        {
+            effectInstance.transform.rotation = defRotation;
+        }
     }
 
     public void RemoveParent() {
