@@ -20,6 +20,11 @@ public class Password : GimmickKind
     [SerializeField]
     GameObject onImage;
     private bool isOpen = false;
+    private bool isPassword = false;
+    private int count = 0;
+    // オープンした画像
+    [SerializeField]
+    Sprite openLockImage;
     [SerializeField]
     GameObject doorImage;
 
@@ -72,6 +77,7 @@ public class Password : GimmickKind
     /// </summary>
     public void PassWordInput(int button)
     {
+        if (isOpen||isPassword) return;
         SEController.instance.PlaySE(SEController.SEType.button);
         if (button % 2 == 0)
         {
@@ -94,12 +100,22 @@ public class Password : GimmickKind
     {
         int password = 0;
         password = imageNum[0] * 1000 + imageNum[1] * 100 + imageNum[2] * 10 + imageNum[3];
-        isOpen = passwordNumber == password;
+        isPassword = passwordNumber == password;
         passwordForm.gameObject.SetActive(false);
-
-        if (isOpen) {
+        
+        if (isPassword) {
             SEController.instance.PlaySE(SEController.SEType.Unlock);
+            // ターゲットパネルにあるButton(パスワードのエンターキー)の画像を取得、貼り付け
+            targetPanel.transform.Find("Button").GetComponent<Image>().sprite = openLockImage;
+            count = 1;
         }
+        if(count >= 1)
+        {
+
+            SEController.instance.PlaySE(SEController.SEType.Unlock);
+            isOpen = true;
+        }
+        
     }
 
     public void Open() {
