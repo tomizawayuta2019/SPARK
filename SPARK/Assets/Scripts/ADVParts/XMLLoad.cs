@@ -39,7 +39,6 @@ public enum Chara
     Ai_Smile,
     Kiriya_Dummy,
     Ai_Gaman,
-    LightOFF,
 }
 
 public static class CharaExt
@@ -184,9 +183,6 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                         break;
                     case "Ai_gaman":
                         result.Add(Chara.Ai_Gaman);
-                        break;
-                    case "LightOFF_Ai_urei":
-                        result.Add(Chara.LightOFF);
                         break;
                     default:
                         if (Enum.IsDefined(typeof(Chara), str[i]))
