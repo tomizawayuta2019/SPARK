@@ -39,6 +39,7 @@ public class GimmickMonster : MonoBehaviour
     float nowAcce = 0;
     [SerializeField]
     private float growing = 1; // 時間で大きくなるときの倍率
+    GameObject wall;
 
     protected virtual void Start()
     {
@@ -71,7 +72,7 @@ public class GimmickMonster : MonoBehaviour
     void Update()
     {
         // モンスターを動かすかの判定
-        if ((!ShowScript.instance.GetIsShow() || isCamera) && isMove)
+        if ((!ShowScript.instance.GetIsShow() || isCamera) && isMove && wall == null)
         {
             // モンスターの移動と拡大
             MonsterMove();
@@ -89,7 +90,7 @@ public class GimmickMonster : MonoBehaviour
     void MonsterMove()
     {
         // 増加率(growing)*適当な値分増加する。growingで調整可能
-        float bigger  = 0.00025f * growing;
+        float bigger = TimeManager.DeltaTime * growing;
         // 画像の縦サイズを取得する
         float sizeY = monsterSPR.bounds.size.y;
         // 縦と横に少しずつ増加
@@ -105,18 +106,21 @@ public class GimmickMonster : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //ライトに当たったら、
-        if (collision.gameObject.tag == "Light")
+        switch (collision.gameObject.tag)
         {
-            //３秒後に死ぬ
-            IEnumerator coroutine = DeadMonster(3f);
-            StartCoroutine(coroutine);
-        }
-
-        //playerdead;
-        if (collision.gameObject.tag == "Player")
-        {
-            PlayerHit(collision.gameObject);
+            //ライトに当たったら、
+            case "Lught":
+                //３秒後に死ぬ
+                IEnumerator coroutine = DeadMonster(3f);
+                StartCoroutine(coroutine);
+                break;
+            case "Player":
+                PlayerHit(collision.gameObject);
+                break;
+            case "Wall":
+                wall = collision.gameObject;
+                GetAnim().SetTrigger("AttackTrigger");
+                break;
         }
     }
 
