@@ -10,6 +10,7 @@ public class MessageDrop : Haru {
 
     public override void MoveStart() {
         if (isMoveStart) { return; }
+        UIController.instance.list.Add(gameObject);
         System.Action comp = () => {
             if (type != HaruType.phone) { ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction }); }
             else { ShowScript.instance.EventStart(adv);isMoveStart = true; }
@@ -19,6 +20,7 @@ public class MessageDrop : Haru {
                 target.transform.SetParent(null);
                 target.transform.position = pos;
             }
+            UIController.instance.list.RemoveAll((item) => { return item == gameObject; });
         };
         //if (type == HaruType.phone) { MoveStartAction(); }
         //EventCamera.instance.StartEventCamera(cameraTarget, () => isMoveStart = true);

@@ -11,10 +11,10 @@ public class BusHaru : MonoBehaviour {
 
     private bool isEventEnd = false;
 
-    private void Start()
-    {
-        animator.SetTrigger("LightDeleteTrigger");
-    }
+    //private void Start()
+    //{
+    //    animator.SetTrigger("LightDeleteTrigger");
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -58,6 +58,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
         targetPosition = transform.position;
     }
 
+    private void Update()
+    {
+        rig.velocity = Vector3.zero;
+    }
+
     void PlayerSearchMouse()
     {
         if (NowItem != null)
@@ -112,7 +117,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     /// </summary>
     /// <returns></returns>
     public bool IsEnterTargetPosition() {
-        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.01f;
+        return Mathf.Abs(targetPosition.x - transform.position.x) < 0.05f;
     }
 
     private void PlayerRotationUpdata() {

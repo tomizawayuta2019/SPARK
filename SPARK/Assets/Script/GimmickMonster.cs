@@ -130,7 +130,7 @@ public class GimmickMonster : MonoBehaviour
     }
 
     //　time秒後に死ぬ（time中にドロドロした演出を入れる）
-    public IEnumerator DeadMonster(float time)
+    public virtual IEnumerator DeadMonster(float time)
     {
         monsterSpeed = 0;
         yield return StartCoroutine(EventCamera.instance.StartEventCameraWait(gameObject));
@@ -139,14 +139,16 @@ public class GimmickMonster : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
 
-        GameObject item = Instantiate(dropItem);
-        item.transform.position = transform.position;
+        if (dropItem != null)
+        {
+            GameObject item = Instantiate(dropItem);
+            item.transform.position = transform.position;
+        }
 
         ShowScript.instance.EventStart(deathADV);
 
         while (ShowScript.instance.GetIsShow()) { yield return null; }
         EventCamera.instance.EndEventCamera();
-        yield return time;
     }
     /// <summary>
     /// time秒までに徐々に透明になる
@@ -170,7 +172,7 @@ public class GimmickMonster : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
-    private Animator GetAnim()
+    protected Animator GetAnim()
     {
         return transform.GetChild(0).GetComponent<Animator>();
     }

@@ -17,6 +17,13 @@ public class RedLight : MonoBehaviour, IItemUse
     Animator busAnim;
 
     bool isEventEnd = false;
+    bool isEnterMonster = false;
+    Rigidbody2D rig;
+
+    private void Start()
+    {
+        rig = GetComponent<Rigidbody2D>();
+    }
 
     public bool IsCanUseItem(ItemState item)
     {
@@ -31,5 +38,19 @@ public class RedLight : MonoBehaviour, IItemUse
         targetObj.SetActive(true);
         busAnim.SetTrigger("RedLightTrigger");
         return true;
+    }
+
+    private void Update()
+    {
+        if (!isEnterMonster) { rig.WakeUp(); }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Monster")
+        {
+            busAnim.SetTrigger("LightDeleteTrigger");
+            isEnterMonster = true;
+        }
     }
 }

@@ -13,6 +13,8 @@ public class MonsterDestroyEvent : MonoBehaviour {
     private bool isEnterd;
     [SerializeField]
     private Type type;
+    [SerializeField] bool isLoop;
+    private bool IsEnter { get { return isLoop || !isEnterd; } }//イベントが発生するか
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public class MonsterDestroyEvent : MonoBehaviour {
     {
         if (type != Type.Enter) { return; }
 
-        if (!isEnterd && collision.gameObject.tag == "Player") {
+        if (IsEnter && collision.gameObject.tag == "Player") {
             Enter();
         }
     }
@@ -36,7 +38,7 @@ public class MonsterDestroyEvent : MonoBehaviour {
     }
 
     private void Enter() {
-        if (isEnterd) { return; }
+        if (!IsEnter) { return; }
         if (PlayerController.instance == null) { return; }
         PlayerController.instance.MonsterDestroyEvent();
         isEnterd = true;

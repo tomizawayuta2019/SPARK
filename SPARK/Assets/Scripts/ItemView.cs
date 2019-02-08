@@ -116,6 +116,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
 
         buttons[0].SetActive(currenttextNum < target.state.itemText.Length - 1);
         buttons[1].SetActive(currenttextNum != 0);
+        text.transform.localPosition = textDefPos;
     }
 
     private IEnumerator DialyPageAnim(float time, bool isReverse = false)

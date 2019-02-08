@@ -37,6 +37,6 @@ public class WallBlood : GimmickKind {
     }
 
     public void DropItem() {
-        dropItem.SetActive(true);
+        if (dropItem != null) { dropItem.SetActive(true); }
     }
 }
