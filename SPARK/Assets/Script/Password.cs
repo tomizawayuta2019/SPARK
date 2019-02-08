@@ -20,13 +20,14 @@ public class Password : GimmickKind
     [SerializeField]
     GameObject onImage;
     private bool isOpen = false;
+    private bool isCheck = false;
+    private int count = 0;
     [SerializeField]
     GameObject doorImage;
 
     [SerializeField]
     GameObject targetgimmick;
     [SerializeField] Sprite openLockSprite;
-    [SerializeField] Image lockImage;
 
     private void Start()
     {
@@ -54,19 +55,13 @@ public class Password : GimmickKind
             }
         }
     }
-    /// <summary>
-    /// UIのActiveをつけたり消したり
-    /// </summary>
-    private void ActiveSelfObject()
-    {
-        passwordForm.gameObject.SetActive(true);
-    }
+
 
     public override void Click()
     {
         base.Click();
-        if (!isOpen) { ActiveSelfObject(); }
-        else { Open(); }
+        if (passwordForm.activeSelf) { return; }
+        if (isOpen) { Open(); }
     }
 
     /// <summary>
@@ -74,6 +69,7 @@ public class Password : GimmickKind
     /// </summary>
     public void PassWordInput(int button)
     {
+        if (isCheck) { return; }
         SEController.instance.PlaySE(SEController.SEType.button);
         if (button % 2 == 0)
         {
@@ -96,13 +92,24 @@ public class Password : GimmickKind
     {
         int password = 0;
         password = imageNum[0] * 1000 + imageNum[1] * 100 + imageNum[2] * 10 + imageNum[3];
-        isOpen = passwordNumber == password;
-        passwordForm.gameObject.SetActive(false);
-
-        if (isOpen) {
-            lockImage.sprite = openLockSprite;
+        isCheck = passwordNumber == password;
+        // 正解していて最初に押したら鍵が回る
+        if (isCheck&&!isOpen)
+        {
             SEController.instance.PlaySE(SEController.SEType.Unlock);
+            targetPanel.GetComponent<Image>().sprite = openLockSprite;
+            isOpen = true;
+            return;
         }
+    }
+
+    /// <summary>
+    /// パスワードを打つフォームのアクティブを取得しそれにあわせて表示非表示する。
+    /// </summary>
+    public void SetActiveSelf()
+    {
+        bool active = (passwordForm.gameObject.activeSelf) ? false : true;
+        passwordForm.gameObject.SetActive(active);
     }
 
     public void Open() {
