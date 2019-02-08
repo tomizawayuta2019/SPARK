@@ -40,6 +40,9 @@ public enum Chara
     Haru_Movie,
     Kiriya_Dummy,
     Ai_Gaman,
+    Ai_NoLight_urei,
+    Ai_NoLight_namidame,
+    Ai_NoLight_normal,
 }
 
 public static class CharaExt
@@ -187,6 +190,15 @@ public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
                         break;
                     case "Ai_gaman":
                         result.Add(Chara.Ai_Gaman);
+                        break;
+                    case "Ai_NoLight_urei":
+                        result.Add(Chara.Ai_NoLight_urei);
+                        break;
+                    case "Ai_NoLight_namidame":
+                        result.Add(Chara.Ai_NoLight_namidame);
+                        break;
+                    case "Ai_NoLight_normal":
+                        result.Add(Chara.Ai_NoLight_normal);
                         break;
                     default:
                         if (Enum.IsDefined(typeof(Chara), str[i]))

@@ -90,7 +90,10 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
         isRed = charaTable.GetIsRed(ShowScript.instance.personList[id]);
         if (isRed) { ShowScript.instance.charaText.text = "<color=#FF0000>" + charaTable.GetChara(ShowScript.instance.personList[id]) + "</color>"; }
         else { ShowScript.instance.charaText.text = charaTable.GetChara(ShowScript.instance.personList[id]); }
-        textCor = StartCoroutine(textLoad(ShowScript.instance.contentsList[id]));
+        if(textCor == null)
+        {
+            textCor = StartCoroutine(textLoad(ShowScript.instance.contentsList[id]));
+        }
     }
 
     //テキストをリアルタイムで更新
@@ -156,6 +159,11 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 strLength++;
                 ShowScript.instance.mainText.text = str;
 
+                if(tgt == "\n")
+                {
+                    str = str + "   ";
+                }
+
                 if (tgt == "\n" && !isLineBreakIgnore)
                 {
                     textWriting = false;
@@ -165,8 +173,11 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 if (strLength >= text.Length)
                 {
                     textWriting = false;
-                    StopCoroutine(textCor);
-                    textCor = null;
+                    if(textCor != null)
+                    {
+                        StopCoroutine(textCor);
+                        textCor = null;
+                    }
                     textBreaing = true;
                     PageIconCor = StartCoroutine(PageIconMove());
                     isLineBreakIgnore = false;
