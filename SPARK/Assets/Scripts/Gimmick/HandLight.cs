@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HandLight : GimmickKind {
     [SerializeField]
-    bool isEvent = false;
+    public bool isEvent = false;
     [SerializeField]
     float animTime;
     [SerializeField]
