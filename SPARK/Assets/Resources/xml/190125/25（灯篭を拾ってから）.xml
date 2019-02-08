@@ -4,7 +4,7 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>Ai_normal</Person>
+			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>（これは……黄色い灯篭……？
 どうしてここに……？）</Contents>
@@ -12,7 +12,7 @@
 		</item>
 		<item>
 			<Id>1</Id>
-			<Person>Ai_normal</Person>
+			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>（うちの村では、いつも祭りのときは
 みんな家の前に灯篭を飾るの）</Contents>
@@ -20,7 +20,7 @@
 		</item>]
 			<item>
 			<Id>2</Id>
-			<Person>Ai_smile</Person>
+			<Person>Ai_NoLight_smile</Person>
 			<Position>Left</Position>
 			<Contents>（そしたら……私はハルと一緒に祭りに行く。
 綺麗な黄色い灯篭の下で、いっぱい、いっぱい遊んだ……）</Contents>
@@ -28,21 +28,21 @@
 		</item>
 		<item>
 			<Id>3</Id>
-			<Person>Ai_normal</Person>
+			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>「……黄色い灯篭は全てを憶えている」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>4</Id>
-			<Person>Ai_normal</Person>
+			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>（それが、村の伝統）</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>5</Id>
-			<Person>Ai_normal</Person>
+			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>「どうか……私を導いてください」</Contents>
 			<Command>empty</Command>

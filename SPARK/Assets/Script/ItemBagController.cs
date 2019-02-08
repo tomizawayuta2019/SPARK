@@ -85,6 +85,12 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
         if (nowItem.state.getADVObj != null) {
             nowItem.state.getADVObj.SetActive(true);
         }
+
+        if (nowItem.state.type != ShowScript.ADVType.None && nowItem.state.type != ShowScript.ADVType.test)
+        {
+            Debug.Log(nowItem.state.type);
+            ShowScript.instance.EventStart(nowItem.state.type);
+        }
     }
     void SetInitializationPosition()//ポジション初期化
     {

@@ -77,6 +77,9 @@ public struct ItemState
     [SerializeField]
     public GameObject getADVObj,viewADVObj;
 
+    [SerializeField]
+    public ShowScript.ADVType type;
+
     /// <summary>
     /// 対象のアイテムに使用可能か否か
     /// </summary>
