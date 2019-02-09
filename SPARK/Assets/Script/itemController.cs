@@ -80,6 +80,7 @@ public class itemController : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndD
 
         if (targetItem == null || !targetItem.IsCanUseItem(state)) {
             returnPos();
+            ShowScript.instance.MissADVStart();
             return;
         }
 

@@ -2,11 +2,19 @@
 <root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<EventName>test</EventName>
 	<items>
-		<item>
+<item>
 			<Id>0</Id>
-			<Person>empty</Person>
-			<Position>empty</Position>
-			<Contents>CDEE　EDCD　CGGGGGCEGC</Contents>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「そうだ……！　この曲……
+　昔、ハルが教えてくれた……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>「……CDEE　EDCD　CGGGGGCEGC……」</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

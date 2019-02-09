@@ -9,17 +9,19 @@ public class BusHaru : MonoBehaviour {
     [SerializeField]
     Animator animator;
 
-    private bool isEventEnd = false;
+    [SerializeField] ShowScript.ADVType ADVType;
 
-    //private void Start()
-    //{
-    //    animator.SetTrigger("LightDeleteTrigger");
-    //}
+    private bool isEventEnd = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isEventEnd || collision.tag != "Player") { return; }
-        anim.Play();
+        anim.Play(() => { EventEnd(); });
         isEventEnd = true;
+    }
+
+    public void EventEnd()
+    {
+        ShowScript.instance.EventStart(ADVType);
     }
 }

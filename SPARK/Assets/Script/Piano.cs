@@ -39,6 +39,8 @@ public class Piano : GimmickKind {
     [SerializeField]
     ItemObject item;
 
+    [SerializeField] ShowScript.ADVType missADV;
+
     // pianoの状態
     private enum PianoState
     {
@@ -123,9 +125,13 @@ public class Piano : GimmickKind {
             // yesIntを2進数計算用に6から4に
             yesInt = (yesInt == 6) ? 4 : yesInt;
             // ピアノのイメージを変更
-            pianoImageState = (PianoState)System.Enum.ToObject(typeof(PianoState), (int)pianoImageState+yesInt); ;
+            pianoImageState = (PianoState)System.Enum.ToObject(typeof(PianoState), (int)pianoImageState + yesInt); ;
             pianoImage.sprite = pianoSprite[(int)pianoImageState];
             SEController.instance.PlaySE(SEController.SEType.piano_key);
+        }
+        else
+        {
+            ShowScript.instance.EventStart(missADV);
         }
         pianoWindow.SetActive(false);
         

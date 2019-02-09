@@ -7,7 +7,7 @@
 			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>（これは……黄色い灯篭……？
-どうしてここに……？）</Contents>
+　どうしてここに……？）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -15,7 +15,7 @@
 			<Person>Ai_NoLight_normal</Person>
 			<Position>Left</Position>
 			<Contents>（うちの村では、いつも祭りのときは
-みんな家の前に灯篭を飾るの）</Contents>
+　みんな家の前に灯篭を飾るの）</Contents>
 			<Command>empty</Command>
 		</item>]
 			<item>
@@ -23,7 +23,7 @@
 			<Person>Ai_NoLight_smile</Person>
 			<Position>Left</Position>
 			<Contents>（そしたら……私はハルと一緒に祭りに行く。
-綺麗な黄色い灯篭の下で、いっぱい、いっぱい遊んだ……）</Contents>
+　綺麗な黄色い灯篭の下で、いっぱい、いっぱい遊んだ……）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>

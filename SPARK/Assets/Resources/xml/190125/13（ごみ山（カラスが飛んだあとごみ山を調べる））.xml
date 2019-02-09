@@ -7,7 +7,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>「とても大きいごみの山。
-ひどい臭い……」</Contents>
+　ひどい臭い……」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -15,7 +15,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（あれ……？
-中で何かが光っているような……）</Contents>
+　中で何かが光っているような……）</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

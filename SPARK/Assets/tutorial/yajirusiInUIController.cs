@@ -37,7 +37,7 @@ public class yajirusiInUIController : MonoBehaviour
     GameObject mouseGif;
     [SerializeField]
     GameObject mainCamera;
-
+    CanvasGroup group;
 
 
     public string yajirushiItemViewTargert = "";
@@ -62,7 +62,7 @@ public class yajirusiInUIController : MonoBehaviour
 
         if (step == 1)
         {
-            if (PlayerLight.active == true)
+            if (PlayerLight.activeSelf == true)
             {
                 step = 2;
             }
@@ -76,7 +76,7 @@ public class yajirusiInUIController : MonoBehaviour
             }
         }
         //アイテム欄
-        if (itemView.active == true)
+        if (itemView.activeSelf == true)
         {
             ///ui
             if (target != null)
@@ -135,7 +135,7 @@ public class yajirusiInUIController : MonoBehaviour
             pointer.transform.position = ItemBagController.itemsContains("ロウソク").transform.position;
             if (target != null)
             {
-                if (itemView.active == true && target.state.itemName == "ロウソク")
+                if (itemView.activeSelf == true && target.state.itemName == "ロウソク")
                 {
                     pointer.SetActive(false);
                 }
@@ -152,7 +152,7 @@ public class yajirusiInUIController : MonoBehaviour
             pointer.transform.position = ItemBagController.itemsContains("灯篭").transform.position;
             if (target != null)
             {
-                if (itemView.active == true && target.state.itemName == "灯篭")
+                if (itemView.activeSelf == true && target.state.itemName == "灯篭")
                 {
                     pointer.SetActive(false);
                 }
@@ -179,27 +179,28 @@ public class yajirusiInUIController : MonoBehaviour
             yajirushiToPlayer.SetActive(false);
         }
 
-        if (step == 2&& mainCamera.active==true)
+        if (step == 2&& mainCamera.activeSelf==true)
         {
+            mouseGif.SetActive(false);
             //toright
             if (ItemBagController.itemsContains("マッチ") != null && ItemBagController.itemsContains("ロウソク") != null && ItemBagController.itemsContains("灯篭") != null)
             {
                 yajirushiToRight.SetActive(false);
             }
-            if (PlayerLight.active == true && PlayerLight.GetComponent<HandLight>().isEvent == false)
+            if (PlayerLight.activeSelf == true && PlayerLight.GetComponent<HandLight>().isEvent == false)
             {
                 yajirushiToRight.SetActive(true);
             }
             if (PlayerLight.GetComponent<HandLight>().isEvent == true)
             {
-                if (PlayerLight.active == true && monster.active == true)
+                if (PlayerLight.activeSelf == true && monster.activeSelf == true)
                 {
                     yajirushiToRight.SetActive(false);
                     tourouGif.SetActive(true);
                     step = 3;
                 }
             }
-        }else if(step == 2 && mainCamera.active == false)
+        }else if(step == 2 && mainCamera.activeSelf == false)
         {
             yajirushiToRight.SetActive(false);
             tourouGif.SetActive(false);
@@ -234,15 +235,17 @@ public class yajirusiInUIController : MonoBehaviour
 
         if (step == 6)
         {
-            if (ItemBagController.transform.position.y >= 1080)
+            if (!ItemBagController.IsItemBagView)
             {
                 mouseGif.SetActive(true);
+                pointer.SetActive(false);
             }
             else
             {
                 mouseGif.SetActive(false);
+                pointer.SetActive(true);
             }
-            pointer.SetActive(true);
+            //pointer.SetActive(true);
             pointer.transform.position = ItemBagController.itemsContains("手帳").transform.position;
 
             if(target.state.itemName== "手帳")
@@ -253,8 +256,13 @@ public class yajirusiInUIController : MonoBehaviour
             }
 
         }
-    }
 
+        //アイテムバッグが非アクティブなら、ポインターは必ず非表示
+        if (pointer.activeSelf && !(ItemBagController.itemBagActive && ItemBagController.IsItemBagView))
+        {
+            pointer.SetActive(false);
+        }
+    }
 
 
     //positionにある、targetを指し、widthは横、heightは高さ
@@ -293,10 +301,13 @@ public class yajirusiInUIController : MonoBehaviour
         yajirushiToLeft.SetActive(false);
         tourouGif.SetActive(false);
         mouseGif.SetActive(false);
+
+        group = GetComponent<CanvasGroup>();
     }
 
     private void Update()
     {
         yajirushiItemViewController();
+        group.alpha = UIController.instance.isCanInput || (ItemBagController.IsItemBagView) ? 1 : 0;
     }
 }

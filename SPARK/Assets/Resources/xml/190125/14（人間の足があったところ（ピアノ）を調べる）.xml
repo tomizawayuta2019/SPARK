@@ -7,7 +7,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（さっき……ここに何かが……。ごみの中に、
-何か硬いものが入っている。……取り出せないかな？）</Contents>
+　何か硬いものが入っている。……取り出せないかな？）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -22,7 +22,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（生まれ育った船を離れると、
-生きていけないピアニストの映画を見て……）</Contents>
+　生きていけないピアニストの映画を見て……）</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
@@ -30,7 +30,7 @@
 			<Person>Ai_smile</Person>
 			<Position>Left</Position>
 			<Contents>（二人でこのおもちゃのピアノを作ったんだよね。
-懐かしい……でも、なんでこんなことろに……？）</Contents>
+　懐かしい……でも、なんでこんなことろに……？）</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
@@ -38,7 +38,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（……そう、確かこのピアノは鍵盤が外れるようになってて、
-そうすると後ろの蓋が開くの。すごい時間をかけて作ったのを覚えてる……）</Contents>
+　そうすると後ろの蓋が開くの。すごい時間をかけて作ったのを覚えてる……）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -46,7 +46,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（今でもまだ開くのかな？
-でも、どの鍵盤を外せばいいんだっけ……？）</Contents>
+　でも、どの鍵盤を外せばいいんだっけ……？）</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

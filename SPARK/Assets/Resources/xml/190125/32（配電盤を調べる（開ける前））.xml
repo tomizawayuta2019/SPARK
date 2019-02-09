@@ -4,7 +4,7 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>古びた配電盤。
 これで電源を落とせそうだ。</Contents>

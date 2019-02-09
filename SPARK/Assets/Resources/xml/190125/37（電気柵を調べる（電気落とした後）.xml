@@ -4,7 +4,7 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>電気が止まっている。
 これで通れるようになった。</Contents>

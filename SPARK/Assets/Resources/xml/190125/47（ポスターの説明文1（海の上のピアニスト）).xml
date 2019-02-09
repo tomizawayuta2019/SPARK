@@ -4,14 +4,14 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>「1900年の伝説」</Contents>
 			<Command>empty</Command>
 		</item>
 	<item>
 			<Id>1</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>1900年、アメリカとヨーロッパを渡る船で、ある天才ピアニストが誕生した。
 未知なる陸地を恐れ、彼はやがて廃棄される船と共に海へ還った。</Contents>

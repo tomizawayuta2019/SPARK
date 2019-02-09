@@ -14,7 +14,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（私が小さいころにハルにあげた匂い袋だ……
-どうしてこんなところに……）
+　どうしてこんなところに……）
 </Contents>
 			<Command>empty</Command>
 		</item>
@@ -30,7 +30,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>「いやだ……
-なんで、こんな……」</Contents>
+　なんで、こんな……」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -38,7 +38,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>（わかってたの。
-ハルがもう、どこにもいないってこと）</Contents>
+　ハルがもう、どこにもいないってこと）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -46,7 +46,7 @@
 			<Person>Ai_namidame</Person>
 			<Position>Left</Position>
 			<Contents>（それでも、
-もう一度だけでいい……）</Contents>
+　もう一度だけでいい……）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -54,7 +54,7 @@
 			<Person>Ai_namidame</Person>
 			<Position>Left</Position>
 			<Contents>（もう一度、
-会いたい……）</Contents>
+　会いたい……）</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

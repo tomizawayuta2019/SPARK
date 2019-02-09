@@ -61,7 +61,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         SetItemText(target.state);
 
         gameObject.SetActive(true);
-        ItemBagController.instance.itemBagActive = false;
+        //ItemBagController.instance.itemBagActive = false;
     }
 
     private Sprite GetDiarySprite(int index)
@@ -79,7 +79,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         text.gameObject.SetActive(false);
         isItemView = false;
         gameObject.SetActive(false);
-        ItemBagController.instance.itemBagActive = true;
+        //ItemBagController.instance.itemBagActive = true;
 
         if (target.state.itemType == ItemType.diary_open && !isDialy)
         {

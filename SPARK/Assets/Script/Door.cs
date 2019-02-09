@@ -15,6 +15,9 @@ public class Door : GimmickKind ,ISwitchObject
     [SerializeField]
     GameObject openSprite;
 
+    [SerializeField] ShowScript.ADVType Before, After;
+    bool isCheck;
+
     //クリックされたら
     public override void Click()
     {
@@ -23,7 +26,8 @@ public class Door : GimmickKind ,ISwitchObject
         if (!isOpen)
         {
             //ADV表示
-            ShowScript.instance.EventStart(ShowScript.ADVType.Return_Erectric);
+            ShowScript.instance.EventStart(isCheck ? Before : After);
+            isCheck = true;//一回目だけ別ADV
             return;
         }
 

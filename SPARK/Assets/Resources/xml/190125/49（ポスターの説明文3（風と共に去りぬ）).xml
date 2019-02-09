@@ -4,14 +4,14 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>「風と共に去った」</Contents>
 			<Command>empty</Command>
 		</item>
 	<item>
 			<Id>1</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>スカーレットは男たちに囲まれて、蝶よ花よと育てた。
 けれど南北戦争はついに勃発し、彼女の生活は飢えと死によって一変する。</Contents>
@@ -19,7 +19,7 @@
 		</item>
 <item>
 			<Id>2</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>戦争の中で、彼女は綺麗なドレスを捨て、
 家族のために立ち上がり、全ての手を尽くして生き抜く。</Contents>

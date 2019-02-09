@@ -17,10 +17,13 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
     ItemObject diaryItem;
 
     itemController dialy;
+    [SerializeField]
+    float itemPosY;
 
     // Use this for initialization
 
     public bool itemBagActive = true;
+    public bool IsItemBagView;//現在アイテムバッグを表示中か
 
 
     public GameObject itemsContains(string itemName)
@@ -73,7 +76,7 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
                 ItemImage image = items[i].gameObject.AddComponent<ItemImage>();
                 image.item = nowItem.state;
                 item.state = nowItem.state;
-                items[i].transform.Translate(-800 + 200 * i, 0, 0);
+                items[i].transform.Translate(-800 + 200 * i, itemPosY, 0);
                 items[i].name = nowItem.state.itemName;
                 string itemSpriteName = nowItem.state.sprite.name;
                 //items[i].GetComponent<Image>().sprite = Resources.Load("GameSprite/" + itemSpriteName, typeof(Sprite)) as Sprite;
@@ -88,7 +91,7 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
 
         if (nowItem.state.type != ShowScript.ADVType.None && nowItem.state.type != ShowScript.ADVType.test)
         {
-            Debug.Log(nowItem.state.type);
+            //Debug.Log(nowItem.state.type);
             ShowScript.instance.EventStart(nowItem.state.type);
         }
     }
@@ -100,18 +103,21 @@ public class ItemBagController : SingletonMonoBehaviour<ItemBagController> {
     
     void PositonChange()//マオスポジションによるアイテム欄ポジション変化
     {
-        if (!itemBagActive) { return; }
+        //if (!itemBagActive) { return; }
         mousePosition = Input.mousePosition;
-        if (itemView.IsItemView ||( mousePosition.y >= Screen.height * 0.8f && mousePosition.y <= Screen.height))
+        //IsItemBagView = itemView.IsItemView || (mousePosition.y >= Screen.height * 0.8f && mousePosition.y <= Screen.height);
+        float delta = GetComponent<RectTransform>().sizeDelta.y / 2;
+        if (Input.GetMouseButtonDown(1)) { IsItemBagView = !IsItemBagView; }
+        if (IsItemBagView)
         {
-            if (this.gameObject.transform.position.y > Screen.height * 0.9f)
+            if (this.gameObject.transform.position.y > Screen.height - delta)
             {
                 this.transform.Translate(0,-itemBagSpeed,0);
             }
         }
         else
         {
-            if (this.gameObject.transform.position.y < Screen.height * 1.1f)
+            if (this.gameObject.transform.position.y < Screen.height + delta)
             {
                 this.transform.Translate(0, itemBagSpeed, 0);
             }

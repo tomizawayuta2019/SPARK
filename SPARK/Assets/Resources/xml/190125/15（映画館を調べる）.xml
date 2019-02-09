@@ -7,7 +7,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>「大きいスクリーン……
-ここは、映画館……？」</Contents>
+　ここは、映画館……？」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -22,7 +22,7 @@
 			<Person>Ai_smile</Person>
 			<Position>Left</Position>
 			<Contents>「昔は……ハルと一緒に、
-たくさん映画を見たよね……」</Contents>
+　たくさん映画を見たよね……」</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
@@ -30,7 +30,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>（また、一緒に見に行けるって
-思ってたのに……）</Contents>
+　思ってたのに……）</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
@@ -38,7 +38,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>（ここは、いったいどこ……？
-ハルはずっと、一人でここにいたの……？）</Contents>
+　ハルはずっと、一人でここにいたの……？）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -46,7 +46,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Left</Position>
 			<Contents>（あっ、あそこに受付がある。
-でも、チケットなんて……）</Contents>
+　でも、チケットなんて……）</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

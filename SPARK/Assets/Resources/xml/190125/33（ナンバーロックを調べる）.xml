@@ -4,7 +4,7 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>旧式のナンバーロックだ。
 4桁のパスワードが必要みたい。</Contents>

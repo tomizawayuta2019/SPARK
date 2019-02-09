@@ -244,6 +244,11 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         EventStart(num);
     }
 
+    public void MissADVStart()
+    {
+        EventStart(ADVType.Item_CantUse);
+    }
+
     private IEnumerator Show()
     {
         yield return TextBoxWrite.instance.TextBoxAnim();

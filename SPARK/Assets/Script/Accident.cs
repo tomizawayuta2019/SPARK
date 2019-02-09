@@ -13,6 +13,8 @@ public class Accident : GimmickKind
     [SerializeField]
     private GameObject monster;
 
+    [SerializeField] ShowScript.ADVType StartADV;
+
     bool AccidentC = false;
 
     private void Start()
@@ -27,11 +29,16 @@ public class Accident : GimmickKind
         if (AccidentC) return;
         StartCoroutine(AccidentSE());
         AccidentC = true;
+
     }
 
     // 黒いドロドロから花が落ちて
     IEnumerator BlackWater()
     {
+        ShowScript.instance.EventStart(StartADV);
+        yield return null;
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
+
         bool check = false;
         float gt = 0;
         SpriteRenderer BWSPR = WaterSp.GetComponent<SpriteRenderer>();

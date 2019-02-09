@@ -14,7 +14,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>「どうして……ハルがここに……？
-だって私……」</Contents>
+　だって私……」</Contents>
 			<Command>empty</Command>
 		</item>]
 			<item>
@@ -22,16 +22,15 @@
 			<Person>Ai_namidame</Person>
 			<Position>Left</Position>
 			<Contents>「ハルはもう……
-この世界からいなくなったのに」</Contents>
+　この世界からいなくなったのに」</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
 			<Id>3</Id>
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
-			<Contents>（私……どうしても
-あの告別式に行けなかったの。
-だって……）</Contents>
+			<Contents>（私……どうしてもあの告別式に行けなかったの。
+　だって……）</Contents>
 			<Command>empty</Command>
 		</item>
 		<item>
@@ -39,7 +38,7 @@
 			<Person>Ai_urei</Person>
 			<Position>Left</Position>
 			<Contents>「ううん……わからないわ……！
-もしかしたら、ハルはまだ……」</Contents>
+　もしかしたら、ハルはまだ……」</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>

@@ -4,14 +4,14 @@
 	<items>
 		<item>
 			<Id>0</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>【忘れるな、忘れるな、0222】</Contents>
 			<Command>empty</Command>
 		</item>
 			<item>
 			<Id>1</Id>
-			<Person>empty</Person>
+			<Person>Void</Person>
 			<Position>empty</Position>
 			<Contents>赤いペンキで塗りたくった文字。
 昔見た映画の暗号みたいだ。</Contents>
@@ -22,7 +22,7 @@
 			<Person>Ai_normal</Person>
 			<Position>Right</Position>
 			<Contents>「0222……2月22日――私が家を出て大学に行く日……。
-もしかして、これもハルが……？」</Contents>
+　もしかして、これもハルが……？」</Contents>
 			<Command>empty</Command>
 		</item>
 	</items>

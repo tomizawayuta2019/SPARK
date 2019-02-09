@@ -159,10 +159,10 @@ public class TextBoxWrite : SingletonMonoBehaviour<TextBoxWrite>
                 strLength++;
                 ShowScript.instance.mainText.text = str;
 
-                if(tgt == "\n")
-                {
-                    str = str + "   ";
-                }
+                //if(tgt == "\n")
+                //{
+                //    str = str + "   ";
+                //}
 
                 if (tgt == "\n" && !isLineBreakIgnore)
                 {

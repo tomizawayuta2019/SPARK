@@ -48,6 +48,7 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager> , IItemUse{
         //アイテムが使用できるか確認する
         if (targetObject == null || targetObject.IsCanUseItem(item.item)) {
             dragItem = null;
+            ShowScript.instance.MissADVStart();
             return;
         }
 
