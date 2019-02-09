@@ -81,7 +81,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         gameObject.SetActive(false);
         //ItemBagController.instance.itemBagActive = true;
 
-        if (target.state.itemType == ItemType.diary_open && !isDialy)
+        if (target.state.itemType == ItemType.diary && target.state.itemText.Length >= 1 && !isDialy)
         {
             ShowScript.instance.EventStart(ShowScript.ADVType.Item_Dialy);
             isDialy = true;

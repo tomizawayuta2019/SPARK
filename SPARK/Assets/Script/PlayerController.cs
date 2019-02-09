@@ -18,7 +18,7 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     public int PlayerMoveFlag = 1;
     [SerializeField]
     private bool PlayerActive;
-    public bool PlayerInputActive = true;
+    public bool PlayerInputActive = false;
 
     [HideInInspector] GameObject NowItem;
     [HideInInspector] Vector2 mousePosition;
@@ -61,6 +61,11 @@ public class PlayerController : SingletonMonoBehaviour<PlayerController>,IItemUs
     private void Update()
     {
         rig.velocity = Vector3.zero;
+    }
+
+    public void WakeUp()
+    {
+        playerAnimController.SetTrigger("WakeUpTrigger");
     }
 
     void PlayerSearchMouse()

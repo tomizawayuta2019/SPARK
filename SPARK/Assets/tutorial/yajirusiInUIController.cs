@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class yajirusiInUIController : MonoBehaviour
+public class yajirusiInUIController : SingletonMonoBehaviour<yajirusiInUIController>
 {
     [SerializeField]
     GameObject pointer;
@@ -47,6 +47,14 @@ public class yajirusiInUIController : MonoBehaviour
     int step = 0;
     GameObject diary_close;
     //int YajirusiFlag = 0;
+
+    bool isStart;
+
+    public void StartTutorial()
+    {
+        isStart = true;
+    }
+
     public void yajirushiItemViewController()
     {
         this.target = itemView.GetComponent<ItemView>().target;
@@ -307,7 +315,7 @@ public class yajirusiInUIController : MonoBehaviour
 
     private void Update()
     {
-        yajirushiItemViewController();
+        if (isStart) { yajirushiItemViewController(); } 
         group.alpha = UIController.instance.isCanInput || (ItemBagController.IsItemBagView) ? 1 : 0;
     }
 }

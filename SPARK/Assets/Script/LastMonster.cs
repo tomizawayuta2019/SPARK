@@ -43,6 +43,7 @@ public class LastMonster : MonoBehaviour {
         gameOver.gameObject.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
+        BGMController.instance.SetBGM(BGMController.BGMType.sinzitu);
         ShowScript.instance.EventStart(ShowScript.ADVType.Ending_Black, null, () => 
         {
             gameOver.gameObject.SetActive(false);

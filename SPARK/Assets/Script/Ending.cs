@@ -54,7 +54,15 @@ public class Ending : MonoBehaviour {
         
         endSP.sprite = endMovies[12];
 
+        BGMController.instance.SetBGM(BGMController.BGMType.huyunohi);
         ShowScript.instance.EventStart(ShowScript.ADVType.Ending);
+
+
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
+        yield return null;
+        while (!Input.GetMouseButtonDown(0)) { yield return null; }
+
+        ESCController.instance.PushESC();
 
         //2秒
         //yield return new WaitForSeconds(Time.deltaTime * 60 * 2);

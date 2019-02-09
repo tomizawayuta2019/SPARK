@@ -25,10 +25,26 @@ public class Haru : MonoBehaviour {
     bool isMoveEnd;
 
     [SerializeField] Animator anim;
+    SpriteRenderer sr;
+
+    [SerializeField] bool isZeroAlpha;
 
     protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        if (isZeroAlpha)
+        {
+            SetAlpha(0);
+            PlayerController.instance.PlayerInputActive = false;
+        } 
+    }
+
+    private void SetAlpha(float value)
+    {
+        Color color = sr.color;
+        color.a = value;
+        sr.color = color;
     }
 
     protected virtual void Start()
@@ -39,7 +55,7 @@ public class Haru : MonoBehaviour {
         switch (type)
         {
             case HaruType.gameStart:
-                ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { WaitForMoveEnd });
+                StartCoroutine(Event());
                 break;
             case HaruType.messageDrop:
                 //ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { MoveStartAction });
@@ -47,6 +63,13 @@ public class Haru : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    private IEnumerator Event()
+    {
+        PlayerController.instance.WakeUp();
+        yield return new WaitForSeconds(2.0f);
+        ShowScript.instance.EventStart(adv, new List<ShowTextAction>() { WaitForMoveEnd }, () => { yajirusiInUIController.instance.StartTutorial(); });
     }
 
     public virtual void MoveStart() {
@@ -92,6 +115,14 @@ public class Haru : MonoBehaviour {
     }
 
     IEnumerator WaitForMoveEnd() {
+        float time = 0;
+        while (time < 1)
+        {
+            time += TimeManager.DeltaTime;
+            SetAlpha(time);
+            yield return null;
+        }
+        SetAlpha(1);
         MoveStart();
 
         while (!isMoveEnd) {
@@ -100,6 +131,7 @@ public class Haru : MonoBehaviour {
 
         Destroy(gameObject);
         UIController.instance.list.Remove(gameObject);
+        PlayerController.instance.PlayerInputActive = true;
     }
 
 }

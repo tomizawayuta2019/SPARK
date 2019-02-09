@@ -22,6 +22,7 @@ public class Accident : GimmickKind
         WaterSp.SetActive(false);
     }
 
+    [ContextMenu("Click")]
     public override void Click()
     {
         base.Click();
@@ -35,10 +36,6 @@ public class Accident : GimmickKind
     // 黒いドロドロから花が落ちて
     IEnumerator BlackWater()
     {
-        ShowScript.instance.EventStart(StartADV);
-        yield return null;
-        while (ShowScript.instance.GetIsShow()) { yield return null; }
-
         bool check = false;
         float gt = 0;
         SpriteRenderer BWSPR = WaterSp.GetComponent<SpriteRenderer>();
@@ -75,11 +72,15 @@ public class Accident : GimmickKind
     //　SE
     IEnumerator AccidentSE()
     {
-        UIController.instance.list.Add(gameObject);
-        //SEController.instance.PlaySE();//ここにブレーキ音
-        yield return new WaitForSeconds(2.0f);
-        //SEController.instance.PlaySE();//ここにドン音
-        yield return new WaitForSeconds(1.0f);
+        ShowScript.instance.EventStart(StartADV);
+        yield return null;
+        while (ShowScript.instance.GetIsShow()) { yield return null; }
+
+        yield return new WaitForSeconds(0.1f);
+        SEController.instance.PlaySE(SEController.SEType.car);
+        yield return new WaitForSeconds(0.3f);
+        SEController.instance.PlaySE(SEController.SEType.car_break);
+        yield return new WaitForSeconds(0.1f);
         // 黒いドロドロ
         StartCoroutine(BlackWater());
     }
