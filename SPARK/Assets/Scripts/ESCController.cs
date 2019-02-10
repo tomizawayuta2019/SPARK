@@ -7,7 +7,7 @@ public class ESCController : SingletonMonoBehaviour<ESCController> {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetSceneAt(0).buildIndex != 1) {
+        if (/*Input.GetKeyDown(KeyCode.Escape)*/ Input.GetMouseButtonDown(2) && SceneManager.GetSceneAt(0).buildIndex != 1) {
             PushESC();
         }
 	}

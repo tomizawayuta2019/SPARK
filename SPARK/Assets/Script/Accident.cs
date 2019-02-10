@@ -6,6 +6,7 @@ public class Accident : GimmickKind
 {
     [SerializeField]
     private GameObject Flower;
+    [SerializeField] float flowerPosY;
     [SerializeField]
     private GameObject WaterSp;
     [SerializeField]
@@ -54,13 +55,15 @@ public class Accident : GimmickKind
         // 花が落ちるよ
         while (!check)
         {
-            Flower.transform.Translate( 0f, -0.1f - ((gt += Time.deltaTime) * 0.98f), 0);
-            if (transform.position.y+0.5f >= Flower.transform.position.y)
+            yield return null;
+            Flower.transform.Translate( 0f, -0.1f - ((gt += TimeManager.DeltaTime) * 0.98f), 0);
+            if (flowerPosY >= Flower.transform.localPosition.y)
             {
                 check = true;
             }
-            yield return new WaitForSeconds(Time.deltaTime);
         }
+        Flower.transform.localPosition = new Vector3(Flower.transform.localPosition.x, flowerPosY, Flower.transform.localPosition.z);
+
 
         // ここにADV
 

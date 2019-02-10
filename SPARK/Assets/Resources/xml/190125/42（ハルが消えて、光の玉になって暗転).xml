@@ -15,7 +15,7 @@
 			<Position>empty</Position>
 			<Contents>言われるがままに「新しい家」に送られて、
 正直、もうどうでもいいと思った。</Contents>
-			<Command>empty</Command>
+			<Command>bgmChange</Command>
 		</item>
 		<item>
 			<Id>2</Id>

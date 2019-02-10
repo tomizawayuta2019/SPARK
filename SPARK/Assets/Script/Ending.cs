@@ -54,8 +54,7 @@ public class Ending : MonoBehaviour {
         
         endSP.sprite = endMovies[12];
 
-        BGMController.instance.SetBGM(BGMController.BGMType.huyunohi);
-        ShowScript.instance.EventStart(ShowScript.ADVType.Ending);
+        ShowScript.instance.EventStart(ShowScript.ADVType.Ending, new List<ShowTextAction>() { ChangeBGM });
 
 
         while (ShowScript.instance.GetIsShow()) { yield return null; }
@@ -66,5 +65,11 @@ public class Ending : MonoBehaviour {
 
         //2秒
         //yield return new WaitForSeconds(Time.deltaTime * 60 * 2);
+    }
+
+    IEnumerator ChangeBGM()
+    {
+        yield return null;
+        BGMController.instance.SetBGM(BGMController.BGMType.huyunohi);
     }
 }
