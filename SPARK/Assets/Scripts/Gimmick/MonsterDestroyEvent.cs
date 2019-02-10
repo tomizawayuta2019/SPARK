@@ -39,7 +39,7 @@ public class MonsterDestroyEvent : MonoBehaviour {
 
     private void Enter() {
         if (!IsEnter) { return; }
-        if (PlayerController.instance == null) { return; }
+        if (PlayerController.instance == null || GimmickMonster.Instance == null) { return; }
         PlayerController.instance.MonsterDestroyEvent();
         isEnterd = true;
     }

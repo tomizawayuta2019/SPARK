@@ -44,6 +44,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         this.target = target;
         Close();
         isItemView = true;
+        ItemBagController.instance.IsItemBagView = true;
 
 
 
@@ -79,7 +80,7 @@ public class ItemView : SingletonMonoBehaviour<ItemView> {
         text.gameObject.SetActive(false);
         isItemView = false;
         gameObject.SetActive(false);
-        //ItemBagController.instance.itemBagActive = true;
+        ItemBagController.instance.IsItemBagView = false;
 
         if (target.state.itemType == ItemType.diary && target.state.itemText.Length >= 1 && !isDialy)
         {

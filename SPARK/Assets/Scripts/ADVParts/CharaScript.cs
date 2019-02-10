@@ -10,8 +10,20 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
     private GameObject charaPrefab;
     
     //キャラの立ち絵を表示する
-    private IEnumerator ShowChara(Sprite spr, Position charapos, Vector2 scale, int anim = 1)
+    private void ShowChara(Sprite spr, Position charapos, Vector2 scale)
     {
+        GameObject defImage = ShowScript.instance.stageChara[(int)charapos];
+        float alpha = 0f;
+        if (defImage != null)
+        {
+            if (defImage.GetComponent<Image>().sprite == spr) { return; }
+            else
+            {
+                Destroy(defImage);
+                alpha = 1;
+            }
+        }
+
         //基本構成
         GameObject chara = Instantiate(charaPrefab) as GameObject;
         //位置を代入するとキャラの位置がずれるバグがあったので子要素でlocalpositionを0に
@@ -21,28 +33,10 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
         chara.GetComponent<Image>().sprite = spr;
         chara.transform.localScale = scale;
 
-        chara.GetComponent<CanvasGroup>().alpha = 0f;
-
-        //if (anim == 1)
-        //{
-        //    float alpha = 0f;
-        //    chara.GetComponent<CanvasGroup>().alpha = alpha;
-        //    while (alpha <= 1f)
-        //    {
-        //        alpha += 0.02f;
-        //        chara.GetComponent<CanvasGroup>().alpha = alpha;
-        //        yield return null;
-        //    }
-        //}
-
-        //左右反転させる
-        if (/*左右反転するかどうか*/false)
-        {
-            //Vector3 scale = chara.transform.localScale;
-            //scale.x *= -1;
-        }
+        chara.GetComponent<CanvasGroup>().alpha = alpha;
+        
         ShowScript.instance.stageChara[(int)charapos] = chara;
-        yield break;
+        //Debug.Log(spr);
     }
 
     //メインキャラの切り替え
@@ -99,10 +93,11 @@ public class CharaScript : SingletonMonoBehaviour<CharaScript>
     public IEnumerator CharaChange(int id, Sprite spr, Vector2 scale)
     {
         //キャラがまだ表示されてなかったら開く
-        if (ShowScript.instance.positionList[id] != Position.empty &&
-            Is_StayChara((int)ShowScript.instance.positionList[id]) == false)
+        if (ShowScript.instance.positionList[id] != Position.empty
+            // && Is_StayChara((int)ShowScript.instance.positionList[id]) == false
+            )
         {
-            yield return ShowChara(spr, ShowScript.instance.positionList[id], scale);
+            ShowChara(spr, ShowScript.instance.positionList[id], scale);
         }
         yield return TalkingChara((int)ShowScript.instance.positionList[id]);
         yield break;

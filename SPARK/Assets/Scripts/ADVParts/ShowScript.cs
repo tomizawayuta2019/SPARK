@@ -67,6 +67,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         Monster_Enter = 100,//化け物初登場
         Monster_Destroy = 101,//化け物倒した
         Monster2_Enter,
+        Movie_Monster,
 
         ItemGet_Light = 200,//灯篭持った
         ItemCanUse_Knife = 219,//ナイフ使ってほしい
@@ -103,7 +104,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
     public List<Chara> personList = new List<Chara>();
     [System.NonSerialized]
     public List<Position> positionList = new List<Position>();
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public List<string> contentsList = new List<string>();
     [System.NonSerialized]
     public List<string> commandList = new List<string>();
@@ -254,7 +255,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
         yield return TextBoxWrite.instance.TextBoxAnim();
         yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
         TextBoxWrite.instance.UpdateTexts(id);
-        yield break;
+        id = 1;//初期化処理を行うため、IDが０の時はShow関数のみで処理
+        //yield break;
     }
 
     private Sprite GetCharaImage(int id)
@@ -303,9 +305,8 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
                 TextBoxWrite.instance.BreakPageIcon();
             }
 
-            if (_input && TextBoxWrite.instance.textBreaing && isShow)
+            if (id != 0 && _input && TextBoxWrite.instance.textBreaing && isShow && !TextBoxWrite.instance.textWriting)//初期化処理を行うため、IDが０の時はShow関数のみで処理
             {
-                id++;
                 if(id == contentsList.Count)
                 {
                     StartCoroutine(Destroy_TextBox());
@@ -317,6 +318,7 @@ public class ShowScript : SingletonMonoBehaviour<ShowScript>
                     yield return CharaScript.instance.CharaChange(id, GetCharaImage(id), charaTable.Scale(personList[id]));
                     TextBoxWrite.instance.UpdateTexts(id);
                 }
+                id++;
             }
             yield return null;
         }

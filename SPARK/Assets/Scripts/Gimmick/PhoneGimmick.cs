@@ -23,6 +23,7 @@ public class PhoneGimmick : GimmickKind {
 
     [SerializeField]
     GameObject returnPos;
+    [SerializeField] GameObject effect;
 
     bool isEvent = false;
 
@@ -39,7 +40,8 @@ public class PhoneGimmick : GimmickKind {
         base.Click();
 
         UIController.instance.list.Add(gameObject);
-        StartCoroutine(Event());
+        PlayerController.instance.StartCoroutine(Event());
+        effect.SetActive(false);
     }
 
     IEnumerator Event() {

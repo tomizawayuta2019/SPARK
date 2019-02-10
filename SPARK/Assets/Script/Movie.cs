@@ -16,6 +16,9 @@ public class Movie : GimmickKind ,IItemUse
     [SerializeField]
     GameObject finalEvent,monster;
 
+    [SerializeField] Animator anim;
+    [SerializeField] float animTime;
+
     public override void Click()
     {
         if (check) { return; }
@@ -50,8 +53,11 @@ public class Movie : GimmickKind ,IItemUse
 
         finalEvent.SetActive(true);
 
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(5.0f);
         finalEvent.SetActive(false);
+
+        anim.SetTrigger("WaterTrigger");
+        yield return new WaitForSeconds(animTime);
 
         monster.SetActive(true);
     }

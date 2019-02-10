@@ -109,37 +109,5 @@
 			<Contents>「君と、離れ離れになるくらいなら……」</Contents>
 			<Command>empty</Command>
 		</item>
-		<item>
-			<Id>15</Id>
-			<Person>Ai_namidame</Person>
-			<Position>Right</Position>
-			<Contents>「そ、そんな……
-　さっきはいなくなったのに……！」</Contents>
-			<Command>monster</Command>
-		</item>
-		<item>
-			<Id>16</Id>
-			<Person>Ai_namidame</Person>
-			<Position>Right</Position>
-			<Contents>「ねぇ……ここはどこなの？
-　あなたは、なんなの……！？」</Contents>
-			<Command>empty</Command>
-		</item>
-		<item>
-			<Id>17</Id>
-			<Person>Ai_namidame</Person>
-			<Position>Right</Position>
-			<Contents>「ハル……
-　ハルはどこにいるの……！」</Contents>
-			<Command>empty</Command>
-		</item>
-		<item>
-			<Id>18</Id>
-			<Person>Ai_gaman</Person>
-			<Position>Right</Position>
-			<Contents>「私……私は
-　ハルに会いたいの……！」</Contents>
-			<Command>empty</Command>
-		</item>
 	</items>
 </root>
