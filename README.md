@@ -5,7 +5,6 @@
 制作期間：4か月
 制作環境：Unity(C#)
 機種：PC
-役割：メインプログラマー
 
 # ビルドデータ
 [ダウンロード](https://drive.google.com/open?id=1w8CQOtpX532oL8vA7Ru6yMeLYr-Its2w)
