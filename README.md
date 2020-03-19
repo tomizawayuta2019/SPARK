@@ -6,7 +6,9 @@
 制作環境：Unity(C#)
 機種：PC
 役割：メインプログラマー
-[ビルドデータ](https://drive.google.com/open?id=1w8CQOtpX532oL8vA7Ru6yMeLYr-Its2w)
+
+# ビルドデータ
+[ダウンロード](https://drive.google.com/open?id=1w8CQOtpX532oL8vA7Ru6yMeLYr-Its2w)
 
 # 担当箇所
 統合作業
