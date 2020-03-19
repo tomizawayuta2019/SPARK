@@ -9,15 +9,18 @@ public class HandLight : GimmickKind {
     float animTime;
     [SerializeField]
     Animator anim;
+    [SerializeField] GameObject Image;
 
     public void EventStart() {
         isEvent = true;
+        Image.SetActive(true);
         anim.SetBool("isFlash", true);
     }
 
     public override void Click()
     {
         if (isEvent) {
+            Image.SetActive(false);
             UIController.instance.list.Add(gameObject);
             PlayerController.instance.ClickLight();
             anim.SetTrigger("Flash");
@@ -30,6 +33,7 @@ public class HandLight : GimmickKind {
                 PlayerController.instance.SetPlayerActive(true);
             }));
             isEvent = false;
+
         }
         base.Click();
     }

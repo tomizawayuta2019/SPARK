@@ -41,14 +41,23 @@ public class GimmickMonster : MonoBehaviour
     private float growing = 1; // 時間で大きくなるときの倍率
     GameObject wall;
 
-    protected virtual void Start()
+    public Vector3 playerDefPos;
+    private Vector3? defScale;
+
+    public virtual void Start()
     {
+        if (defScale.HasValue) { transform.localScale = defScale.Value; }
+        else { defScale = transform.localScale; }
         monsterSPR = transform.GetChild(0).GetComponent<SpriteRenderer>();
         transform.position = stagePosition.GetPosition();
+        playerDefPos = PlayerController.instance.transform.position;
 
         ShowScript.instance.EventStart(startADV, new List<ShowTextAction>() {
             MonsterStart
         });
+
+        isCamera = true;
+        isMove = true;
     }
 
     IEnumerator MonsterStart()
@@ -77,11 +86,12 @@ public class GimmickMonster : MonoBehaviour
             // モンスターの移動と拡大
             MonsterMove();
         }
-        if (!ShowScript.instance.GetIsShow() && isCamera && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 30)
+        if ((!ShowScript.instance.GetIsShow() || isCamera) && Mathf.Abs(PlayerController.instance.transform.position.x - transform.position.x) < 30)
         {
             EventCamera.instance.EndEventCamera();
             isCamera = false;
         }
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     }
 
     /// <summary>
@@ -102,6 +112,7 @@ public class GimmickMonster : MonoBehaviour
         nowAcce = acceleration < 0 ?
             Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, acceleration, 0) :
             Mathf.Clamp(nowAcce + TimeManager.DeltaTime * acceleration / acceTime, 0, acceleration);
+        //Debug.Log(difSizeY);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -148,7 +159,7 @@ public class GimmickMonster : MonoBehaviour
         ShowScript.instance.EventStart(deathADV);
 
         while (ShowScript.instance.GetIsShow()) { yield return null; }
-        EventCamera.instance.EndEventCamera();
+        EventCamera.instance.EndEventCamera(true);
     }
     /// <summary>
     /// time秒までに徐々に透明になる

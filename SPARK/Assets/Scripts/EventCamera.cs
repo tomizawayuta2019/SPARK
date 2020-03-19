@@ -11,6 +11,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
             if (main == null) { main = Camera.main; }
             return main; } }
     bool isChase = false;
+    bool isEnd = false;
 
     protected override void Awake()
     {
@@ -22,8 +23,8 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         gameObject.SetActive(true);
         this.target = target;
         transform.position = Main.transform.position;
-        if (comp != null) { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
-        else { coroutine = StartCoroutine(MoveToTarget(target, () => { isChase = true; })); }
+        if (comp != null) { coroutine = PlayerController.instance.StartCoroutine(MoveToTarget(target, () => { isChase = true;comp(); })); }
+        else { coroutine = PlayerController.instance.StartCoroutine(MoveToTarget(target, () => { isChase = true; })); }
         Main.gameObject.SetActive(false);
         tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
@@ -37,7 +38,7 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         tag = "MainCamera";
         UIController.instance.list.Add(gameObject);
 
-        yield return StartCoroutine(MoveToTarget(target,()=> { }));
+        yield return PlayerController.instance.StartCoroutine(MoveToTarget(target,()=> { }));
     }
 
     private void Update()
@@ -50,11 +51,22 @@ public class EventCamera : SingletonMonoBehaviour<EventCamera> {
         }
     }
 
-    public void EndEventCamera() {
-        if (coroutine == null) { return; }
-        StopCoroutine(coroutine);
-        StartCoroutine(MoveToTarget(Main.gameObject, 
+    public void EndEventCamera(bool isFoce = false) {
+        //if (coroutine == null || isEnd) { return; }
+        if (!isFoce &&(coroutine == null || isEnd))
+        {
+            //Debug.Log("endCamera faild");
+            return;
+        }
+        isEnd = true;
+        if (coroutine != null)
+        {
+            PlayerController.instance.StopCoroutine(coroutine);
+            coroutine = null;
+        }
+        PlayerController.instance.StartCoroutine(MoveToTarget(Main.gameObject, 
             () => {
+                isEnd = false;
                 tag = "EventCamera";
                 UIController.instance.list.Remove(gameObject);
                 Main.gameObject.SetActive(true);

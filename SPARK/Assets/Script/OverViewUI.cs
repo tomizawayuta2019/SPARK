@@ -16,7 +16,7 @@ public class OverViewUI : MonoBehaviour {
     {
         //終了時にエラー吐くのでinstance確認
         if (UIController.instance) {
-            UIController.instance.list.Remove(gameObject);
+            UIController.instance.list.RemoveAll((item) => { return item == gameObject; });
         }
     }
 }

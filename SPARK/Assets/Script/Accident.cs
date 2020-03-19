@@ -31,7 +31,6 @@ public class Accident : GimmickKind
         if (AccidentC) return;
         StartCoroutine(AccidentSE());
         AccidentC = true;
-
     }
 
     // 黒いドロドロから花が落ちて

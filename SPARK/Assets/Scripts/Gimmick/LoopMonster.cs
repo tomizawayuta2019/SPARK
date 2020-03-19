@@ -6,10 +6,10 @@ public class LoopMonster : GimmickMonster {
     [SerializeField]
     LoopGround loop;
 
-    [SerializeField] int HP;
+    [SerializeField] public int HP;
     [SerializeField] ShowScript.ADVType notDeathADV;
 
-    protected override void Start()
+    public override void Start()
     {
         loop.gameObject.SetActive(true);
         loop.SetLoopObject(gameObject);
@@ -33,7 +33,7 @@ public class LoopMonster : GimmickMonster {
         ShowScript.instance.EventStart(notDeathADV);
 
         while (ShowScript.instance.GetIsShow()) { yield return null; }
-        EventCamera.instance.EndEventCamera();
+        EventCamera.instance.EndEventCamera(true);
         Restart();
     }
 }

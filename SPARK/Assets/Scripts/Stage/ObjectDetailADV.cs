@@ -7,7 +7,7 @@ public class ObjectDetailADV : GimmickKind {
 
     private void Start()
     {
-        tag = "Detail";
+        //tag = "Detail";
     }
 
     public override void Click()

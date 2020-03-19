@@ -229,6 +229,7 @@ public class yajirusiInUIController : SingletonMonoBehaviour<yajirusiInUIControl
                 yajirushiToPlayer.SetActive(true);
                 Vector3 move = new Vector3(0, 100.0f, 0);
                 Vector3 yajirushiToPlayerPosition = Camera.main.WorldToScreenPoint(diary_close.transform.position) + move;
+                yajirushiToPlayer.transform.localScale = Vector3.one;
                 yajirushiToPlayer.transform.position = yajirushiToPlayerPosition;
                 yajirushiToPlayer.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(200.0f, 50.0f);
                 yajirushiToPlayer.transform.right = Camera.main.WorldToScreenPoint(diary_close.transform.position) - yajirushiToPlayerPosition;
