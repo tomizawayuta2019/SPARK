@@ -6,78 +6,126 @@ using System.Xml;
 using UnityEngine;
 
 /*
- *  XMLをロードする
+ *  XMLをロードしてシナリオデータを保持しておくスクリプト
+ *  現段階ではシングルトンだが、将来的にScriptableObjectに移行する予定
  */
 
-public class XMLLoad:MonoBehaviour
+public enum XMLIndex
 {
-    [SerializeField]
-    private TextAsset xml;
-    private enum XMLIndex
+    Id = 0,
+    Person,
+    Position,
+    Contents,
+    Command
+}
+
+public enum Position
+{
+    Left = 0,
+    Bottom,
+    Right,
+    empty,
+}
+
+public enum Chara
+{
+    Yaku = 0,
+    Ai_urei,
+    Ai_normal,
+    Ai_namidame,
+    Kiriya,
+    empty,
+    Ai_movie,
+    Ai_Smile,
+    Haru_Movie,
+    Kiriya_Dummy,
+    Ai_Gaman,
+    Ai_NoLight_urei,
+    Ai_NoLight_namidame,
+    Ai_NoLight_normal,
+    Ai_NoLight_Smile,
+    NoName,
+}
+
+public static class CharaExt
+{
+    public static string GetCharaSpriteName(this Chara type)
     {
-        Id = 0,
-        Person,
-        Position,
-        Contents,
-        Command
+        switch (type)
+        {
+
+            default:
+                return type.ToString();
+        }
     }
+}
+
+[DefaultExecutionOrder(-1)]
+public class XMLLoad:SingletonMonoBehaviour<XMLLoad>
+{
+    public XmlSettings setting;
     
-    [SerializeField]
-    private List<string> personList_Before = new List<string>();
-    private List<string> positionList_Before = new List<string>();
-    private List<string> contentsList = new List<string>();
-    private List<string> commandList = new List<string>();
+    private TextAsset[] xml;
+    [System.NonSerialized]
+    public ShowScript.ADVType[] advTypes;
 
-    private List<ShowScript.Chara> personList = new List<ShowScript.Chara>();
-    private List<ShowScript.Potision> positionList = new List<ShowScript.Potision>();
+    //xmlから読み込まれたデータを入れる場所
+    public List<ScenarioData> data = new List<ScenarioData>();
 
-    XmlElement element;
-
-    private void Awake()
+    private void Start()
     {
-        LoadXml(xml.text);
-        Person_ListChange();
-        Potision_ListChange();
+        xml = setting.xml;
+        advTypes = setting.advTypes;
     }
 
-    public List<ShowScript.Chara> GetPersonList()
+    //読み込み開始
+    public void StartLoad()
     {
-        return personList;
+        for (int i = 0; i < xml.Length; i++)
+        {
+            if(xml[i] != null)
+            {
+                LoadXml(xml[i].text);
+            }
+            else
+            {
+                Debug.LogAssertion("XMLLoadのXml入れがnullです");
+            }
+        }
     }
 
-    public List<ShowScript.Potision> GetPotisionList()
-    {
-        return positionList;
-    }
-
-    public List<string> GetContentsList()
-    {
-        return contentsList;
-    }
-
-    public List<string> GetCommandList() {
-        return commandList;
-    }
-
+    //xmlを読み込む本体
     private void LoadXml(string xmlText)
     {
+        List<Chara> personList = new List<Chara>();
+        List<Position> positionList = new List<Position>();
+        List<string> contentsList = new List<string>();
+        List<string> commandList = new List<string>();
+
         var xml = new XmlDocument();
+        //ここのLoadXmlは別物
         xml.LoadXml(xmlText);
 
-        element = xml.DocumentElement;
-        
-        //var filter = element.GetElementsByTagName("test2");
+        XmlElement element = xml.DocumentElement;
 
-        personList_Before = SetList(XMLIndex.Person);
-        positionList_Before = SetList(XMLIndex.Position);
-        contentsList = SetList(XMLIndex.Contents);
-        commandList = SetList(XMLIndex.Command);
+        personList = Person_ListChange(SetList(XMLIndex.Person, element));
+        positionList = Position_ListChange(SetList(XMLIndex.Position, element));
+        contentsList = SetList(XMLIndex.Contents, element);
+        commandList = SetList(XMLIndex.Command, element);
 
-        Person_ListChange();
+        ScenarioData result = new ScenarioData();
+
+        result.Set_XmlElement(element);
+        result.Set_PersonList(personList);
+        result.Set_PositionList(positionList);
+        result.Set_ContentsList(contentsList);
+        result.Set_CommandList(commandList);
+
+        data.Add(result);
     }
 
     //リストを返す
-    private List<string> SetList(XMLIndex index)
+    private List<string> SetList(XMLIndex index, XmlElement element)
     {
         List<string> list = new List<string>();
         var contents = element.GetElementsByTagName(index.ToString());
@@ -94,39 +142,113 @@ public class XMLLoad:MonoBehaviour
                 }
             }
         }
+
+        //カラータグを変換する
+        if(index == XMLIndex.Contents)
+        {
+
+        }
         return list;
     }
 
     //リストの変換
-    private void Person_ListChange()
+    //Parseに失敗したら、emptyを代わりに代入する
+    private List<Chara> Person_ListChange(List<string> str)
     {
-        for(int i = 0; i < personList_Before.Count; i++)
+        List<Chara> result = new List<Chara>();
+        for(int i = 0; i < str.Count; i++)
         {
-            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
             try
             {
-                personList.Add((ShowScript.Chara)Enum.Parse(typeof(ShowScript.Chara),
-                personList_Before[i], true));
+                switch (str[i])
+                {
+                    case "藍":
+                    case "Ai_urei":
+                        result.Add(Chara.Ai_urei);
+                        break;
+                    case "Ai_normal":
+                        result.Add(Chara.Ai_normal);
+                        break;
+                    case "Ai_namidame":
+                        result.Add(Chara.Ai_namidame);
+                        break;
+                    case "？？？":
+                        result.Add(Chara.empty);
+                        break;
+                    case "映像の中の藍":
+                        result.Add(Chara.Ai_movie);
+                        break;
+                    case "Ai_Smile":
+                        result.Add(Chara.Ai_Smile);
+                        break;
+                    case "映像の中の晴":
+                        result.Add(Chara.Haru_Movie);
+                        break;
+                    case "霧谷柊晴":
+                        result.Add(Chara.Kiriya);
+                        break;
+                    case "霧谷柊晴_Dummy":
+                        result.Add(Chara.Kiriya_Dummy);
+                        break;
+                    case "Ai_gaman":
+                        result.Add(Chara.Ai_Gaman);
+                        break;
+                    case "Ai_NoLight_urei":
+                        result.Add(Chara.Ai_NoLight_urei);
+                        break;
+                    case "Ai_NoLight_namidame":
+                        result.Add(Chara.Ai_NoLight_namidame);
+                        break;
+                    case "Ai_NoLight_normal":
+                        result.Add(Chara.Ai_NoLight_normal);
+                        break;
+                    case "Ai_NoLight_smile":
+                        result.Add(Chara.Ai_NoLight_Smile);
+                        break;
+                    case "Void":
+                        result.Add(Chara.NoName);
+                        break;
+                    default:
+                        if (Enum.IsDefined(typeof(Chara), str[i]))
+                        {
+                            result.Add((Chara)Enum.Parse(typeof(Chara), str[i], true));
+                        }
+                        else
+                        {
+                            result.Add(Chara.Kiriya);
+                        }//？？？
+                        break;
+                }
             }
-            catch {
+            catch
+            {
                 Debug.LogAssertion("キャラ画像の名前が正しくありません");
+                result.Add(Chara.empty);
             }
         }
+        return result;
     }
 
-    private void Potision_ListChange()
+    private List<Position> Position_ListChange(List<string> str)
     {
-        for (int i = 0; i < positionList_Before.Count; i++)
+        List<Position> result = new List<Position>();
+        for (int i = 0; i < str.Count; i++)
         {
-            //ShowScript.Chara val = (ShowScript.Chara)Enum.Parse()
-            positionList.Add((ShowScript.Potision)Enum.Parse(typeof(ShowScript.Potision),
-                positionList_Before[i], true));
+            try
+            {
+                result.Add((Position)Enum.Parse(typeof(Position), str[i], true));
+            }
+            catch
+            {
+                Debug.LogAssertion("ポジションの名前が正しくありません");
+                result.Add(Position.empty);
+            }
         }
+        return result;
     }
-
-
-    //デバッグ用で置いてる
-    private void ShowData()
+    
+    //デバッグ用で置いてる(けど、もしかして動かなくなった？)
+    private void ShowData(XmlElement element)
     {
         string name = element.Name;
         string value = element.FirstChild != null ? element.FirstChild.Value : "";

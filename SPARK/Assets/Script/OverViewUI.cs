@@ -14,6 +14,9 @@ public class OverViewUI : MonoBehaviour {
 
     protected virtual void OnDisable()
     {
-        UIController.instance.list.Remove(gameObject);
+        //終了時にエラー吐くのでinstance確認
+        if (UIController.instance) {
+            UIController.instance.list.RemoveAll((item) => { return item == gameObject; });
+        }
     }
 }

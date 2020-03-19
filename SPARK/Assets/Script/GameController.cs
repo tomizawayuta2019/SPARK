@@ -25,5 +25,21 @@ public class GameController : SingletonMonoBehaviour<GameController> {
 
     public void GameOver() {
         gameOver.gameObject.SetActive(true);
+        StartCoroutine(Wait());
+    }
+
+    public void Restart()
+    {
+        gameOver.gameObject.SetActive(false);
+    }
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2.0f);
+        ESCController.instance.ReswapnCheck(GimmickMonster.Instance);
+    }
+
+    public CameraController GetCameraController() {
+        return cameraController;
     }
 }

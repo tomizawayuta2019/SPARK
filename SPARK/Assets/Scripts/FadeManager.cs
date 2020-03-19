@@ -72,6 +72,12 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
         }
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+
     /// <summary>
     /// フェード開始処理 諸々の設定を初期値でやる版
     /// </summary>
@@ -91,9 +97,10 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
     /// <param name="action"></param>
     public void FadeStart(FadeState state) {
         if (fade != null) {
-            StopCoroutine(fade);
-            fadingState.Comp();
-            fade = null;
+            return;
+            //StopCoroutine(fade);
+            //fadingState.Comp();
+            //fade = null;
         }
         fade = StartCoroutine(Fade(fadeImage, state));
     }
@@ -122,14 +129,17 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager> {
         Color color = targetImage.color;
         float defValue = color.a;
         float valueDelta = (targetValue - defValue) / targetTime;
+        //AudioListener audio = Camera.main.GetComponent<AudioListener>();
 
         while (nowTime < targetTime) {
             yield return null;
+            float value = defValue + (valueDelta * nowTime);
 
-            nowTime += Time.deltaTime;
+            nowTime += TimeManager.DeltaTime;
             color = targetImage.color;
-            color.a = defValue + (valueDelta * nowTime);
+            color.a = value;
             targetImage.color = color;
+            AudioListener.volume = 1 - value;
         }
 
         color = targetImage.color;

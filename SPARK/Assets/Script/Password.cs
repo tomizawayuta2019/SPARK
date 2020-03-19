@@ -25,6 +25,11 @@ public class Password : GimmickKind
 
     [SerializeField]
     GameObject targetgimmick;
+    [SerializeField] Sprite openLockSprite;
+    [SerializeField] Image lockImage;
+
+    [SerializeField] ShowScript.ADVType missADV;
+    int missCount;
 
     private void Start()
     {
@@ -97,8 +102,14 @@ public class Password : GimmickKind
         isOpen = passwordNumber == password;
         passwordForm.gameObject.SetActive(false);
 
-        if (isOpen) {
+        if (isOpen)
+        {
+            lockImage.sprite = openLockSprite;
             SEController.instance.PlaySE(SEController.SEType.Unlock);
+        }
+        else if(missCount++ > 0)
+        {
+            ShowScript.instance.EventStart(missADV);
         }
     }
 

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「消えない……！
+　なんで……！？」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「光が…足りない……！？」</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

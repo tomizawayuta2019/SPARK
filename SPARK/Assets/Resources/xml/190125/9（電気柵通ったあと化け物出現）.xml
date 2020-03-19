@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>（ど、どうしよう……！）</Contents>
+			<Command>monster</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>（なんで追ってくるの……？）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Right</Position>
+			<Contents>（確か……さっきは、この灯篭で……）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

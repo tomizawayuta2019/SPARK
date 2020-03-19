@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test1</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Kiriya</Person>
+			<Position>Left</Position>
+			<Contents>xml配列化のテストです</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Yaku</Person>
+			<Position>Right</Position>
+			<Contents>よろしくおねがいします</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>empty</Person>
+			<Position>empty</Position>
+			<Contents>尺あまり</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

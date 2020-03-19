@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Void</Person>
+			<Position>empty</Position>
+			<Contents>古びたバス停。駅名がかすれてよく見えない。
+路線図の蛍光灯が切れる寸前のようで、チカチカと明滅している。</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「ここは一体どこなの……？」</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

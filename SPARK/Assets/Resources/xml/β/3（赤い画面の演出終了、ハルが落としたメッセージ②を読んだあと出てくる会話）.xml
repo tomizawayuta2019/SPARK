@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（あれは……
+本当にハルだったの……？）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「違うよ……私の知っているハルはいつも優しくて……
+いつも私を助けてくれる人……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>2</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（だって、小さいころから
+ずっと一緒にいたんだもん……）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>3</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（恋人になって……
+そしたら大人になっても、ずっと一緒にいられると思ったのに）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>4</Id>
+			<Person>Ai_namidame</Person>
+			<Position>Left</Position>
+			<Contents>「ハル……なんでいなくなったの……？」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>5</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（もし……もしハルがここのどこかにいるなら――）</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>6</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（私が、ハルを見つけないと）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

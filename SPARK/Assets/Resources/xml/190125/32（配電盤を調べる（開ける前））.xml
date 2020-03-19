@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Void</Person>
+			<Position>empty</Position>
+			<Contents>古びた配電盤。
+これで電源を落とせそうだ。</Contents>
+			<Command>empty</Command>
+		</item>	
+	</items>
+</root>

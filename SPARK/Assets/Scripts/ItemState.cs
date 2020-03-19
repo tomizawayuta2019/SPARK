@@ -20,6 +20,11 @@ public enum ItemType {
     diary,
     diary_open,
     red_lighting,
+    knife,
+    brooch,
+    piano,
+    ticket,
+    message,
 }
 
 public enum GimmickType {
@@ -72,6 +77,9 @@ public struct ItemState
     [SerializeField]
     public GameObject getADVObj,viewADVObj;
 
+    [SerializeField]
+    public ShowScript.ADVType type;
+
     /// <summary>
     /// 対象のアイテムに使用可能か否か
     /// </summary>
@@ -105,5 +113,27 @@ public struct ItemState
     public AudioSource Use() {
         if (SEType == SEController.SEType.none) { return null; }
         return SEController.instance.PlaySE(SEType);
+    }
+
+    public void AddItemText(string value)
+    {
+        string[] swap = new string[itemText.Length + 1];
+
+        for (int i = 0; i < itemText.Length; i++)
+        {
+            swap[i] = itemText[i];
+        }
+
+        swap[itemText.Length] = value;
+        itemText = swap;
+    }
+
+    /// <summary>
+    /// Textの行数を取得する処理
+    /// </summary>
+    /// <param name="index"></param>
+    public float GetItemTextHight(int index)
+    {
+        return 100;
     }
 }

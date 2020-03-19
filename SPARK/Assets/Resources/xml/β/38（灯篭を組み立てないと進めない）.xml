@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「この先、暗くてよく見えない……」</Contents>
+			<Command>empty</Command>
+		</item>	
+			<item>
+			<Id>1</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（なにか、光になれるようなものは……）</Contents>
+			<Command>empty</Command>
+		</item>	
+	</items>
+</root>

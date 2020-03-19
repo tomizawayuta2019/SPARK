@@ -48,10 +48,12 @@ public class ItemManager : SingletonMonoBehaviour<ItemManager> , IItemUse{
         //アイテムが使用できるか確認する
         if (targetObject == null || targetObject.IsCanUseItem(item.item)) {
             dragItem = null;
+            ShowScript.instance.MissADVStart();
             return;
         }
 
-        if (targetObject.ItemUse(item.item)) {
+        if (targetObject.ItemUse(item.item))
+        {
             Destroy(dragItem.gameObject);
         }
 

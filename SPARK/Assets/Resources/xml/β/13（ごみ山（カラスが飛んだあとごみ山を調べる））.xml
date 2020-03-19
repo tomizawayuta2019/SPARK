@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>「とても大きいごみの山。
+ひどい臭い……」</Contents>
+			<Command>empty</Command>
+		</item>
+		<item>
+			<Id>1</Id>
+			<Person>Ai_normal</Person>
+			<Position>Left</Position>
+			<Contents>（あれ……？
+中に何かが光っているような……）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

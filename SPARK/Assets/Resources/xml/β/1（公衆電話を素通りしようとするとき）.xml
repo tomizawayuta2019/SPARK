@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<EventName>test</EventName>
+	<items>
+		<item>
+			<Id>0</Id>
+			<Person>Ai_urei</Person>
+			<Position>Left</Position>
+			<Contents>（あの電話……ずっと鳴ってる。
+……私の電話？）</Contents>
+			<Command>empty</Command>
+		</item>
+	</items>
+</root>

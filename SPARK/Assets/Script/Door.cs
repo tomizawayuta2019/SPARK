@@ -12,11 +12,11 @@ public class Door : GimmickKind ,ISwitchObject
     [SerializeField]
     bool isOpen = false;
     public bool IsOpen { get { return isOpen; } }
-
-    [SerializeField]
-    GameObject doorWorningADV;
     [SerializeField]
     GameObject openSprite;
+
+    [SerializeField] ShowScript.ADVType Before, After;
+    bool isCheck;
 
     //クリックされたら
     public override void Click()
@@ -26,7 +26,8 @@ public class Door : GimmickKind ,ISwitchObject
         if (!isOpen)
         {
             //ADV表示
-            doorWorningADV.gameObject.SetActive(true);
+            ShowScript.instance.EventStart(isCheck ? Before : After);
+            isCheck = true;//一回目だけ別ADV
             return;
         }
 
@@ -68,14 +69,6 @@ public class Door : GimmickKind ,ISwitchObject
         {
             checkPlayer = false;
             player = null;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player") {
-            //プレイヤーの移動停止
-            player.GetComponent<PlayerController>().targetPosition = player.transform.position;
         }
     }
 
